@@ -1,0 +1,24 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome";
+@import "node_modules/@fortawesome/fontawesome-free/scss/brands";
+@import "node_modules/@fortawesome/fontawesome-free/scss/regular";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
+body
+{
+    overflow-y: scroll;
+}
+.corner-arrow::before
+{
+    content: '↳';
+}
+.img-grayscale
+{
+    filter: gray;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+.img-grayscale:hover
+{
+    -webkit-filter: grayscale(0);
+    filter: none;
+}

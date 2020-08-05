@@ -1,0 +1,133 @@
+"use strict"
+class Config
+{
+	instance=null
+	pug=[
+		{
+			route:"/",
+			view:'home'
+		},
+		{
+			route:"/contact",
+			view:'contact'
+		}
+		,
+		{
+			route:"/admin",
+			view:'home-admin'
+		},
+		{
+			route:"/admin/login",
+			view:'login'
+		},
+		{
+			route:"/admin/logout",
+			view:'logout'
+		},
+		{
+			route:"/admin/register",
+			view:'register'
+		},
+		{
+			route:"/admin/:model",
+			view:'table'
+		},
+		{
+			route:"/admin/:model/new",
+			view:'new'
+		},
+		{
+			route:"/admin/:model/:_id",
+			view:'edit'
+		},
+		{
+			route:"/:model",
+			view:'list'
+		},
+		{
+			route:"/:model/:_id",
+			view:'show'
+		}
+	]
+	routes=[
+		{
+			route:'/js/lib',
+			src:'/node_modules/angular'
+		},
+		{
+			route:'/js/lib',
+			src:'/node_modules/popper.js/dist/umd'
+		},
+		{
+			route:'/js/lib',
+			src:'/node_modules/bootstrap/dist/js'
+		},
+		{
+			route:'/js/lib',
+			src:'/node_modules/jquery/dist'
+		},
+		{
+			route:'/webfonts',
+			src:'/node_modules/@fortawesome/fontawesome-free/webfonts'
+		},
+		{
+			route:'/favicon.ico',
+			src:'/public/images/favicon.ico'
+		},
+		{
+			route:'/robots.txt',
+			src:'/public/txt/robots.txt'
+		},
+		{
+			route:'/images',
+			src:'/public/images'
+		},
+		{
+			route:'/js',
+			src:'/public/js'
+		}
+	]
+	security=
+	{
+        csrf:{
+            angular:true,
+            cookie:
+            {
+                options:
+                {
+                	httpOnly: false,
+					secure: true,
+                 	SameSite:'Strict'
+                }
+            }
+        },
+        xframe:"SAMEORIGIN",
+        csp:
+        {
+            policy:
+            [
+                "default-src 'self'",
+                "connect-src 'self'",
+                "img-src 'self'",
+                "script-src 'self' 'unsafe-inline'",
+                "style-src 'self' 'unsafe-inline'",
+                "font-src 'self'"
+            ]
+
+        },
+        p3p:null,
+        hsts:
+        {
+            maxAge:31536000,
+            includeSubDomains:true,
+            preload:true
+        },
+        xssProtection:true,
+        nosniff:true,
+        referrerPolicy:"same-origin"
+    }
+	constructor()
+	{
+	}
+}
+module.exports=Config
