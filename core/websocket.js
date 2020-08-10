@@ -61,7 +61,7 @@ class Websocket
 					function:request.params.function||null
 				},
 				doc:null,
-				error:error
+				error:error.message
 			})
 		return response({
 			status:true,

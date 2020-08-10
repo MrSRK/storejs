@@ -76,7 +76,7 @@ try
 	})
 	/**
 	 * Security (XSS etc) Handler
-	 
+
 	Security.instance=new Security(config,(status,error,module)=>
 	{
 		if(error)
