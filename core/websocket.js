@@ -33,13 +33,13 @@ class Websocket
 				})
 				ws.on('close',()=>
 				{
-                    ws.terminate()
+                    return ws.terminate()
 				})
             })
             app.ws('*',(ws,req)=>
             {
                 ws.send(JSON.stringify({service:'server',status:false,code:404,message:'Unsaported Path'}))
-                ws.terminate()
+                return ws.terminate()
             })
         }
         catch(error)
