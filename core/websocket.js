@@ -49,6 +49,10 @@ class Websocket
 	}
 	postMessage(request,response,error,doc)
 	{
+		if(!request)
+			request={}
+		if(!request.params)
+			request.params={}
 		if(error)
 			return response({
 				status:false,
