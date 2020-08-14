@@ -28,11 +28,15 @@ class Router
 				})
 			})
 			/**
+			 * Default 404 Image Fall back route
+			 */
+			router.use('/images*',express.static(path.join(__dirname,'../public/images/404.png'),{maxAge:10}))
+			/**
 			 * Default 404 Fall back route
 			 */
 			router.all('*',(req,res)=>
 			{
-				res.status(404).send('<!doctype html>\n<html><body style="padding:1%"><h1>ERROR 404</h1><p>Page not Found</p></body></html>')
+				return res.status(404).render('404')
 			})
 			return next(true,null,router)
         }

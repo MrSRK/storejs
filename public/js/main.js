@@ -8,6 +8,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const handle={}
 	// Scope content (data) Container
 	const content={}
+	const build={}
 	request.list=model=>
 	{
 		try
@@ -22,6 +23,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			error=>
 			{
 				console.log(error)
+				return handle.error(model,'list',error)
 			})
 		}
 		catch(error)
@@ -33,7 +35,6 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		try
 		{
-			// console.log(data)
 			if(!data.status)
 				return handle.error(model,'list',data)
 			if(!data.doc)
@@ -49,6 +50,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			return false
 		}
 	}
+	//#################################
 	handle.error=(model,data)=>
 	{
 		try
@@ -60,7 +62,13 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			console.log(error)
 		}
 	}
+	//#####################################
+	build.defimgsrc=(model,rec)=>
+	{
+		return  '/upload/images/'+model+"/"+rec._id+"/"+rec.images[0].filename
+	}
 	$scope.request=request
 	$scope.handle=handle
 	$scope.content=content
+	$scope.build=build
 }])
