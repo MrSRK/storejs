@@ -90,12 +90,12 @@ class API
 	postMessage(res,error,doc)
 	{
 		if(error)
-			return res.status(500).json({
+			return res.status(res.code||500).json({
 				status:false,
 				doc:null,
-				error:error
+				error:error.message
 			})
-		return res.status(200).json({
+		return res.status(res.code||200).json({
 			status:true,
 			doc:doc,
 			error:null

@@ -21,7 +21,10 @@ class Controller
 							throw new Error('Model not set')
 						if(!req.body)
 							req.body={}
-						return controller['auth_save'](req,res,next)
+						if(!req.body.data)
+							req.body.data={}
+						req.body.data.active=false
+						return controller['auth_save'](req,res,next,false)
 					}
 					catch(error)
 					{
@@ -94,7 +97,10 @@ class Controller
 							throw new Error('Model not set')
 						if(!req.body)
 							req.body={}
-						return controller['auth_save'](req,res,next)
+						if(!req.body.data)
+							req.body.data={}
+						req.body.data.active=false
+						return controller['auth_save'](req,res,next,false)
 					}
 					catch(error)
 					{
@@ -169,7 +175,7 @@ class Controller
 							req.body={}
 						req.body.where=req.body.where||{}
 						req.body.where.active=true
-						return controller['auth_find'](req,res,next)
+						return controller['auth_find'](req,res,next,false)
 					}
 					catch(error)
 					{
@@ -188,7 +194,7 @@ class Controller
 							req.body={}
 						req.body.where=req.body.where||{}
 						req.body.where.active=true
-						return controller['auth_findById'](req,res,next)
+						return controller['auth_findById'](req,res,next,false)
 					}
 					catch(error)
 					{
@@ -198,7 +204,7 @@ class Controller
 			}
 			functions.auth_find=model=>
 			{
-				return (req,res,next)=>{
+				return (req,res,next,auth=true)=>{
 					try
 					{
 						if(!model)
@@ -227,9 +233,16 @@ class Controller
 			}
 			functions.auth_findById=model=>
 			{
-				return (req,res,next)=>{
+				return (req,res,next,auth=true)=>{
 					try
 					{
+						if(auth)
+						{
+							if(!req.body.token)
+								throw new Error('Authentication Error (Body Token not Exist)')
+							res.code=401
+							throw new Error('Authentication Error')
+						}
 						if(!model)
 							throw new Error('Model not set')
 						if(!req.params._id)
@@ -261,7 +274,7 @@ class Controller
 			}
 			functions.auth_save=model=>
 			{
-				return (req,res,next)=>{
+				return (req,res,next,auth=true)=>{
 					try
 					{
 						if(!model)
@@ -291,7 +304,7 @@ class Controller
 			}
 			functions.auth_findByIdAndUpdate=model=>
 			{
-				return (req,res,next)=>{
+				return (req,res,next,auth=true)=>{
 					try
 					{
 						if(!model)
@@ -323,7 +336,7 @@ class Controller
 			}
 			functions.auth_findByIdAndDelete=model=>
 			{
-				return (req,res,next)=>{
+				return (req,res,next,auth=true)=>{
 					try
 					{
 						if(!model)

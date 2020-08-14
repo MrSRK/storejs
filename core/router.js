@@ -23,7 +23,8 @@ class Router
 			{
 				router.get(pug.route,(req,res)=>
 				{
-					return res.status(200).render(pug.view)
+					pug.model=req.params.model||'home'
+					return res.status(200).render(pug.view,pug)
 				})
 			})
 			/**
