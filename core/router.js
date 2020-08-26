@@ -45,7 +45,15 @@ class Router
 				res.statusCode=404
 				return next()
 			})
+			router.use('/upload/images*',(req,res,next)=>
+			{
+				res.status(404)
+				res.statusMessage='Image not Found'
+				res.statusCode=404
+				return next()
+			})
 			router.use('/images*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:10}))
+			router.use('/upload/images*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:10}))
 			/**
 			 * Default 404 Fall back route
 			 */

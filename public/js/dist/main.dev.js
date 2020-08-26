@@ -11,7 +11,16 @@ app.controller("page-handler", ['$scope', '$http', function ($scope, $http) {
   var build = {};
   var admin = {};
   var options = {};
-  admin;
+  var inArrayValues = [];
+
+  admin.inArray = function (value, array) {
+    inArrayValues = inArrayValues.concat(array);
+    return array.includes(value);
+  };
+
+  admin.notInAllArray = function (value) {
+    return !inArrayValues.includes(value);
+  };
 
   admin.getObjectKeys = function (obj) {
     return Object.keys(obj);
@@ -74,14 +83,17 @@ app.controller("page-handler", ['$scope', '$http', function ($scope, $http) {
   };
 
   admin.updateByid = function (model, rec) {
+    var redirect = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
     rec.tmp = {
       disabled: true
     };
+    if (rec.password == null || rec.password == '') delete rec.password;
     return $http.patch('/api/' + model + '/' + rec._id, {
       data: rec
     }).then(function (resp) {
       if (!resp.data.doc) return console.log('Error: Update Return emty doc');
-      $scope.content[model].table.forEach(function (e, i) {
+      if (redirect) return window.location.href = "/administrator/" + model;
+      return $scope.content[model].table.forEach(function (e, i) {
         if (e._id == resp.data.doc._id) {
           resp.data.doc.tmp = {
             disabled: false
@@ -90,6 +102,7 @@ app.controller("page-handler", ['$scope', '$http', function ($scope, $http) {
         }
       });
     }, function (error) {
+      lo;
       console.log(error);
     });
   };

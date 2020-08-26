@@ -125,7 +125,13 @@ class Config
         xssProtection:true,
         nosniff:true,
         referrerPolicy:"same-origin"
-    }
+	}
+	multer=
+	{
+		root:process.env.STORAGE_ROOT||'uploads/',
+		subroot:'',
+		name:'file'
+	}
 	constructor()
 	{
 	}

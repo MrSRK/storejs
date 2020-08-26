@@ -11,7 +11,16 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const build={}
 	const admin={}
 	const options={}
-	admin
+	let inArrayValues=[]
+	admin.inArray=(value,array)=>
+	{
+		inArrayValues=inArrayValues.concat(array)
+		return array.includes(value)
+	}
+	admin.notInAllArray=value=>
+	{
+		return !inArrayValues.includes(value)
+	}
 	admin.getObjectKeys=obj=>
 	{
 		return Object.keys(obj)
@@ -77,25 +86,28 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		}
 		return ret
 	}
-	admin.updateByid=(model,rec)=>
+	admin.updateByid=(model,rec,redirect=false)=>
 	{
 		rec.tmp={disabled:true}
+		if(rec.password==null||rec.password=='')
+			delete rec.password
 		return $http.patch('/api/'+model+'/'+rec._id,{data:rec})
 		.then(resp=>{
 			if(!resp.data.doc)
 				return console.log('Error: Update Return emty doc')
-			$scope.content[model].table.forEach((e,i)=>
+			if(redirect)
+				return window.location.href="/administrator/"+model
+			return $scope.content[model].table.forEach((e,i)=>
 			{
 				if(e._id==resp.data.doc._id)
 				{
 					resp.data.doc.tmp={disabled:false}
 					$scope.content[model].table[i]=resp.data.doc
 				}
-
 			})
 		},
 		error=>
-		{
+		{lo
 			console.log(error)
 		})
 	}
