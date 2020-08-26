@@ -1,0 +1,16 @@
+form.container(data-ng-if="content."+model+".edit",data-ng-init="columns=admin.getObjectKeys(content."+model+".edit)")
+	h1.h3.text-capitalize.mb-5="Επεξεργασία "+model
+	.row(data-ng-repeat="column in columns")
+		.col-12
+
+			.form-group(data-ng-if="admin.inColumns(column,['email'])")
+				label.text-capitalize(for='edit-{{column}}}') Email address
+				input.form-control(id="edit-{{column}}}",type='email',placeholder='name@example.com',data-ng-model="content."+model+".edit[column]")
+			
+			.form-group(data-ng-if="column=='password'")
+				label.text-capitalize(for='edit-{{column}}}') New password
+				input.form-control(id="edit-{{column}}}",type='password',data-ng-model="content."+model+".edit[column]")
+			
+			.form-group(data-ng-if="f")
+				label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+				input.form-control(id="edit-{{column}}}",type='text',data-ng-model="content."+model+".edit[column]")

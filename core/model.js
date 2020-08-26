@@ -12,6 +12,8 @@ class Model
 				json=options.schema
 			if(!json.active)
 				json.active={type:Boolean}
+			if(!json.order)
+				json.order={type:Number}
 			// Image
 			if(options.thumbnail)
 				json.images=[{
@@ -37,7 +39,6 @@ class Model
 			// user Profile
 			if(options.user)
 			{
-				json.active={type:Boolean}
 				json.name={type:String}
 				json.email={type:String},
 				json.password={type:String}

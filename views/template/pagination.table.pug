@@ -1,0 +1,10 @@
+nav.col-12.text-right(data-ng-init="pages=admin.getPages(content."+model+".table.length,options.limit.limit)",data-ng-if="pages.length>1")
+	ul.pagination.pagination-sm.justify-content-end
+		li.page-item(data-ng-class="options.limit.begin>0?'':'disabled'")
+			a.page-link(href='#',data-ng-click="options.limit.begin=options.limit.begin-options.limit.limit") Previous
+		li.page-item(data-ng-if="pages.length<=10",data-ng-repeat="n in pages track by $index",data-ng-class="options.limit.begin==options.limit.limit*$index?'disabled':''")
+			a.page-link(href='#',data-ng-bind="$index+1",data-ng-click="options.limit.begin=options.limit.limit*$index")
+		li.page-item(data-ng-if="pages.length>10")
+			select.page-link(data-ng-model="options.limit.begin",data-ng-options="p as p+1 for p in pages")
+		li.page-item(data-ng-class="options.limit.limit+options.limit.begin<content."+model+".table.length?'':'disabled'")
+			a.page-link(href='#',data-ng-click="options.limit.begin=options.limit.begin+options.limit.limit") Next

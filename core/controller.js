@@ -214,7 +214,7 @@ class Controller
 						const select=req.body.select?req.body.select+' -password':'-password'
 						const where=req.body.where||{}
 						const limit=req.body.limit||null
-						const sort=req.body.sort||null
+						const sort=req.body.sort||{order:1}
 						return model
 						.find(where)
 						.limit(limit)
@@ -236,13 +236,13 @@ class Controller
 				return (req,res,next,auth=true)=>{
 					try
 					{
-						if(auth)
+						/*if(auth)
 						{
 							if(!req.body.token)
 								throw new Error('Authentication Error (Body Token not Exist)')
 							res.code=401
 							throw new Error('Authentication Error')
-						}
+						}*/
 						if(!model)
 							throw new Error('Model not set')
 						if(!req.params._id)
@@ -321,7 +321,7 @@ class Controller
 							req.body.data.password=bcrypt.hashSync(req.body.data.password,bcrypt.genSaltSync(10))
 						const options={new:true,select:'-password'}
 						return model
-						.findByIdAndUpdate(_id,req.body.data,options)
+						.findByIdAndUpdate(req.params._id,req.body.data,options)
 						//.populate('parent')
 						.exec((error,doc)=>
 						{
@@ -346,7 +346,7 @@ class Controller
 						if(!isValidObjectId(req.params._id))
 							throw new Error('No Valid Object Id')
 						return model
-						.findByIdAndDelete(_id)
+						.findByIdAndDelete(req.params._id)
 						.exec((error,doc)=>
 						{
 							return next(error,doc)

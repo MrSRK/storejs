@@ -1,0 +1,16 @@
+extends partials/layout
+block content
+	.row
+		.col-10 
+		.col-2.my-0.py-0
+			.input-group
+				.input-group-prepend
+					label.input-group-text.input-group-text-xs Template
+				select.py-0.custom-select.custom-select-xs(data-ng-model="viewTemplate",ng-init="teplates=['/template/edit.html?model="+model+"'];viewTemplate=teplates[0]",data-ng-options="teplate for teplate in teplates")
+	.container-fluid(data-ng-init="request.edit('"+model+"','"+_id+"')",data-ng-include="viewTemplate")
+		.text-center.mt-5(data-ng-if="!content."+model+".edit")
+			h1.text-primary
+				span Loading
+				span.spinner-grow.spinner-grow-sm.ml-1
+				span.spinner-grow.spinner-grow-sm.ml-1
+				span.spinner-grow.spinner-grow-sm.ml-1

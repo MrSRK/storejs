@@ -13,31 +13,31 @@ class Config
 		}
 		,
 		{
-			route:"/admin",
+			route:"/administrator",
 			view:'home-admin'
 		},
 		{
-			route:"/admin/login",
+			route:"/administrator/login",
 			view:'login'
 		},
 		{
-			route:"/admin/logout",
+			route:"/administrator/logout",
 			view:'logout'
 		},
 		{
-			route:"/admin/register",
+			route:"/administrator/register",
 			view:'register'
 		},
 		{
-			route:"/admin/:model",
+			route:"/administrator/:model",
 			view:'table'
 		},
 		{
-			route:"/admin/:model/new",
+			route:"/administrator/:model/new",
 			view:'new'
 		},
 		{
-			route:"/admin/:model/:_id",
+			route:"/administrator/:model/:_id",
 			view:'edit'
 		},
 		{
