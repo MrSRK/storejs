@@ -34,7 +34,6 @@ class Router
 					return res.status(200).render(pug.view,pug)
 				})
 			})
-			
 			/**
 			 * Default 404 Image Fall back route
 			 */

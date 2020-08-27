@@ -6,6 +6,16 @@ class API
     {
         try
         {
+			//Image Upload
+			app.post('/api/:model/:_id/image',(req,res)=>
+			{
+				return next(null,'auth_imageUpload',req,res)
+			})
+			//Image Delete
+			app.delete('/api/:model/:_id/image/:image_id',(req,res)=>
+			{
+				return next(null,'auth_imageDelete',req,res)
+			})
 			// SignUp
 			app.post('/api/:model/signUp',(req,res)=>
 			{

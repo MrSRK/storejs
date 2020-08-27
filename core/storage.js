@@ -5,30 +5,41 @@ class Storage
 {
 	instance=null
 	config={}
-    constructor(config,subroot,name,next)
+    constructor(config,next)
     {
         try
         {
 			this.config=config.multer||{}
-			this.config.subroot=subroot
-			this.config.name=name
-			const storage=multer.diskStorage(
-			{
-				destination:destination,
-				filename:filename
-			})
-			return next(true,null,multer({storage:storage}).single(this.config.name))
+			return next(true,null,true)
         }
         catch(error)
         {
             return next(false,error)
         }
 	}
+	save=(subroot,name,next)=>
+	{
+		try
+		{
+			this.config.subroot=subroot
+			this.config.name=name
+			const storage=multer.diskStorage(
+			{
+				destination:this.destination,
+				filename:this.filename
+			})
+			return next(null,multer({storage:storage}).single(this.config.name))
+		}
+		catch(error)
+		{
+			return next(error)
+		}
+	}
 	destination=(req,file,next)=>
 	{
 		try
 		{
-			const filepath=path.join(__dirname, '../../'+this.config.root+this.config.subroot)
+			const filepath=path.join(__dirname, '../'+this.config.root+this.config.subroot)
 			return fs.exists(filepath,exists=>
 			{
 				if(!exists)
@@ -52,7 +63,7 @@ class Storage
 	{
 		try
 		{
-			const filepath=path.join(__dirname, '../../'+this.config.root+this.config.subroot)
+			const filepath=path.join(__dirname, '../'+this.config.root+this.config.subroot)
 			let ext=''
 			if(file.originalname.lastIndexOf('.')>=0)
 				ext='.'+file.originalname.split('.').reverse()[0]

@@ -2,7 +2,11 @@
 const mongoose=require('mongoose')
 const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
+const sharp=require('sharp')
+const fs=require('fs')
+const path=require('path')
 const isValidObjectId=mongoose.isValidObjectId
+const Storage=require('./storage')
 class Controller
 {
 	instance=null
@@ -356,6 +360,157 @@ class Controller
 					{
 						return next(error)
 					}
+				}
+			}
+			functions.auth_imageUpload=model=>
+			{
+				return (req,res,next,auth=true)=>
+				{
+					try
+					{
+						if(!model)
+							throw new Error('Model not set')
+						if(!req.params._id)
+							throw new Error('Record _id not set')
+						if(!req.params.model)
+							throw new Error('Record model not set')
+						const root='images/'+req.params.model+'/'+req.params._id+'/'
+						const name='image'
+						return Storage.instance.save(root,name,(error,upload)=>
+						{
+							if(error)
+								console.log(error)
+							return upload(req,res,error=>
+							{
+								if(error)
+									console.log(error)
+								if(!req.files||!req.files.image)
+									throw new Error('Upload image not exist')
+								return model
+								.findById(req.params._id)
+								.exec((error,doc)=>
+								{
+									if(error)
+										return next(error)
+									if(doc._id!=req.params._id)
+										return next(new Error('Record id not exist'))
+									return functions.sharpImages(req.files.image,(error,images)=>
+									{
+										if(error)
+											return next(error)
+										doc.images[doc.images.length]=
+										{
+											originalname:req.files.image.originalname,
+											destination:req.files.image.destination,
+											filename:req.files.image.filename,
+											path:req.files.image.path,
+											thumbnail:
+											{
+												jpg:
+												{
+													name:images.jpg.name,
+													path:images.jpg.path
+												},
+												png:
+												{
+													name:images.png.name,
+													path:images.png.path
+												},
+												webp:
+												{
+													name:images.webp.name,
+													path:images.webp.path
+												}
+											}
+										}
+										return model
+										.findByIdAndUpdate(req.params._id,doc,{new:true,select:'-password'})
+										.exec((error,doc)=>
+										{
+											if(error)
+												return next(error)
+											// Kick next after 2sec (need time to resample image to given formats)
+											return setTimeout(_=>
+											{
+												return next(null,doc)
+											},2000)
+										})
+									})
+								})
+							})
+						})
+					}
+					catch(error)
+					{
+						console.log(error)
+						return next(error)
+					}
+				}
+			}
+			functions.auth_imageDelete=model=>
+			{
+				return (req,res,next,auth=true)=>
+				{
+					console.log('Try To delete image')
+				}
+			}
+			functions.sharpImages=(image,next)=>
+			{
+				try
+				{
+					const original=image.path
+					const path=image.path.split('.').reverse().splice(1).reverse().join('.')
+					const name=image.filename.split('.').reverse().splice(1).reverse().join('')
+					const width=parseInt(process.env.IMAGE_MAX_WIDTH)||800
+					const heigth=parseInt(process.env.IMAGE_MAX_HEIGHT)||800
+					const args={fit:'inside'}
+					if(!fs.existsSync(path))
+						fs.mkdirSync(path,{recursive:true})
+					const outputImages={
+						jpg:{
+							path:path+'/'+name+'.jpg',
+							name:name,
+							flaten:{background:{r:255,g:255,b:255,alpha:1}},
+							width:width,
+							heigth:heigth,
+							args:args
+						},
+						png:{
+							path:path+'/'+name+'.png',
+							name:name,
+							flaten:false,
+							width:width,
+							heigth:heigth,
+							args:args
+						},
+						webp:{
+							path:path+'/'+name+'.webp',
+							name:name,
+							flaten:false,
+							width:width,
+							heigth:heigth,
+							args:args
+						}
+					}
+					//Resize Base Image
+					const keys=Object.keys(outputImages)
+					keys.forEach(key=>
+					{
+						var im=outputImages[key]
+						sharp(original)
+						.flatten(im.flaten)
+						.resize(im.width,im.heigth,im.args)
+						.toFile(im.path,(error,info)=>
+						{
+							if(error)
+								console.log(error)
+						})
+					})
+					return next(null,outputImages)
+				}
+				catch(error)
+				{
+					next(error,[])
 				}
 			}
 			/**

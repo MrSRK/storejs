@@ -34,6 +34,9 @@ class Module
 				auth_save:true,
 				auth_findByIdAndDelete:true,
 				auth_findByIdAndUpdate:true,
+
+				auth_imageUpload:true,
+				auth_imageDelete:true
 			}
 			new Model(options,(error,model,schema)=>
 			{

@@ -11,6 +11,7 @@ const Session=require('./core/session')
 const Security=require('./core/security')
 const Parser=require('./core/parser')
 const Sass=require('./core/sass')
+const Storage=require('./core/storage')
 const Router=require('./core/router')
 const Websocket=require('./core/websocket')
 const API=require('./core/api')
@@ -103,6 +104,16 @@ try
 			console.log(error)
 		if(status)
 			app.use(module)
+	})
+	/**
+	 * Storage (file upload / Multer) Handler
+	 */
+	Storage.instance=new Storage(config,(status,error,module)=>
+	{
+		if(error)
+			console.log(error)
+		//if(status)
+			//app.use(module)
 	})
 	/**
 	 * Load App Modules
