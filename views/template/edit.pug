@@ -1,63 +1,60 @@
 form.container(data-ng-if="content."+model+".edit",data-ng-init="columns=admin.getObjectKeys(content."+model+".edit)")
-	h1.h3.text-capitalize.mb-5="Επεξεργασία "+model
-	.text-right.my-4(data-ng-include="'template/button-group.edit.html'")
-	.row(data-ng-repeat="column in columns")
-		.col-12
-			span(data-ng-if="admin.inArray(column,['_id'])")
-			.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open'])")
-				input.form-check-input(type='checkbox',id="edit-{{column}}}",data-ng-model="content."+model+".edit[column]")
-				label.text-capitalize.form-check-label(for='edit-{{column}}}',data-ng-bind="column")
-
-			.form-group(data-ng-if="admin.inArray(column,['email','co-email'])")
-				label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
-				input.form-control(id="edit-{{column}}}",type='email',placeholder='name@example.com',data-ng-model="content."+model+".edit[column]")
-
-			.form-group(data-ng-if="admin.inArray(column,['email'])")
-				label.text-capitalize(for='edit-password') New password
-				input.form-control.w-75(id="edit-password",type='password',data-ng-model="content."+model+".edit['password']")
-
-			.form-group(data-ng-if="admin.inArray(column,['price','offer'])")
-				label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
-				input.form-control.w-25(id="edit-{{column}}}",type='number',data-ng-model="content."+model+".edit[column]",step="0.01")
-
-			.form-group(data-ng-if="admin.inArray(column,['order','count',quantity])")
-				label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
-				input.form-control.w-25(id="edit-{{column}}}",type='number',data-ng-model="content."+model+".edit[column]",step="1")
-
-			.form-group(data-ng-if="admin.inArray(column,['createdAt','updatedAt'])")
-				label.text-muted.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
-				label.text-muted.form-control.w-25(id="edit-{{column}}}",type='text',data-ng-bind="content."+model+".edit[column]")
-
-			.form-group(data-ng-if="admin.inArray(column,['images','thumbnails','pictures'])")
-				.row.row-eq-height
-					.col-12
-						label.text-muted.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
-				.row.row-eq-height
-					.col-1
-						button.card.p-3.border-primary
-							.card-title
-								h1.text-center.text-primary.font-weight-bold +
-					.col-2(data-ng-repeat="image in content."+model+".edit[column]")
-						.card.p-0.border-primary
-							picture
-								source(
-									data-ng-repeat="type in ['webp','png','jpg']",
-									data-ng-if="image.thumbnail[type]",
-									type="image/{{type}}",
-									data-ng-srcset="/images/thumbnails/thumbnail-{{content."+model+".edit._id+'.'+type}}"
-								)
-								img.card-img-top(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".edit)}}")
-							.card-footer.text-right.p-0
-								small.mr-4.text-truncate(data-ng-bind="image.originalname")
-								a.btn.btn-link.p-1(data-ng-href="{{build.defimgsrc('"+model+"',content."+model+".edit)}}",download="{{image.originalname}}")
-									i.fas.fa-download.text-primary
-								button.btn.btn-link.p-1(data-ng-click="")
-									i.fas.fa-trash-alt.text-danger
-
-			.form-group(data-ng-if="admin.notInAllArray(column)")
-				label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
-				input.form-control(id="edit-{{column}}}",type='text',data-ng-model="content."+model+".edit[column]")
-	.text-right.mb-5(data-ng-include="'template/button-group.edit.html'")
+	fieldset(data-ng-disabled="content."+model+".edit.tmp.disabled")
+		h1.h3.text-capitalize.mb-5="Επεξεργασία "+model
+		.text-right.my-4(data-ng-include="'template/button-group.edit.html'")
+		.row(data-ng-repeat="column in columns")
+			.col-12
+				span(data-ng-if="admin.inArray(column,['_id'])")
+				.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open'])")
+					input.form-check-input(type='checkbox',id="edit-{{column}}}",data-ng-model="content."+model+".edit[column]")
+					label.text-capitalize.form-check-label(for='edit-{{column}}}',data-ng-bind="column")
+				.form-group(data-ng-if="admin.inArray(column,['email','co-email'])")
+					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					input.form-control(id="edit-{{column}}}",type='email',placeholder='name@example.com',data-ng-model="content."+model+".edit[column]")
+				.form-group(data-ng-if="admin.inArray(column,['email'])")
+					label.text-capitalize(for='edit-password') New password
+					input.form-control.w-75(id="edit-password",type='password',data-ng-model="content."+model+".edit['password']")
+				.form-group(data-ng-if="admin.inArray(column,['price','offer'])")
+					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					input.form-control.w-25(id="edit-{{column}}}",type='number',data-ng-model="content."+model+".edit[column]",step="0.01")
+				.form-group(data-ng-if="admin.inArray(column,['order','count',quantity])")
+					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					input.form-control.w-25(id="edit-{{column}}}",type='number',data-ng-model="content."+model+".edit[column]",step="1")
+				.form-group(data-ng-if="admin.inArray(column,['createdAt','updatedAt'])")
+					label.text-muted.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					label.text-muted.form-control.w-25(id="edit-{{column}}}",type='text',data-ng-bind="content."+model+".edit[column]")
+				.form-group(data-ng-if="admin.inArray(column,['images','thumbnails','pictures'])")
+					.row.row-eq-height
+						.col-12
+							label.text-muted.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					.row.row-eq-height.p-3.border.border-muted
+						.col-1
+							button.card.p-3.border-muted(onclick="document.getElementById('imageAdd').click()")
+								.card-title
+									h1.text-center.text-primary.font-weight-bold +
+							input.d-none#imageAdd(type="file",onchange="angular.element(this).scope().admin.addImage('"+model+"','"+_id+"','#imageAdd')",accept=".png,.jpg,.webp")
+						.col-2.mb-4(data-ng-repeat="image in content."+model+".edit[column]")
+							.card.p-0.border-muted.h-100.disabled
+								.card-footer.text-right.p-0
+									a.btn.btn-link.px-1.pb-0(data-ng-href="{{build.defimgsrc('"+model+"',content."+model+".edit)}}",download="{{image.originalname}}")
+										i.fas.fa-download.text-primary
+									button.btn.btn-link.px-1.pb-0(data-ng-click="admin.deleteImage('"+model+"',content."+model+".edit,image)")
+										i.fas.fa-trash-alt.text-danger
+									.ml-1.text-left.text-truncate.small
+										small.text-muted(data-ng-bind="image.originalname")
+								picture
+									source(
+										data-ng-repeat="type in ['webp','png','jpg']",
+										data-ng-if="image.thumbnail[type]",
+										type="image/{{type}}",
+										data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".edit._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+										)
+									img.card-img-top(data-ng-src="/img/"+model+"/{{content."+model+".edit._id+'/'+image.filename}}")
+				.form-group(data-ng-if="admin.notInAllArray(column)")
+					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					input.form-control(id="edit-{{column}}}",type='text',data-ng-model="content."+model+".edit[column]")
+		.text-right.mb-5(data-ng-include="'template/button-group.edit.html'")
+		
 	script(type="text/ng-template",id="template/button-group.edit.html")
 		.btn-group
 			button.btn.btn-lg.btn-primary(data-ng-click="admin.updateByid('"+model+"',content."+model+".edit,true)")

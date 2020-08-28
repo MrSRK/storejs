@@ -44,14 +44,14 @@ h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
 			span.sr-only Controls
 	.row.mt-4(data-ng-include="'/template/pagination.table.html?model="+model+"'")
 	//	### Repeat ###
-	.row.align-items-center(data-ng-clock,data-ng-if="content."+model+".table.length>0",data-ng-repeat="rec in content."+model+".table | orderBy:options.sort.name:options.sort.reverse | limitTo:options.limit.limit:options.limit.begin")
+	fieldset.row.align-items-center(data-ng-clock,data-ng-if="content."+model+".table.length>0",data-ng-repeat="rec in content."+model+".table | orderBy:options.sort.name:options.sort.reverse | limitTo:options.limit.limit:options.limit.begin",data-ng-disabled="rec.tmp.disabled?true:false")
 		.col-1.small.text-muted.text-left.d-none.d-lg-block
-			input(type="checkbox",data-ng-model="rec.tmp.checked",data-ng-disabled="rec.tmp.disabled?true:false")
+			input(type="checkbox",data-ng-model="rec.tmp.checked")
 		.col-1.small.text-muted.text-right.d-none.d-lg-block
 			a(href='/'+model+"/{{rec._id}}",target="_blank")
 				small(data-ng-bind="rec._id")
 		.col-1.text-center
-			button.btn.btn-link(data-ng-click="admin.active('"+model+"',rec)",data-ng-disabled="rec.tmp.disabled?true:false")
+			button.btn.btn-link(data-ng-click="admin.active('"+model+"',rec)")
 				span.sr-only Active
 				i.fas(data-ng-class="rec.active?'fa-check-circle text-success':'fa-times-circle text-danger'")
 		.col-1.text-center.d-none.d-lg-block
@@ -60,17 +60,17 @@ h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
 					data-ng-repeat="type in ['webp','png','jpg']",
 					data-ng-if="rec.images[0].thumbnail[type]",
 					type="image/{{type}}",
-					data-ng-srcset="/images/thumbnails/thumbnail-{{rec._id+'.'+type}}"
+					data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
 				)
 				img.img-thumbnail.w-25(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}")
 		.col-1.small.text-center.d-none.d-lg-block
 			.row.m-0.p-0.align-items-center
 				.col-6.m-0.p-0.line-height-sm
 					.col-12.m-0.p-0.line-height-sm.text-right
-						button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-disabled="rec.tmp.disabled?true:false",data-ng-click="admin.addOrder('"+model+"',rec,1)")
+						button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-click="admin.addOrder('"+model+"',rec,1)")
 							small.fas.fa-sort-up.line-height-sm
 					.col-12.m-0.p-0.line-height-sm.text-right
-						button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-disabled="rec.tmp.disabled?true:false",data-ng-click="admin.addOrder('"+model+"',rec,-1)")
+						button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-click="admin.addOrder('"+model+"',rec,-1)")
 							small.fas.fa-sort-down.line-height-sm
 				.col-6.m-0.p-0.line-height-sm.text-left
 					small.ml-2(data-ng-bind="rec.order||0")
@@ -87,13 +87,13 @@ h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
 				i.fas.fa-edit
 			a.btn.btn-link.d-none.d-lg-inline-block(href='/'+model+"/{{rec._id}}",target="_blank")
 				i.fas.fa-eye.text-info(target="_blank")
-			button.btn.btn-link(data-ng-disabled="rec.tmp.disabled?true:false",data-ng-click="admin.deleteByid('"+model+"',rec)")
+			button.btn.btn-link(data-ng-click="admin.deleteByid('"+model+"',rec)")
 				i.fas.fa-trash-alt.text-danger
 	.row.mt-4(data-ng-include="'/template/pagination.table.html?model="+model+"'")
 	.row.mt-4
 		.col-12
 			strong.text-muted ↳
-			small.text-muted.ml-2 
+			small.text-muted.ml-2
 				small select all
 			input.ml-2(type="checkbox",data-ng-model="options.tableMassCheck",data-ng-click="admin.tableMassCheck('"+model+"')")
 			small.text-muted.ml-2 

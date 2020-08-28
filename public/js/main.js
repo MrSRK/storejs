@@ -29,7 +29,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		content[model].table.forEach(rec=>
 		{
-			rec.tmp={checked:!options.tableMassCheck||false}
+			rec.tmp={checked:!$scope.options.tableMassCheck||false}
 		})
 	}
 	admin.tableMassActive=(model,value)=>
@@ -39,7 +39,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			if(rec.tmp&&rec.tmp.checked)
 				admin.active(model,rec,value)
 		})
-		options.tableMassCheck=false
+		$scope.options.tableMassCheck=false
 	}
 	admin.tableMassDelete=(model,value)=>
 	{
@@ -51,7 +51,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				if(rec.tmp&&rec.tmp.checked)
 					admin.deleteByid(model,rec,false)
 			})
-			options.tableMassCheck=false
+			$scope.options.tableMassCheck=false
 		}
 	}
 	admin.active=(model,rec,forse)=>
@@ -69,10 +69,12 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	}
 	admin.setSort=col=>
 	{
-		if(options.sort.name==col)
-			options.sort.reverse=!options.sort.reverse
+		if(!$scope.options.sort)
+			$scope.options.sort={}
+		if($scope.options.sort.name==col)
+			$scope.options.sort.reverse=!$scope.options.sort.reverse
 		else
-			options.sort={name:col,reverse:false}
+			$scope.options.sort={name:col,reverse:false}
 	}
 	admin.getPages=(len,lim)=>
 	{
@@ -118,7 +120,8 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		if(inform)
 			ans=confirm('~~~ Προσοχή! ~~~\nΔιαδικασία Διαγραφής…\nΕίστε σίγουρος ότι θέλετε να διαγράψετε ΟΡΙΣΤΙΚΑ αυτήν την εγγραφή;')
 		if(ans)
-			return $http.delete('/api/'+model+'/'+rec._id)
+			return $http
+			.delete('/api/'+model+'/'+rec._id)
 			.then(resp=>{
 				$scope.content[model].table.forEach((e,i)=>
 				{
@@ -133,6 +136,60 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		else
 			rec.tmp={disabled:false}
 	}
+	admin.deleteImage=(model,rec,image)=>
+	{
+		$scope.content[model].edit.tmp={disabled:true}
+		return $http.delete('/api/'+model+'/'+rec._id+'/image/'+image._id)
+		.then(resp=>{
+			if(resp.data&&resp.data.status)
+				$scope.content[model].edit.images.forEach((e,i)=>
+				{
+					if(e._id==image._id)
+						$scope.content[model].edit.images.splice(i,1)
+					$scope.content[model].edit.tmp.disabled=false
+				})
+		},
+		error=>
+		{
+			$scope.content[model].edit.tmp.disabled=false
+			console.log(error)
+		})
+	}
+	admin.addImage=(model,_id,element)=>
+	{
+		$scope.content[model].edit.tmp={disabled:true}
+		const data=new FormData()
+		data.append('image',$(element)[0].files[0])
+		return jQuery.ajax(
+		{
+			url: '/api/'+model+'/'+_id+'/image/',
+			type:'POST',
+			data: data,
+			contentType: false,
+			processData: false,
+			success:response=>
+			{
+				if(response.status)
+				{
+					$scope.content[model].edit.images=response.doc.images
+					$scope.content[model].edit.tmp.disabled=false
+					$scope.$apply()
+				}
+				else
+					$scope.content[model].edit.tmp.disabled=false
+			},
+			error:(jqXHR,textStatus,errorMessage)=>
+			{
+				$scope.content[model].edit.tmp.disabled=false
+				if(jqXHR.responseText)
+				{
+					resp=JSON.parse(jqXHR.responseText)
+				}
+				alert('Error uploading: ' + errorMessage)
+			}
+		})
+	}
+	//########################################
 	request.edit=(model,_id)=>
 	{
 		try
@@ -210,6 +267,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			console.log(error)
 		}
 	}
+	//####################################
 	handle.list=(model,data)=>
 	{
 		try
@@ -282,7 +340,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	//#####################################
 	build.defimgsrc=(model,rec)=>
 	{
-		return  '/upload/images/'+model+"/"+rec._id+"/"+rec.images[0].filename
+		return  '/img/'+model+"/"+rec._id+"/"+rec.images[0].filename
 	}
 	$scope.request=request
 	$scope.handle=handle

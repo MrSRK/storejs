@@ -82,6 +82,15 @@ class Config
 			route:'/images',
 			src:'/public/images'
 		},
+		,
+		{
+			route:'/img',
+			src:'/uploads/images'
+		},
+		{
+			route:'/thumbnail/',
+			src:'/uploads/images'
+		},
 		{
 			route:'/js',
 			src:'/public/js'
