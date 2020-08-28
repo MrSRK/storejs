@@ -4,7 +4,7 @@ const path=require('path')
 class Router
 {
     instance=null
-    constructor(config,next)
+    constructor(config,app_modules,next)
     {
         try
         {
@@ -25,12 +25,14 @@ class Router
 			/**
 			 * Pug Routes
 			 */
+			const modules=Object.keys(app_modules)
 			config.pug.forEach(pug=>
 			{
 				router.get(pug.route,(req,res)=>
 				{
 					pug.model=req.params.model||'home'
 					pug._id=req.params._id||null
+					pug.modules=modules
 					return res.status(200).render(pug.view,pug)
 				})
 			})

@@ -123,52 +123,54 @@ try
 		if(error)
 			console.log(error)
 		app_modules=modules
+		/**
+		 * API Routs Handler
+		 */
+		API.instance=new API(app,config,(error,callFunction,req,res)=>
+		{
+			if(error)
+				return API.instance.postMessage(res,error)
+			if(req.params.model&&app_modules[req.params.model])
+				return app_modules[req.params.model].hook(callFunction,req,res,(error,doc)=>
+				{
+					if(error)
+						return API.instance.postMessage(res,error)
+					return API.instance.postMessage(res,null,doc)
+				})
+			return API.instance.postMessage(res,new Error('Unknown model'))
+		})
+		/**
+		 * Websocket Handler
+		 */
+		Websocket.instance=new Websocket(app,config,(error,request,response)=>
+		{
+			if(error)
+				return Websocket.instance.postMessage(request,response,error)
+			if(!request.params||!request.params.model)
+				return Websocket.instance.postMessage(request,response,{name:"Error",message:"Unknown model"})
+			if(app_modules[request.params.model])
+				return app_modules[request.params.model].hook(request.params.function,request,response,(error,doc)=>
+				{
+					if(error)
+						return Websocket.instance.postMessage(request,response,error)
+					Websocket.instance.postMessage(request,response,null,doc)
+				})
+			else
+				return Websocket.instance.postMessage(request,response,{name:"Error",message:"Unknown model"})
+		})
+		/**
+		 * Pug Routs Handler
+		 */
+		Router.instance=new Router(config,app_modules,(status,error,module)=>
+		{
+			if(error)
+				console.log(error)
+			if(status)
+				app.use(module)
+		})
 	})
-	/**
-	 * API Routs Handler
-	 */
-	API.instance=new API(app,config,(error,callFunction,req,res)=>
-	{
-		if(error)
-			return API.instance.postMessage(res,error)
-		if(req.params.model&&app_modules[req.params.model])
-			return app_modules[req.params.model].hook(callFunction,req,res,(error,doc)=>
-			{
-				if(error)
-					return API.instance.postMessage(res,error)
-				return API.instance.postMessage(res,null,doc)
-			})
-		return API.instance.postMessage(res,new Error('Unknown model'))
-	})
-	/**
-	 * Websocket Handler
-	 */
-	Websocket.instance=new Websocket(app,config,(error,request,response)=>
-	{
-		if(error)
-			return Websocket.instance.postMessage(request,response,error)
-		if(!request.params||!request.params.model)
-			return Websocket.instance.postMessage(request,response,{name:"Error",message:"Unknown model"})
-		if(app_modules[request.params.model])
-			return app_modules[request.params.model].hook(request.params.function,request,response,(error,doc)=>
-			{
-				if(error)
-					return Websocket.instance.postMessage(request,response,error)
-				Websocket.instance.postMessage(request,response,null,doc)
-			})
-		else
-			return Websocket.instance.postMessage(request,response,{name:"Error",message:"Unknown model"})
-	})
-	/**
-	 * Pug Routs Handler
-	 */
-	Router.instance=new Router(config,(status,error,module)=>
-	{
-		if(error)
-			console.log(error)
-		if(status)
-			app.use(module)
-	})
+
+
 	/**
 	 * Application listening Port
 	 */

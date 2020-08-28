@@ -9,15 +9,12 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top.py-1.px-4
 		span.ml-3.text-primary Administrator Area
 	button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navigation-menu', aria-controls='navigation-menu', aria-expanded='false', aria-label='Toggle navigation')
 		span.navbar-toggler-icon
-	#navigation-menu.collapse.navbar-collapse
-		//ul.navbar-nav.mr-auto(data-ng-init="navuser.init.navigation()")
-			li.nav-item.text-capitalize(data-ng-repeat="menu in storage.get('navigation')")
-				a.nav-link(data-ng-href="/navigation/{{menu._id}}",data-ng-bind="menu.name")
-			li.nav-item.text-capitalize
-				a.nav-link(data-ng-href="/contact") Επικοινωνία
-
-
-		ul.navbar-nav.ml-auto(data-ng-init="navuser=admin.user()")
+	#navigation-menu.collapse.navbar-collapse(data-ng-init="navuser=admin.user()")
+		ul.navbar-nav.mr-auto(data-ng-if="navuser.token")
+			each menu in modules
+				li.nav-item.text-capitalize
+					a.nav-link(data-ng-href="/administrator/"+menu)=menu
+		ul.navbar-nav.ml-auto
 			li.nav-item.text-capitalize(data-ng-if="!navuser.token")
 				a.nav-link(data-ng-href="/administrator/login") login
 			li.nav-item.text-capitalize(data-ng-if="navuser.token")
