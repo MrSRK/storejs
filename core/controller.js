@@ -4,8 +4,6 @@ const bcrypt=require('bcrypt')
 const jwt=require('jsonwebtoken')
 const sharp=require('sharp')
 const fs=require('fs')
-const path=require('path')
-const atob=require('atob')
 const isValidObjectId=mongoose.isValidObjectId
 const Storage=require('./storage')
 class Controller
