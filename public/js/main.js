@@ -93,8 +93,14 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		rec.tmp={disabled:true}
 		if(rec.password==null||rec.password=='')
 			delete rec.password
-		return $http.patch('/api/'+model+'/'+rec._id,{data:rec})
-		.then(resp=>{
+		return $ahttp
+		.patch('/api/'+model+'/'+rec._id,{data:rec},(error,resp)=>
+		{
+			if(error)
+			{
+				console.log(error)
+				return false
+			}
 			if(!resp.data.doc)
 				return console.log('Error: Update Return emty doc')
 			if(redirect)
@@ -107,10 +113,6 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 					$scope.content[model].table[i]=resp.data.doc
 				}
 			})
-		},
-		error=>
-		{lo
-			console.log(error)
 		})
 	}
 	admin.deleteByid=(model,rec,inform=true)=>
@@ -121,17 +123,18 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			ans=confirm('~~~ Προσοχή! ~~~\nΔιαδικασία Διαγραφής…\nΕίστε σίγουρος ότι θέλετε να διαγράψετε ΟΡΙΣΤΙΚΑ αυτήν την εγγραφή;')
 		if(ans)
 			return $http
-			.delete('/api/'+model+'/'+rec._id)
-			.then(resp=>{
+			.delete('/api/'+model+'/'+rec._id,null,(error,resp)=>
+			{
+				if(error)
+				{
+					console.log(error)
+					return false
+				}
 				$scope.content[model].table.forEach((e,i)=>
 				{
 					if(e._id==rec._id)
 						$scope.content[model].table.splice(i,1)
 				})
-			},
-			error=>
-			{
-				console.log(error)
 			})
 		else
 			rec.tmp={disabled:false}
@@ -139,8 +142,14 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	admin.deleteImage=(model,rec,image)=>
 	{
 		$scope.content[model].edit.tmp={disabled:true}
-		return $http.delete('/api/'+model+'/'+rec._id+'/image/'+image._id)
-		.then(resp=>{
+		return $ahttp
+		.delete('/api/'+model+'/'+rec._id+'/image/'+image._id,(error,resp)=>
+		{
+			if(error)
+			{
+				console.log(error)
+				return false
+			}
 			if(resp.data&&resp.data.status)
 				$scope.content[model].edit.images.forEach((e,i)=>
 				{
@@ -148,15 +157,11 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 						$scope.content[model].edit.images.splice(i,1)
 					$scope.content[model].edit.tmp.disabled=false
 				})
-		},
-		error=>
-		{
-			$scope.content[model].edit.tmp.disabled=false
-			console.log(error)
 		})
 	}
 	admin.addImage=(model,_id,element)=>
 	{
+		// SOS DEN EXEI MPEI TO TOKEN AKOMA KAI DEN THA MPOREI NA KANEI UPLOAD
 		$scope.content[model].edit.tmp={disabled:true}
 		const data=new FormData()
 		data.append('image',$(element)[0].files[0])
@@ -189,22 +194,58 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			}
 		})
 	}
+	admin.login=_=>
+	{
+		return $ahttp
+		.post('/api/administrator/login',{where:$scope.user},(error,resp)=>
+		{
+			if(error||!resp.data||!resp.data.status||!resp.data.doc)
+			{
+				console.log(error)
+				return false
+			}
+			admin.user(resp.data.doc)
+			window.location.href="/administrator"
+		})
+	}
+	admin.logout=_=>
+	{
+		localStorage.clear();
+		window.location.href='/administrator/login'
+	}
+	admin.user=user=>
+	{
+		try
+		{
+			if(user)
+				localStorage.setItem('user',JSON.stringify(user))
+			let storage=localStorage.getItem('user')
+			if(!storage)
+				storage='{"token":null}'
+			return JSON.parse(storage)
+		}
+		catch(error)
+		{
+			console.log(error)
+			let storage=localStorage.getItem('user')
+			if(!storage)
+				storage='{"token":null}'
+			return JSON.parse(storage)
+		}
+	}
 	//########################################
 	request.edit=(model,_id)=>
 	{
 		try
 		{
-			$http
-			.post('/api/'+model+'/'+_id)
-			.then(resp=>{
+			$ahttp
+			.post('/api/'+model+'/'+_id,{},(error,resp)=>
+			{
+				if(error)
+					return handle.error(model,'table',error)
 				if(resp.data)
 					return handle.edit(model,resp.data)
 				return handle.error(model,'edit',resp)
-			},
-			error=>
-			{
-				console.log(error)
-				return handle.error(model,'table',error)
 			})
 		}
 		catch(error)
@@ -216,9 +257,11 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		try
 		{
-			$http
-			.post('/api/'+model)
-			.then(resp=>{
+			$ahttp
+			.post('/api/'+model,null,(error,resp)=>
+			{
+				if(error)
+					return handle.error(model,'table',resp)
 				$scope.options={
 					sort:{
 						name:'order',
@@ -233,11 +276,6 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				if(resp.data)
 					return handle.table(model,resp.data)
 				return handle.error(model,'table',resp)
-			},
-			error=>
-			{
-				console.log(error)
-				return handle.error(model,'table',error)
 			})
 		}
 		catch(error)
@@ -250,16 +288,12 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		try
 		{
 			$http
-			.get('/api/'+model)
-			.then(resp=>{
+			.get('/api/'+model,null,(error,resp)=>
+			{
+				if(error)
+					return handle.error(model,'list',resp)
 				if(resp.data)
 					return handle.list(model,resp.data)
-				return handle.error(model,'list',resp)
-			},
-			error=>
-			{
-				console.log(error)
-				return handle.error(model,'list',error)
 			})
 		}
 		catch(error)
@@ -342,6 +376,63 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		return  '/img/'+model+"/"+rec._id+"/"+rec.images[0].filename
 	}
+
+
+	const $ahttp={}
+	//Wrappers
+	$ahttp.get=(url,next)=>
+	{
+		const token=admin.user().token
+		if(!data)
+			data={}
+		data.token=token
+		return $http
+		.get(url,data)
+		.then(resp=>{return next(null,resp)},error=>{return next(error)})
+	}
+
+	$ahttp.put=(url,data,next)=>
+	{
+		const token=admin.user().token
+		if(!data)
+			data={}
+		data.token=token
+		return $http
+		.put(url,data)
+		.then(resp=>{return next(null,resp)},error=>{return next(error)})
+	}
+	$ahttp.post=(url,data,next)=>
+	{
+		const token=admin.user().token
+		if(!data)
+			data={}
+		data.token=token
+		return $http
+		.post(url,data)
+		.then(resp=>{return next(null,resp)},error=>{return next(error)})
+	}
+	$ahttp.patch=(url,data,next)=>
+	{
+		const token=admin.user().token
+		if(!data)
+			data={}
+		data.token=token
+		return $http
+		.patch(url,data)
+		.then(resp=>{return next(null,resp)},error=>{return next(error)})
+	}
+	$ahttp.delete=(url,data,next)=>
+	{
+		const token=admin.user().token
+		if(!data)
+			data={}
+		data.token=token
+		return $http
+		.patch(url,data)
+		.then(resp=>{return next(null,resp)},error=>{return next(error)})
+	}
+
+
 	$scope.request=request
 	$scope.handle=handle
 	$scope.content=content

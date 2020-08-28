@@ -144,7 +144,6 @@ class Controller
 								let u=user.toObject()
 								delete u.password
 								const secretKey=(process.env.JWT_ADMIN_KEY||"")+req.params.model
-								console.log("secretKey: "+secretKey)
 								u.token=jwt.sign(
 								{
 									userId:u._id,

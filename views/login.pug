@@ -1,0 +1,23 @@
+extends partials/layout-admin
+block content
+	.container-fluid
+		.row
+			.col-4.d-none.d-lg-block
+			.col-12.col-lg-4.pt-5
+				form(autocomplete="on",data-ng-submit="admin.login()")
+					fieldset.p-4.m-4.border.border-muted(data-ng-init="user={email:null,password:null}")
+						h1.h4.mb-5 Administrator Login
+						.form-group
+							label(for='login-email') Email address
+							input#login-email.form-control(type='email',name="email",data-ng-model="user.email",aria-describedby='login-email-help',placeholder="Administrator's Login Email")
+							small#login-email-help.form-text.text-muted We'll never share your email with anyone else.
+						.form-group
+							label(for='llogin-password') Password
+							input#llogin-password.form-control(type='password',name="password",data-ng-model="user.password")
+						.text-left
+							a.small.d-block(href="#") Register?
+							a.small.d-block(href="#") Forgot Email?
+							a.small.d-block(href="#") Forgot Password?
+						.text-right
+							button.btn.btn-primary(type='submit') Login
+			.col-4.d-none.d-lg-block
