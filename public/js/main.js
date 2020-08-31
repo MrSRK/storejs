@@ -260,6 +260,8 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			$ahttp
 			.post('/api/'+model,null,(error,resp)=>
 			{
+				if(error&&error.status==401)
+					return admin.logout() //Clear user data and go to login page
 				if(error)
 					return handle.error(model,'table',resp)
 				$scope.options={
@@ -336,7 +338,6 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		}
 		catch(error)
 		{
-			console.log(error)
 			return false
 		}
 	}
@@ -360,11 +361,12 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		}
 	}
 	//#################################
-	handle.error=(model,data)=>
+	handle.error=(model,functions,data)=>
 	{
 		try
 		{
-
+			console.log("Try to error set")
+			console.log(data)
 		}
 		catch(error)
 		{
@@ -377,9 +379,8 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		return  '/img/'+model+"/"+rec._id+"/"+rec.images[0].filename
 	}
 
-
-	const $ahttp={}
 	//Wrappers
+	const $ahttp={}	
 	$ahttp.get=(url,next)=>
 	{
 		const token=admin.user().token

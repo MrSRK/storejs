@@ -1,4 +1,7 @@
 h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
+	a.btn.btn-primary.btn-lg.float-right.mt-3.text-white(data-ng-href="/administrator/"+model+"/new")
+		i.fas.fa-plus.mr-2
+		span INSERT NEW
 .mt-5(data-ng-if="content."+model+".table")
 	.row.bg-info.text-light.rounded
 		.col-1.text-left.d-none.d-lg-block
@@ -96,7 +99,7 @@ h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
 			small.text-muted.ml-2
 				small select all
 			input.ml-2(type="checkbox",data-ng-model="options.tableMassCheck",data-ng-click="admin.tableMassCheck('"+model+"')")
-			small.text-muted.ml-2 
+			small.text-muted.ml-2
 				small Massive Actions
 			button.btn.btn-link(data-ng-click="admin.tableMassActive('"+model+"',true)")
 				i.fas.fa-check-circle.text-success

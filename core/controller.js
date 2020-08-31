@@ -259,7 +259,7 @@ class Controller
 							.select(select)
 							.exec((error,doc)=>
 							{
-								return next(error,doc)
+								return next(error,doc,Object.keys(model.schema.obj))
 							})
 						})
 					}
@@ -299,7 +299,7 @@ class Controller
 							.select(select)
 							.exec((error,doc)=>
 							{
-								return next(error,doc)
+								return next(error,doc,Object.keys(model.schema.obj))
 							})
 						})
 					}

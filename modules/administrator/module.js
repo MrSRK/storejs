@@ -61,9 +61,9 @@ class Module
 		try
 		{
 			if(this.controller[callFunction])
-				return this.controller[callFunction](req,res,(error,doc)=>
+				return this.controller[callFunction](req,res,(error,doc,schema)=>
 				{
-					return next(error,doc)
+					return next(error,doc,schema)
 				})
 			return next(new Error("Function unavailable"))
 		}

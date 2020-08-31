@@ -97,7 +97,7 @@ class API
 			return next(false,error)
         }
 	}
-	postMessage(res,error,doc)
+	postMessage(res,error,doc,schema)
 	{
 		if(error)
 			return res.status(res.code||500).json({
@@ -108,6 +108,7 @@ class API
 		return res.status(res.code||200).json({
 			status:true,
 			doc:doc,
+			schema:schema,
 			error:null
 		})
 	}

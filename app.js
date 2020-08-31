@@ -131,11 +131,11 @@ try
 			if(error)
 				return API.instance.postMessage(res,error)
 			if(req.params.model&&app_modules[req.params.model])
-				return app_modules[req.params.model].hook(callFunction,req,res,(error,doc)=>
+				return app_modules[req.params.model].hook(callFunction,req,res,(error,doc,schema)=>
 				{
 					if(error)
 						return API.instance.postMessage(res,error)
-					return API.instance.postMessage(res,null,doc)
+					return API.instance.postMessage(res,null,doc,schema)
 				})
 			return API.instance.postMessage(res,new Error('Unknown model'))
 		})
