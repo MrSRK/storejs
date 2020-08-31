@@ -1,10 +1,11 @@
-form.container(data-ng-if="content."+model+".edit",data-ng-init="columns=admin.getObjectKeys(content."+model+".edit)")
+form.container(data-ng-if="content."+model+".edit")
 	fieldset(data-ng-disabled="content."+model+".edit.tmp.disabled")
 		h1.h3.text-capitalize.mb-5="Επεξεργασία "+model
 		.text-right.my-4(data-ng-include="'template/button-group.edit.html'")
-		.row(data-ng-repeat="column in columns")
+		.row(data-ng-repeat="column in content."+model+".schema")
 			.col-12
 				span(data-ng-if="admin.inArray(column,['_id'])")
+				span(data-ng-if="admin.inArray(column,['password'])")
 				.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open'])")
 					input.form-check-input(type='checkbox',id="edit-{{column}}}",data-ng-model="content."+model+".edit[column]")
 					label.text-capitalize.form-check-label(for='edit-{{column}}}',data-ng-bind="column")

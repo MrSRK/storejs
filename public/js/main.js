@@ -88,6 +88,25 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		}
 		return ret
 	}
+	admin.save=(model,rec,redirect=false)=>
+	{
+		if(!content[model])
+			content[model]={new:{}}
+		rec.tmp={disabled:true}
+		return $ahttp
+		.put('/api/'+model+'/',{data:rec},(error,resp)=>
+		{
+			if(error)
+			{
+				console.log(error)
+				return false
+			}
+			if(!resp.data.doc)
+				return console.log('Error: Update Return emty doc')
+			if(redirect)
+				return window.location.href="/administrator/"+model+"/"+resp.data.doc._id
+		})
+	}
 	admin.updateByid=(model,rec,redirect=false)=>
 	{
 		rec.tmp={disabled:true}
@@ -122,8 +141,8 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		if(inform)
 			ans=confirm('~~~ Προσοχή! ~~~\nΔιαδικασία Διαγραφής…\nΕίστε σίγουρος ότι θέλετε να διαγράψετε ΟΡΙΣΤΙΚΑ αυτήν την εγγραφή;')
 		if(ans)
-			return $http
-			.delete('/api/'+model+'/'+rec._id,null,(error,resp)=>
+			return $ahttp
+			.delete('/api/'+model+'/'+rec._id,(error,resp)=>
 			{
 				if(error)
 				{
@@ -161,13 +180,13 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	}
 	admin.addImage=(model,_id,element)=>
 	{
-		// SOS DEN EXEI MPEI TO TOKEN AKOMA KAI DEN THA MPOREI NA KANEI UPLOAD
 		$scope.content[model].edit.tmp={disabled:true}
+		const token=admin.user().token
 		const data=new FormData()
 		data.append('image',$(element)[0].files[0])
 		return jQuery.ajax(
 		{
-			url: '/api/'+model+'/'+_id+'/image/',
+			url: '/api/'+model+'/'+_id+'/image/?token='+token,
 			type:'POST',
 			data: data,
 			contentType: false,
@@ -188,7 +207,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				$scope.content[model].edit.tmp.disabled=false
 				if(jqXHR.responseText)
 				{
-					resp=JSON.parse(jqXHR.responseText)
+					let resp=JSON.parse(jqXHR.responseText)
 				}
 				alert('Error uploading: ' + errorMessage)
 			}
@@ -352,6 +371,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			if(!content[model])
 				content[model]={}
 			content[model].edit=data.doc
+			content[model].schema=data.schema
 			return true
 		}
 		catch(error)
@@ -422,14 +442,11 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		.patch(url,data)
 		.then(resp=>{return next(null,resp)},error=>{return next(error)})
 	}
-	$ahttp.delete=(url,data,next)=>
+	$ahttp.delete=(url,next)=>
 	{
 		const token=admin.user().token
-		if(!data)
-			data={}
-		data.token=token
 		return $http
-		.patch(url,data)
+		.delete(url+'?token='+token)
 		.then(resp=>{return next(null,resp)},error=>{return next(error)})
 	}
 

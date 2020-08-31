@@ -1,3 +1,19 @@
 extends partials/layout-admin
 block content
-	h1 NEW EW NEWNEWNE
+	form.container(data-ng-init="content['"+model+"'].new={}")
+		fieldset(data-ng-disabled="content."+model+".new.tmp.disabled")
+			h1.h3.text-capitalize.mb-5="Επεξεργασία "+model
+			.text-right.my-4(data-ng-include="'template/button-group.new.html'")
+			.row
+				.col-12
+					.form-group
+						label.text-capitalize(for='new-name') Insert New  Record's name
+						input.form-control(id="new-name",type='text',data-ng-model="content."+model+".new.name",placeholder="New Record's Name")
+		script(type="text/ng-template",id="template/button-group.new.html")
+			.btn-group
+				button.btn.btn-lg.btn-primary(data-ng-click="admin.save('"+model+"',content."+model+".new,true)")
+					i.fas.fa-save.mr-2
+					span Create
+				a.btn.btn-lg.btn-secondary(data-ng-href="/administrator/"+model)
+					i.fas.fa-undo.mr-2
+					span Cancel

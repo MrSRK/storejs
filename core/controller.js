@@ -177,7 +177,10 @@ class Controller
 				try
 				{
 					if(!req.body.token)
-						throw {name:"Error",message:'body token not exist'}
+						if(req.query.token)
+							req.body.token=req.query.token
+						else
+							throw {name:"Error",message:'body token not exist'}
 					const token=req.body.token
 					let data=jwt.decode(token)
 					if(!data.name)
@@ -192,6 +195,7 @@ class Controller
 				}
 				catch(err)
 				{
+					console.log(err)
 					res.status(401).json(err)
 				}
 			}
@@ -320,14 +324,15 @@ class Controller
 						if(!req.body)
 							req.body={}
 						if(!req.body.data)
-							req.body.dta={}
+							req.body.data={}
+						console.log(req.body.data)
 						return functions.auth_check(req,res,auth,error=>
 						{
 							if(error)
 								return next(error)
 							if(req.body.data.password)
 								req.body.data.password=bcrypt.hashSync(req.body.data.password,bcrypt.genSaltSync(10))
-							const record=new module.model(data)
+							const record=new model(req.body.data)
 							return record.save((error,doc)=>
 							{
 								if(error)
