@@ -10,9 +10,12 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top.py-1.px-4
 	button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navigation-menu', aria-controls='navigation-menu', aria-expanded='false', aria-label='Toggle navigation')
 		span.navbar-toggler-icon
 	#navigation-menu.collapse.navbar-collapse
-		ul.navbar-nav.mr-auto
-			li.nav-item.text-capitalize
-				a.nav-link(data-ng-href="/") TEST NAVIGATION MENU
+		ul.navbar-nav.mr-auto(data-ng-init="request.navigation()")
+			li.nav-item.text-capitalize.mr-3(data-ng-if="content.navigation.length>0",data-ng-repeat="nav in content.navigation",data-ng-class="nav.child?'dropdown':''")
+				a.nav-link(data-ng-if="!nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="nav.name")
+				a.nav-link(data-ng-if="nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="nav.name",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false")
+				.dropdown-menu(aria-labelledby="navbarDropdownMenuLink",data-ng-if="nav.child")
+					a.nav-link(data-ng-if="nav.child",data-ng-repeat="c in nav.child",data-ng-href="{{user.buildNavigationLink(c)}}",data-ng-bind="c.name")
 
 		//  User Login menu
 		//ul.navbar-nav.ml-auto

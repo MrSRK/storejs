@@ -10,8 +10,25 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const content={}
 	const build={}
 	const admin={}
+	const user={}
 	const options={}
 	let inArrayValues=[]
+	user.buildNavigationLink=nav=>
+	{
+		let href='/'
+		if(!nav||!nav.url)
+			return '#'
+		if(nav.url.external&&nav.url.external!='')
+			return nav.url.external
+		if(!nav.url.model)
+			return href
+		href+=nav.url.model
+		if(!nav.url.function&&!nav.url._id)
+			return href
+		if(!nav.url._id)
+			return href+'/'+nav.url.function
+		return href+'/'+nav.url.function+'/'+nav.url._id
+	}
 	admin.inArray=(value,array)=>
 	{
 		inArrayValues=inArrayValues.concat(array)
@@ -322,6 +339,44 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			console.log(error)
 		}
 	}
+	request.navigation=_=>
+	{
+		try
+		{
+			let nav=sessionStorage.getItem('navigation')
+			if(nav&&nav!='')
+				return content.navigation=JSON.parse(nav)
+			$ahttp
+			.get('/api/navigation',null,(error,resp)=>
+			{
+				if(error)
+					return console.log(error)
+				if(!resp.data||!resp.data.doc)
+					return console.log('Empty Navigation menu')
+				resp.data.doc.forEach((e,i)=>
+				{
+					if(e.parent)
+					{
+						resp.data.doc.forEach((ee,ii)=>
+						{
+							if(ee._id==e.parent._id)
+								resp.data.doc.splice(i,1)
+							if(!resp.data.doc[ii].child)
+								resp.data.doc[ii].child=[]
+							resp.data.doc[ii].child.push(e)
+						})
+					}
+				})
+				content.navigation=resp.data.doc
+				console.log(content.navigation)
+				//sessionStorage.setItem('navigation',JSON.stringify(resp.data.doc))
+			})
+		}
+		catch(error)
+		{
+			console.log(error)
+		}
+	}
 	//####################################
 	handle.list=(model,data)=>
 	{
@@ -400,8 +455,8 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	}
 
 	//Wrappers
-	const $ahttp={}	
-	$ahttp.get=(url,next)=>
+	const $ahttp={}
+	$ahttp.get=(url,data,next)=>
 	{
 		const token=admin.user().token
 		if(!data)
@@ -456,5 +511,6 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	$scope.content=content
 	$scope.build=build
 	$scope.admin=admin
+	$scope.user=user
 	$scope.options=options
 }])

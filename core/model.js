@@ -14,6 +14,18 @@ class Model
 				json.active={type:Boolean}
 			if(!json.order)
 				json.order={type:Number}
+			if(options.parent)
+				json.parent={type:String,ref:options.name,autopopulate:true}
+			if(options.url)
+				json.url={
+					template:{type:String},
+					model:{type:String},
+					function:{type:String},
+					_id:{type:String},
+					query:{},
+					external:{type:String},
+					_blank:{type:Boolean}
+				}
 			// Image
 			if(options.thumbnail)
 				json.images=[{

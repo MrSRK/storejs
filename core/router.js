@@ -1,6 +1,7 @@
 "use strict"
 const express=require('express')
 const path=require('path')
+const fs=require('fs')
 class Router
 {
     instance=null
@@ -14,6 +15,25 @@ class Router
 			{
 				const template=req.params.template||'404'
 				return res.status(200).render('template/'+template+'.pug',req.query)
+			})
+			/**Adding Template routs */
+			router.get('/template',(req,res)=>
+			{
+				console.log(path.join(__dirname,'../views/template/'))
+				return fs.readdir(path.join(__dirname,'../views/template/'),(error,files)=>
+				{
+					if(error)
+						res.status(500).json(error)
+					console.log(files)
+					let f=[]
+					files.forEach(e=>
+					{
+						e=e.split('.').reverse()
+						e.splice(0,1)
+						f.push(e.join('.'))
+					})
+					return res.status(200).render('template.pug',{templates:f})
+				})
 			})
           	/**
 			 * Adding Static routes tou public app router

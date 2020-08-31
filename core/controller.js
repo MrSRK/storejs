@@ -176,6 +176,8 @@ class Controller
 			{
 				try
 				{
+					if(!auth)
+						return next(null)
 					if(!req.body.token)
 						if(req.query.token)
 							req.body.token=req.query.token
@@ -258,6 +260,7 @@ class Controller
 							const sort=req.body.sort||{order:1}
 							return model
 							.find(where)
+							.populate('parent')
 							.limit(limit)
 							.sort(sort)
 							.select(select)

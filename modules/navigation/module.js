@@ -12,23 +12,22 @@ class Module
 			const options={
 				name:name,
 				thumbnail:true,
-				user:true,
-				parent:false,
+				user:false,
+				parent:true,
 				url:true,
 				schema:
 				{
 					name:{type:String},
-					phone:{type:String},
-					mobile:{type:String}
+					
 				}
 			}
 			const permitions={
-				signUp:true,
-				signIn:true,
-				signOut:true,
-				register:true,
-				login:true,
-				logout:true,
+				signUp:false,
+				signIn:false,
+				signOut:false,
+				register:false,
+				login:false,
+				logout:false,
 				find:true,
 				findById:true,
 				auth_find:true,

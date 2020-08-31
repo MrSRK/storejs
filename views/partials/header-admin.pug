@@ -1,4 +1,4 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top.py-1.px-4
+nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top.py-1.px-4(data-ng-init="modules='"+modules+"'")
 	a.navbar-brand.text-muted.mr-5(href='/administrator')
 		picture
 			source(type="image/svg+xml",srcset="/images/logo-small.svg")
@@ -11,9 +11,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top.py-1.px-4
 		span.navbar-toggler-icon
 	#navigation-menu.collapse.navbar-collapse(data-ng-init="navuser=admin.user()")
 		ul.navbar-nav.mr-auto(data-ng-if="navuser.token")
-			each menu in modules
-				li.nav-item.text-capitalize
-					a.nav-link(data-ng-href="/administrator/"+menu)=menu
+			li.nav-item.text-capitalize(data-ng-repeat="menu in modules.split(',')")
+				a.nav-link(data-ng-href="/administrator/{{menu}}",data-ng-bind="menu")
 		ul.navbar-nav.ml-auto
 			li.nav-item.text-capitalize(data-ng-if="!navuser.token")
 				a.nav-link(data-ng-href="/administrator/login") login
