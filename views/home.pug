@@ -21,9 +21,16 @@ block content
 	.container-fluid(data-ng-init="request.list('article')")
 		.row
 			.col-12.col-sm-6.col-md-4.col-lg-2.p-3(data-ng-repeat="article in content.article.list")
-				.card.bordercustomblue
+				.card
 					a.text-dark(data-ng-href="/article/{{article._id}}")
-						img.card-img-top(src='images/test.png', alt='')
+						picture(data-ng-if="article.images&&article.images.length>0")
+							source(
+								data-ng-repeat="type in ['webp','png','jpg']",
+								data-ng-if="article.images[0].thumbnail[type]",
+								type="image/{{type}}",
+								data-ng-srcset="/thumbnail/article/{{article._id+'/'+article.images[0].thumbnail[type].name+'/'+article.images[0].thumbnail[type].name+'.'+type}}"
+							)
+							img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('article',article)}}")
 					.card-body
 						h5.card-title
 							a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
