@@ -210,7 +210,9 @@ class Controller
 							throw new Error('Model not set')
 						if(!req.body)
 							req.body={}
-						req.body.where=req.body.where||{}
+						req.body.where={}
+						if(req.query.where)
+							req.body.where=JSON.parse(req.query.where)
 						req.body.where.active=true
 						return controller['auth_find'](req,res,next,false)
 					}
@@ -588,8 +590,8 @@ class Controller
 					const original=image.path
 					const path=image.path.split('.').reverse().splice(1).reverse().join('.')
 					const name=image.filename.split('.').reverse().splice(1).reverse().join('')
-					const width=parseInt(process.env.IMAGE_MAX_WIDTH)||800
-					const heigth=parseInt(process.env.IMAGE_MAX_HEIGHT)||800
+					const width=parseInt(process.env.IMAGE_MAX_WIDTH)||2000
+					const heigth=parseInt(process.env.IMAGE_MAX_HEIGHT)||2000
 					const args={fit:'inside'}
 					if(!fs.existsSync(path))
 						fs.mkdirSync(path,{recursive:true})

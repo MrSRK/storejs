@@ -17,12 +17,7 @@ class Module
 				url:false,
 				schema:
 				{
-					sticky:{type:Boolean},
-					name:{type:String},
-					title:{type:String},
-					subtitle:{type:String},
-					description:{type:String},
-					text:{type:String},
+					name:{type:String}
 				}
 			}
 			const permitions={

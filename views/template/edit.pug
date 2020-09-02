@@ -6,7 +6,7 @@ form.container(data-ng-if="content."+model+".edit")
 			.col-12
 				span(data-ng-if="admin.inArray(column,['_id'])")
 				span(data-ng-if="admin.inArray(column,['password'])")
-				.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open'])")
+				.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open','sticky'])")
 					input.form-check-input(type='checkbox',id="edit-{{column}}}",data-ng-model="content."+model+".edit[column]")
 					label.text-capitalize.form-check-label(for='edit-{{column}}}',data-ng-bind="column")
 				.form-group(data-ng-if="admin.inArray(column,['email','co-email'])")

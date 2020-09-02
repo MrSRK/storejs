@@ -321,12 +321,15 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			console.log(error)
 		}
 	}
-	request.list=model=>
+	request.list=(model,sticky=false)=>
 	{
 		try
 		{
+			let args={}
+			if(sticky)
+				args={where:{sticky:true}}
 			$ahttp
-			.get('/api/'+model,null,(error,resp)=>
+			.get('/api/'+model,args,(error,resp)=>
 			{
 				if(error)
 					return handle.error(model,'list',resp)
@@ -462,7 +465,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			data={}
 		data.token=token
 		return $http
-		.get(url,data)
+		.get(url,{params:data})
 		.then(resp=>{return next(null,resp)},error=>{return next(error)})
 	}
 

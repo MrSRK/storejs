@@ -1,14 +1,17 @@
 extends partials/layout
 block content
 	.container-fluid.m-0.p-0
-		#homeCarouselControls.carousel.slide(data-ride='carousel')
+		#homeCarouselControls.carousel.slide(data-ride='carousel',data-ng-init="request.list('carousel')")
 			.carousel-inner
-				.carousel-item.active
-					img.d-block.w-100(src='images/banner/satellite-hybrid-systems.png', alt='Δορυφορικά Συστήματα - Υβριδικά Τηλέοπτικά Κέντρα - Καλωδιακά Συστήματα μεγάλης Έκτασης')
-				.carousel-item
-					img.d-block.w-100(src='images/banner/iptv-iptelephony.png', alt='IPTV - IP τηλεφωνία - Interactive TV, Διαδραστικές Υπηρεσίες')
-				.carousel-item
-					img.d-block.w-100(src='images/banner/terrestrial-television.png', alt='Κεραίες Τηλεόρασης - Επιγεια Ψηφιακή Τηλεόραση - Εγκαταστάσεις')
+				.carousel-item(data-ng-repeat="carousel in content.carousel.list",data-ng-class="$index==0?'active':''")
+					picture(data-ng-if="carousel.images&&carousel.images.length>0")
+							source(
+								data-ng-repeat="type in ['webp','png','jpg']",
+								data-ng-if="carousel.images[0].thumbnail[type]",
+								type="image/{{type}}",
+								data-ng-srcset="/thumbnail/carousel/{{carousel._id+'/'+carousel.images[0].thumbnail[type].name+'/'+carousel.images[0].thumbnail[type].name+'.'+type}}"
+							)
+							img.d-block.w-100(data-ng-src="{{build.defimgsrc('carousel',carousel)}}" title="{{carousel.name}}" alt="{{carousel.name}}")
 			a.carousel-control-prev(href='#homeCarouselControls', role='button', data-slide='prev')
 				span.carousel-control-prev-icon(aria-hidden='true')
 				span.sr-only Previous
@@ -18,7 +21,7 @@ block content
 	.container-fluid.p-2.small
 		img.w-100.d-none.d-lg-block(src="images/animation.svg" style="Saloras Satellite Center")
 		p.px-2.mt-3 Η Saloras Satellite Center (SSC) δραστηριοποιείται στο χώρο των επικοινωνιών, στην προμήθεια και εγκατάσταση τεχνολογικού εξοπλισμού και υπηρεσιών για μεγάλα ξενοδοχειακά και αστικά συγκροτήματα, οικισμούς κλπ. Σήμερα η εταιρεία SSC είναι από τους πλέον έμπειρους προμηθευτές και κατασκευαστές δικτύων οπτικών ινών, ολοκληρωμένων δορυφορικών κέντρων λήψης - διανομής και καλωδιακών δικτύων RF μεγάλης έκτασης.
-	.container-fluid(data-ng-init="request.list('article')")
+	.container-fluid(data-ng-init="request.list('article',true)")
 		.row
 			.col-12.col-sm-6.col-md-4.col-lg-2.p-3(data-ng-repeat="article in content.article.list")
 				.card
@@ -30,7 +33,7 @@ block content
 								type="image/{{type}}",
 								data-ng-srcset="/thumbnail/article/{{article._id+'/'+article.images[0].thumbnail[type].name+'/'+article.images[0].thumbnail[type].name+'.'+type}}"
 							)
-							img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('article',article)}}")
+							img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('article',article)}}" title="{{article.title}}" alt="{{article.title}}")
 					.card-body
 						h5.card-title
 							a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
