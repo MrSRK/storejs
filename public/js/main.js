@@ -356,20 +356,19 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				resp.data.doc.forEach((e,i)=>
 				{
 					if(e.parent)
-					{
 						resp.data.doc.forEach((ee,ii)=>
 						{
 							if(ee._id==e.parent._id)
+							{
 								resp.data.doc.splice(i,1)
-							if(!resp.data.doc[ii].child)
-								resp.data.doc[ii].child=[]
-							resp.data.doc[ii].child.push(e)
+								if(!resp.data.doc[ii].child)
+									resp.data.doc[ii].child=[]
+								resp.data.doc[ii].child.push(e)
+							}
 						})
-					}
 				})
 				content.navigation=resp.data.doc
-				console.log(content.navigation)
-				//sessionStorage.setItem('navigation',JSON.stringify(resp.data.doc))
+				sessionStorage.setItem('navigation',JSON.stringify(resp.data.doc))
 			})
 		}
 		catch(error)

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1100px" height="50px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 1100000 49998" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<defs>
+		<style type="text/css">
+			<![CDATA[
+			.fil1 {fill:#0C306C}
+			.fil0 {fill:#17A2B8}
+			.fnt0 {font-weight:bold;font-size:39198.5px;font-family:'Roboto'}
+			.fnt1 {font-weight:bold;font-size:52266.2px;font-family:'Roboto'}
+			.md
+			{
+	 			animation: mdk 5s linear infinite;
+			}
+			.mu
+			{
+	 			animation: muk 5s linear infinite;
+			}
+			@keyframes mdk
+			{
+	 			0% {transform: translateY(100%)}
+				20% {transform: translateY(100%)}
+	 			30% {transform: translateY(0)}
+				90% {transform: translateY(0)}
+				100%{transform: translateY(100%)}
+			}
+			@keyframes muk
+			{
+	 			0% {transform: translateY(-100%)}
+				20% {transform: translateY(-100%)}
+	 			30% {transform: translateY(0)}
+				90% {transform: translateY(0)}
+				100%{transform: translateY(-100%)}
+			}
+			]]>
+		</style>
+	</defs>
+	<g class="md">
+	<g transform="matrix(1.12785 0 0 1 -325320 18568.3)">
+		<text x="550000" y="24999"  class="fil0 fnt0">aloras</text>
+		<text x="697518" y="24999"  class="fil0 fnt0">atellite</text>
+		<text x="857617" y="24999"  class="fil0 fnt0">enter</text>
+	</g>
+	</g>
+	<g class="mu">
+		<g transform="matrix(1.12785 0 0 1 -359868 18795.5)"><text x="550000" y="24999"  class="fil1 fnt1">S</text></g>
+		<g transform="matrix(1.12785 0 0 1 -194136 19477)"><text x="550000" y="24999"  class="fil1 fnt1">S</text></g>
+		<g transform="matrix(1.12785 0 0 1 -16425.5 18567.7)"><text x="550000" y="24999"  class="fil1 fnt1">C</text></g>
+	</g>
+</svg>

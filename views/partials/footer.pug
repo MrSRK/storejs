@@ -1,42 +1,36 @@
 .container-fluid
-    .row.small
-        .col-12.col-md-6.col-xl-3.px-5.py-3.border
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-        .col-12.col-md-6.col-xl-3.px-5.py-3.border
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-        .col-12.col-md-6.col-xl-3.px-5.py-3.border
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-        .col-12.col-md-6.col-xl-3.px-5.py-3.border
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
-            .py-0
-                .fas.fa-link.text-muted.small.mr-1
-                a.text-muted(href="") This is a test link to sumware
+	.row.small
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+			.row(data-ng-if="content.navigation.length>0")
+				.col-12(data-ng-repeat="link in content.navigation")
+					a.text-muted(data-ng-href="{{user.buildNavigationLink(link)}}")
+						i.fas.fa-link.text-muted.small.mr-1
+						span(data-ng-bind="link.name")
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+			p.my-0.pb-1.h5
+				a.text-secondary(data-ng-href="/") Saloras Satellite Center
+			p.my-0.h6.small.text-muted Ν Α ΖΑΧΑΡΙΟΥΔΑΚΗ ΕΠΕ
+			p.my-0.text-muted  Στρυμώνος 11, 71304
+			p.my-0.text-muted Ηράκλειο Κρήτης
+			p.my-0
+				a.text-muted(href="tel:+302810372800") +30 2810 372800
+			p.my-0
+				a.text-muted(href="mailto:info@saloras.gr") info@saloras.gr
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+			p.my-0.pb-1.h5.text-secondary Top Stories
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+			.py-0.text-center
+				img.w-75.mb-4(data-ng-src="images/logo-banner.svg")
+			.py-0
+				img.w-50.pr-4(data-ng-src="images/vision-web-min.png")
+				img.w-50(data-ng-src="images/technologies-min.png")
+			.py-0.text-right
+				span.text-muted.small Σχεδιασμός Δημιουργία
+				a.text-muted.ml-1(data-ng-href="http://web.visionadv.gr") Vision Web
+				span.text-muted.small.ml-1 part of
+				a.text-muted.ml-1(data-ng-href="http://www.visionadv.gr") Vision Group
+			.py-0.text-right.text-muted.small
+				a.mr-1.text-muted(href="") www.saloras.gr
+				span.mr-1 &copy; 2020 
+				a.mr-1.text-muted(href="http://web.visionadv.gr") vision web
+				a.mr-1.text-muted(href="http://web.visionadv.gr") store.js
