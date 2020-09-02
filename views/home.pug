@@ -21,12 +21,12 @@ block content
 	.container-fluid
 		.row
 			each r in [1,2,3,4,5,6]
-				.col-2.p-3
+				.col-12.col-sm-6.col-md-4.col-lg-2.p-3
 					.card.bordercustomblue
 						a(data-ng-href="")
 							img.card-img-top(src='images/test.png', alt='')
 						.card-body
 							h5.card-title Αυτός ειναι ένας Τίτλος
-							p.card-text.small Αυτό ειναι ενα δοκιμαστικό κείμενο περιγραφής του άρθρου ειναι ενα δοκιμαστικό κείμενο περιγραφής του άρθρου
+							p.card-text.small.d-none.d-lg-block Αυτό ειναι ενα δοκιμαστικό κείμενο περιγραφής του άρθρου ειναι ενα δοκιμαστικό κείμενο περιγραφής του άρθρου
 							.text-right
 								a.btn.btn-outline-secondary.text-secondary Περισσότερα
