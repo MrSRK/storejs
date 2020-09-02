@@ -18,6 +18,10 @@ class Module
 				schema:
 				{
 					name:{type:String},
+					title:{type:String},
+					subtitle:{type:String},
+					description:{type:String},
+					text:{type:String},
 				}
 			}
 			const permitions={

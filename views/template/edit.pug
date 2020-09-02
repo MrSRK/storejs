@@ -81,11 +81,13 @@ form.container(data-ng-if="content."+model+".edit")
 										data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".edit._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
 										)
 									img.card-img-top(data-ng-src="/img/"+model+"/{{content."+model+".edit._id+'/'+image.filename}}")
+				.form-group(data-ng-if="admin.inArray(column,['description','text'])")
+					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
+					textarea.form-control.form-control-sm(id="edit-{{column}}}",type='text',data-ng-model="content."+model+".edit[column]")
 				.form-group(data-ng-if="admin.notInAllArray(column)")
 					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
 					input.form-control(id="edit-{{column}}}",type='text',data-ng-model="content."+model+".edit[column]")
 		.text-right.mb-5(data-ng-include="'template/button-group.edit.html'")
-		
 	script(type="text/ng-template",id="template/button-group.edit.html")
 		.btn-group
 			button.btn.btn-lg.btn-primary(data-ng-click="admin.updateByid('"+model+"',content."+model+".edit,true)")

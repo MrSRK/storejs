@@ -325,7 +325,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		try
 		{
-			$http
+			$ahttp
 			.get('/api/'+model,null,(error,resp)=>
 			{
 				if(error)
