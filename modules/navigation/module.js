@@ -4,6 +4,7 @@ const Controller=require('../../core/controller')
 class Module
 {
 	controller={}
+	pug={}
 	constructor(next)
 	{
 		try
@@ -17,8 +18,7 @@ class Module
 				url:true,
 				schema:
 				{
-					name:{type:String},
-					
+					name:{type:String}
 				}
 			}
 			const permitions={

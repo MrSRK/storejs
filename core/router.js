@@ -2,6 +2,7 @@
 const express=require('express')
 const path=require('path')
 const fs=require('fs')
+const { model } = require('mongoose')
 class Router
 {
     instance=null
@@ -45,7 +46,25 @@ class Router
 			/**
 			 * Pug Routes
 			 */
+			app_modules.forEach((mod,i)=>
+			{
+				console.log(mod)
+			})
 			const modules=Object.keys(app_modules)
+			modules.forEach(mod=>
+			{
+				if(app_modules[mod].pug&&app_modules[mod].pug.roots)
+					app_modules[mod].pug.roots.forEach(pug=>
+					{
+						router.get(pug.route,(req,res)=>
+						{
+							pug.model=req.params.model||'home'
+							pug._id=req.params._id||null
+							pug.modules=modules
+							return res.status(200).render(pug.view,pug)
+						})
+					})
+			})
 			config.pug.forEach(pug=>
 			{
 				router.get(pug.route,(req,res)=>

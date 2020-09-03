@@ -13,23 +13,26 @@ class Module
 			const options={
 				name:name,
 				thumbnail:true,
-				user:true,
+				user:false,
 				parent:false,
-				url:true,
+				url:false,
 				schema:
 				{
+					sticky:{type:Boolean},
 					name:{type:String},
-					phone:{type:String},
-					mobile:{type:String}
+					title:{type:String},
+					subtitle:{type:String},
+					description:{type:String},
+					text:{type:String},
 				}
 			}
 			const permitions={
-				signUp:true,
-				signIn:true,
-				signOut:true,
-				register:true,
-				login:true,
-				logout:true,
+				signUp:false,
+				signIn:false,
+				signOut:false,
+				register:false,
+				login:false,
+				logout:false,
 				find:true,
 				findById:true,
 				auth_find:true,
@@ -41,6 +44,18 @@ class Module
 				auth_imageUpload:true,
 				auth_imageDelete:true
 			}
+			this.pug.roots=[
+				{
+					route:"/:model/companies",
+					view:'companies'
+				},
+				{
+					route:"/:model/companies/:_id",
+					view:'company'
+				}
+			]
+
+
 			new Model(options,(error,model,schema)=>
 			{
 				if(error)

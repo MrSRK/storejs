@@ -4,6 +4,7 @@ const Controller=require('../../core/controller')
 class Module
 {
 	controller={}
+	pug={}
 	constructor(next)
 	{
 		try

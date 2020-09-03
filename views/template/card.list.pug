@@ -5,7 +5,7 @@
 				data-ng-repeat="type in ['webp','png','jpg']",
 				data-ng-if="rec.images[0].thumbnail[type]",
 				type="image/{{type}}",
-				data-ng-srcset="/thumbnail/article/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
+				data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
 			)
 			img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
 	.card-body
