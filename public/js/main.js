@@ -23,11 +23,11 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		let ret=[]
 		data.forEach((e,i)=>
 		{
-			ret.push(user.schemaBuilder(model,e))
+			ret.push(user.schemaBuilder(model,e),false)
 		})
 		user.schema=ret
 	}
-	user.schemaBuilder=(model,rec)=>
+	user.schemaBuilder=(model,rec,set=false)=>
 	{
 		let ret={}
 		if(model=='article')
@@ -48,7 +48,10 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				})
 			}
 		}
-		return ret
+		if(set)
+			user.schema=ret
+		else
+			return ret
 	}
 	user.buildNavigationLink=nav=>
 	{

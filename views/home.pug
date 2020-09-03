@@ -20,25 +20,7 @@ block content
 				span.sr-only Next
 	.container-fluid.p-1.d-none.d-lg-block
 		img.w-100(data-ng-src="images/animation.svg" style="Saloras Satellite Center")
-	.container-fluid(data-ng-init="request.list('article',true)")
-		.row
-			.col-12.col-sm-6.col-md-4.col-lg-2.p-3(data-ng-repeat="article in content.article.list")
-				.card
-					a.text-dark(data-ng-href="/article/{{article._id}}")
-						picture(data-ng-if="article.images&&article.images.length>0")
-							source(
-								data-ng-repeat="type in ['webp','png','jpg']",
-								data-ng-if="article.images[0].thumbnail[type]",
-								type="image/{{type}}",
-								data-ng-srcset="/thumbnail/article/{{article._id+'/'+article.images[0].thumbnail[type].name+'/'+article.images[0].thumbnail[type].name+'.'+type}}"
-							)
-							img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('article',article)}}" title="{{article.title}}" alt="{{article.title}}")
-					.card-body
-						h5.card-title
-							a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
-						p.card-text.small.d-none.d-lg-block.text-truncate(data-ng-bind="article.description")
-						.text-right
-							a.btn.btn-sm.btn-outline-secondary.text-secondary(data-ng-href="/article/{{article._id}}") Περισσότερα
+	.mb-1(data-ng-include="'/template/article.row.html'")
 	.container-fluid.p-2.small
 		p.px-2.mt-3 Η Saloras Satellite Center (SSC) δραστηριοποιείται στο χώρο των επικοινωνιών, στην προμήθεια και εγκατάσταση τεχνολογικού εξοπλισμού και υπηρεσιών για μεγάλα ξενοδοχειακά και αστικά συγκροτήματα, οικισμούς κλπ. Σήμερα η εταιρεία SSC είναι από τους πλέον έμπειρους προμηθευτές και κατασκευαστές δικτύων οπτικών ινών, ολοκληρωμένων δορυφορικών κέντρων λήψης - διανομής και καλωδιακών δικτύων RF μεγάλης έκτασης.
 	script(type="application/ld+json").
