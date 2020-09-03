@@ -3,7 +3,7 @@
 		"version": "1.0.0",
 		"main": "app.js",
 		"scripts": {
-				"test": "echo \"Error: no test specified\" && exit 1",
+				"test": "node app.js",
 				"db": "node db-test.js"
 		},
 		"nodemonConfig": {
@@ -30,7 +30,7 @@
 				"jquery": "^3.5.1",
 				"jsonwebtoken": "^8.5.1",
 				"lusca": "^1.6.1",
-				"mongoose": "^5.9.12",
+				"mongoose": "^5.10.2",
 				"mongoose-schema-jsonschema": "^1.4.4",
 				"morgan": "^1.10.0",
 				"multer": "^1.4.2",

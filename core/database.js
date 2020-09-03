@@ -9,10 +9,14 @@ class Database
 		try
 		{
 			mongoose.connect(process.env.MONGODB_URI,{
-				useUnifiedTopology:true,
+				/*useUnifiedTopology:true,
 				useFindAndModify:false,
 				useCreateIndex:true,
-				useNewUrlParser:true
+				useNewUrlParser:true*/
+				useNewUrlParser:true,
+				useUnifiedTopology:true,
+				useCreateIndex:true,
+				useFindAndModify:false
 			})
 			return next(true,null,mongoose)
 		}

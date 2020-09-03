@@ -12,7 +12,44 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const admin={}
 	const user={}
 	const options={}
+	const page={}
 	let inArrayValues=[]
+	user.nl2br=(text)=>
+	{
+		return text.split('\n')
+	}
+	user.schemaListBuilder=(model,data)=>
+	{
+		let ret=[]
+		data.forEach((e,i)=>
+		{
+			ret.push(user.schemaBuilder(model,e))
+		})
+		user.schema=ret
+	}
+	user.schemaBuilder=(model,rec)=>
+	{
+		let ret={}
+		if(model=='article')
+		{
+			ret["@context"]="http://schema.org/"
+			ret["@type"]="Article"
+			ret["name"]=rec.name
+			ret["headline"]=rec.title || rec.name
+			ret["description"]=rec.description
+			if(rec.images)
+			{
+				ret["image"]=[]
+				rec.images.forEach((e,i)=>
+				{
+					ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.webp.name+'/'+e.thumbnail.webp.name+'.webp')
+					ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.png.name+'/'+e.thumbnail.webp.name+'.png')
+					ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.jpg.name+'/'+e.thumbnail.webp.name+'.jpg')
+				})
+			}
+		}
+		return ret
+	}
 	user.buildNavigationLink=nav=>
 	{
 		let href='/'
@@ -342,6 +379,25 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			console.log(error)
 		}
 	}
+	request.show=(model,_id)=>
+	{
+		try
+		{
+			let args={}
+			$ahttp
+			.get('/api/'+model+'/'+_id,args,(error,resp)=>
+			{
+				if(error)
+					return handle.error(model,'show',resp)
+				if(resp.data)
+					return handle.show(model,resp.data)
+			})
+		}
+		catch(error)
+		{
+			console.log(error)
+		}
+	}
 	request.navigation=_=>
 	{
 		try
@@ -391,6 +447,25 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			if(!content[model])
 				content[model]={}
 			content[model].list=data.doc
+			return true
+		}
+		catch(error)
+		{
+			console.log(error)
+			return false
+		}
+	}
+	handle.show=(model,data)=>
+	{
+		try
+		{
+			if(!data.status)
+				return handle.error(model,'show',data)
+			if(!data.doc)
+				return handle.error(model,'show',data)
+			if(!content[model])
+				content[model]={}
+			content[model].show=data.doc
 			return true
 		}
 		catch(error)

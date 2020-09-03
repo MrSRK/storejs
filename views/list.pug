@@ -1,25 +1,9 @@
 extends partials/layout
 block content
-	.container-fluid.m-5(data-ng-init="request.list('"+model+"')")
+	.container-fluid(data-ng-init="request.list('"+model+"')")
 		h1.text-capitalize(data-ng-if="content."+model+".list")=model+'s'
 		.mt-5(data-ng-if="content."+model+".list")
 			.row(data-ng-clock,data-ng-if="content."+model+".list.length>0")
-				.col-6.col-md-4.col-lg-3.col-xl-2(data-ng-repeat="rec in content."+model+".list")
-					.card
-						picture(data-ng-if="rec.images&&rec.images.length>0")
-							source(
-								data-ng-repeat="type in ['webp','png','jpg']",
-								data-ng-if="rec.images[0].thumbnail[type]",
-								type="image/{{type}}",
-								data-ng-srcset="/images/thumbnails/thumbnail-{{rec._id+'.'+type}}"
-							)
-							img.card-img-top(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}")
-						.card-body
-							.card-title.text-center.text-truncate(data-ng-bind="rec.title?rec.title:rec.name")
-							p.card-text.text-truncate(data-ng-bind="rec.description")
-							.text-right
-								a.btn.btn-sm.btn-primary(data-ng-href="/"+model+"/{{rec._id}}") Περισσότερα
-			p.text-muted.font-italic(data-ng-clock,data-ng-if="content."+model+".list.length==0") Δεν υπάρχουν καταχωρημένες ενεργές εγγραφές
-		.text-left(data-ng-if="!content."+model+".list")
-			h1.text-primary ERROR 404
-			p.text-muted.font-italic Αυτη η ηλεκτρονική διεύθυνση δεν υπάρχει ή εχει καταργηθει προσωρινά για τεχνικούς λόγους.
+				.col-6.col-md-4.col-lg-3.col-xl-2.mb-4(data-ng-repeat="rec in content."+model+".list",data-ng-include="'/template/card.list.html?model="+model+"'")
+
+				script(type='application/ld+json',data-ng-init="user.schemaListBuilder('"+model+"',content."+model+".list)",data-ng-bind="user.schema")

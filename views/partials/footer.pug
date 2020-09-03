@@ -7,8 +7,16 @@
 					a.text-muted(data-ng-href="{{user.buildNavigationLink(link)}}")
 						i.fas.fa-link.text-muted.small.mr-1
 						span(data-ng-bind="link.name")
-		.col-12.col-md-6.col-xl-3.px-5.py-3.border
-			p.my-0.pb-1.h5.text-secondary Top Stories
+
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border(data-ng-init="!content.article.list?request.list('article',true):''")
+			p.my-0.pb-1.h5.text-secondary Latest Stories
+			.row(data-ng-if="content.article.list.length>0")
+				.col-12(data-ng-repeat="link in content.article.list | limitTo:6 | orderBy:link.updatedAt:true")
+					a.text-muted(data-ng-href="#")
+						i.fas.fa-link.text-muted.small.mr-1
+						span(data-ng-bind="link.name")
+
+
 		.col-12.col-md-6.col-xl-3.px-5.py-3.border
 			p.my-0.pb-1.h5
 				a.text-secondary(data-ng-href="/") Saloras Satellite Center

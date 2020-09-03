@@ -231,8 +231,6 @@ class Controller
 							throw new Error('Model not set')
 						if(!req.body)
 							req.body={}
-						if(error)
-							return next(error)
 						req.body.where=req.body.where||{}
 						req.body.where.active=true
 						return controller['auth_findById'](req,res,next,false)

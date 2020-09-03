@@ -1,0 +1,18 @@
+.card
+	a(data-ng-href="/"+model+"/{{rec._id}}")
+		picture(data-ng-if="rec.images&&rec.images.length>0")
+			source(
+				data-ng-repeat="type in ['webp','png','jpg']",
+				data-ng-if="rec.images[0].thumbnail[type]",
+				type="image/{{type}}",
+				data-ng-srcset="/thumbnail/article/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
+			)
+			img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
+	.card-body
+		h5.card-title.text-truncate
+				a.text-dark(data-ng-href="/"+model+"/{{rec._id}}",data-ng-bind="rec.name")
+		p.card-text.text-truncate(data-ng-bind="rec.description")
+		.text-right
+			a.btn.btn-sm.btn-outline-secondary(data-ng-href="/"+model+"/{{rec._id}}") Περισσότερα
+			small.d-block
+				small.text-muted(data-ng-bind="rec.updatedAt | date:'dd-MM-yyyy'")

@@ -13,4 +13,3 @@ catch(error)
 {
 	console.log(error)
 }
-processes.exit()
