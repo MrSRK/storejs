@@ -7,7 +7,7 @@
 				type="image/{{type}}",
 				data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
 			)
-			img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
+			img.card-img-top(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
 	.card-body
 		h5.card-title.text-truncate
 				a.text-dark(data-ng-href="/"+model+"/{{rec._id}}",data-ng-bind="rec.name")
