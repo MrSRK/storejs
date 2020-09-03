@@ -1,17 +1,16 @@
-"use strict"
 const mongoose=require('mongoose')
-require('mongoose-schema-jsonschema')(mongoose)
 try
 {
-	mongoose.connect(process.env.MONGODB_URI,{
+	mongoose.connect('mongodb+srv://user_saloras:S5ZYcYolyUl2SWxM@saloras-4rocn.gcp.mongodb.net/saloras?authSource=admin&compressors=zlib&gssapiServiceName=mongodb&replicaSet=Prod-shard-0&ssl=true',{
 		useUnifiedTopology:true,
 		useFindAndModify:false,
 		useCreateIndex:true,
 		useNewUrlParser:true
 	})
-	return console.log(process.env.MONGODB_URI)
+	console.log('Connection Try')
 }
 catch(error)
 {
-	return console.log(error)
+	console.log(error)
 }
+processes.exit()
