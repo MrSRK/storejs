@@ -1,6 +1,6 @@
 .container-fluid
 	.row.small
-		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border-top
 			p.my-0.pb-1.h5.text-secondary Site Links
 			.row(data-ng-if="content.navigation.length>0")
 				.col-12(data-ng-repeat="link in content.navigation")
@@ -8,7 +8,7 @@
 						i.fas.fa-link.text-muted.small.mr-1
 						span(data-ng-bind="link.name")
 
-		.col-12.col-md-6.col-xl-3.px-5.py-3.border(data-ng-init="!content.article.list?request.list('article',true):''")
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border-top(data-ng-init="!content.article.list?request.list('article',true):''")
 			p.my-0.pb-1.h5.text-secondary Latest Stories
 			.row(data-ng-if="content.article.list.length>0")
 				.col-12(data-ng-repeat="link in content.article.list | limitTo:6 | orderBy:link.updatedAt:true")
@@ -17,7 +17,7 @@
 						span(data-ng-bind="link.name")
 
 
-		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border-top
 			p.my-0.pb-1.h5
 				a.text-secondary(data-ng-href="/") Saloras Satellite Center
 			p.my-0.h6.small.text-muted Ν Α ΖΑΧΑΡΙΟΥΔΑΚΗ ΕΠΕ
@@ -27,7 +27,7 @@
 				a.text-muted(href="tel:+302810372800") +30 2810 372800
 			p.my-0
 				a.text-muted(href="mailto:info@saloras.gr") info@saloras.gr
-		.col-12.col-md-6.col-xl-3.px-5.py-3.border
+		.col-12.col-md-6.col-xl-3.px-5.py-3.border-top
 			.py-0.text-center
 				a(data-ng-href="/")
 					img.w-75.mb-4(data-ng-src="/images/logo-banner.svg")

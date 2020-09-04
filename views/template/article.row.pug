@@ -10,7 +10,7 @@
 							type="image/{{type}}",
 							data-ng-srcset="/thumbnail/article/{{article._id+'/'+article.images[0].thumbnail[type].name+'/'+article.images[0].thumbnail[type].name+'.'+type}}"
 						)
-						img.img-thumbnail.p-0(data-ng-src="{{build.defimgsrc('article',article)}}" title="{{article.title}}" alt="{{article.title}}")
+						img.card-img-top(data-ng-src="{{build.defimgsrc('article',article)}}" title="{{article.title}}" alt="{{article.title}}")
 				.card-body
 					h5.card-title
 						a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
