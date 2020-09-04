@@ -46,12 +46,12 @@ class Module
 			}
 			this.pug.roots=[
 				{
-					route:"/:model/projects",
-					view:'projects'
+					route:"/:model/companies",
+					view:'companies'
 				},
 				{
-					route:"/:model/projects/:_id",
-					view:'project'
+					route:"/:model/companies/:_id",
+					view:'company'
 				}
 			]
 

@@ -14,60 +14,85 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const options={}
 	const page={}
 	let inArrayValues=[]
+	user.translateHead=text=>
+	{
+		const translate={
+			articles:"σχετικά άρθρα",
+			works:"δουλειές μας"
+		}
+		return translate[text]||text
+	}
 	user.nl2br=(text)=>
 	{
 		return text.split('\n')
 	}
 	user.schemaListBuilder=(model,data)=>
 	{
-		let ret=[]
-		data.forEach((e,i)=>
+		try
 		{
-			ret.push(user.schemaBuilder(model,e),false)
-		})
-		user.schema=ret
+			let ret=[]
+			data.forEach((e,i)=>
+			{
+				ret.push(user.schemaBuilder(model,e,false))
+			})
+			user.schema=ret
+			return true
+		}
+		catch(error)
+		{
+			console.log(error)
+			return false
+		}
 	}
 	user.schemaBuilder=(model,rec,set=false)=>
 	{
-		let ret={}
-		if(model=='article')
+		try
 		{
-			ret["@context"]="http://schema.org/"
-			ret["@type"]="Article"
-			ret["name"]=rec.name
-			ret["headline"]=rec.title || rec.name
-			ret["description"]=rec.description
-			if(rec.images)
+			let ret={}
+			if(model=='article')
 			{
-				ret["image"]=[]
-				rec.images.forEach((e,i)=>
+				ret["@context"]="http://schema.org/"
+				ret["@type"]="Article"
+				ret["name"]=rec.name||null
+				ret["headline"]=rec.title || rec.name||null
+				ret["description"]=rec.description||null
+				ret["url"]=window.location.origin+'/'+model+'/'+rec._id
+				if(rec.images)
 				{
-					ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.webp.name+'/'+e.thumbnail.webp.name+'.webp')
-					ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.png.name+'/'+e.thumbnail.webp.name+'.png')
-					ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.jpg.name+'/'+e.thumbnail.webp.name+'.jpg')
-				})
+					ret["image"]=[]
+					rec.images.forEach((e,i)=>
+					{
+						ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.webp.name+'/'+e.thumbnail.webp.name+'.webp')
+						ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.png.name+'/'+e.thumbnail.webp.name+'.png')
+						ret["image"].push(window.location.origin+'/thumbnail/'+model+'/'+rec._id+'/'+e.thumbnail.jpg.name+'/'+e.thumbnail.webp.name+'.jpg')
+					})
+				}
 			}
-		}
-		if(set)
-			user.schema=ret
-		else
+			if(set)
+				user.schema=ret
 			return ret
+		}
+		catch(error)
+		{
+			console.log(error)
+			return {}
+		}
 	}
 	user.buildNavigationLink=nav=>
 	{
 		let href='/'
 		if(!nav||!nav.url)
-			return '#'
+			return '/#'
 		if(nav.url.external&&nav.url.external!='')
 			return nav.url.external
 		if(!nav.url.model)
 			return href
 		href+=nav.url.model
-		if(!nav.url.function&&!nav.url._id)
-			return href
-		if(!nav.url._id)
-			return href+'/'+nav.url.function
-		return href+'/'+nav.url.function+'/'+nav.url._id
+		if(nav.url.function&&nav.url.function!='')
+			href+='/'+nav.url.function
+		if(nav.url._id&&nav.url._id!='')
+			href+='/'+nav.url._id
+		return href
 	}
 	admin.inArray=(value,array)=>
 	{

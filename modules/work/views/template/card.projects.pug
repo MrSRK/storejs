@@ -1,0 +1,13 @@
+.card.border-0.text-center
+	a(data-ng-href="/"+model+"/{{rec._id}}")
+		picture(data-ng-if="rec.images&&rec.images.length>0")
+			source(
+				data-ng-repeat="type in ['webp','png','jpg']",
+				data-ng-if="rec.images[0].thumbnail[type]",
+				type="image/{{type}}",
+				data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
+			)
+			img.card-img-top.w-50(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
+	.card-body
+		h6.card-title.text-truncate.text-center
+				a.text-dark(data-ng-href="/"+model+"/{{rec._id}}",data-ng-bind="rec.title")

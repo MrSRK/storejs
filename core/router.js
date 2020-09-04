@@ -20,12 +20,10 @@ class Router
 			/**Adding Template routs */
 			router.get('/template',(req,res)=>
 			{
-				console.log(path.join(__dirname,'../views/template/'))
 				return fs.readdir(path.join(__dirname,'../views/template/'),(error,files)=>
 				{
 					if(error)
 						res.status(500).json(error)
-					console.log(files)
 					let f=[]
 					files.forEach(e=>
 					{
@@ -46,10 +44,6 @@ class Router
 			/**
 			 * Pug Routes
 			 */
-			app_modules.forEach((mod,i)=>
-			{
-				console.log(mod)
-			})
 			const modules=Object.keys(app_modules)
 			modules.forEach(mod=>
 			{
