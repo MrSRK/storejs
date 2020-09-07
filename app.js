@@ -1,4 +1,7 @@
 "use strict"
+/**
+ * Store.js 
+ */
 const dotenv=require('dotenv')
 const express=require('express')
 const chalk=require('chalk')
