@@ -12,7 +12,7 @@
 			p.my-0.pb-1.h5.text-secondary Latest Stories
 			.row(data-ng-if="content.article.list.length>0")
 				.col-12(data-ng-repeat="link in content.article.list | limitTo:6 | orderBy:link.updatedAt:true")
-					a.text-muted(data-ng-href="#")
+					a.text-muted(data-ng-href="/article/{{link._id}}")
 						i.fas.fa-link.text-muted.small.mr-1
 						span(data-ng-bind="link.name")
 
