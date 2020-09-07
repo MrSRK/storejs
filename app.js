@@ -77,14 +77,14 @@ try
 	})
 	/**
 	 * Security (XSS etc) Handler
-
+	*/
 	Security.instance=new Security(config,(status,error,module)=>
 	{
 		if(error)
 			console.log(error)
 		if(status)
 			app.use(module)
-	})*/
+	})
 	/**
 	 * Body URL parser
 	 */
