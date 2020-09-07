@@ -10,7 +10,8 @@
 							type="image/{{type}}",
 							data-ng-srcset="/thumbnail/article/{{article._id+'/'+article.images[0].thumbnail[type].name+'/'+article.images[0].thumbnail[type].name+'.'+type}}"
 						)
-						img.card-img-top(data-ng-src="{{build.defimgsrc('article',article)}}" title="{{article.title}}" alt="{{article.title}}")
+						img.card-img-top(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="{{build.defimgsrc('article',article)}}" title="{{article.title}}" alt="{{article.title}}")
+					img.card-img-top(height="283",data-ng-if="!article.images||article.images.length==0",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",alt="Saloras Satellite Center")
 				.card-body
 					h5.card-title
 						a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
