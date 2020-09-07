@@ -80,7 +80,7 @@ form.container(data-ng-if="content."+model+".edit")
 										type="image/{{type}}",
 										data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".edit._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
 										)
-									img.card-img-top(data-ng-src="/img/"+model+"/{{content."+model+".edit._id+'/'+image.filename}}")
+									img.card-img-top(data-ng-src="/img/"+model+"/{{content."+model+".edit._id+'/'+image.filename}}",alt="image")
 				.form-group(data-ng-if="admin.inArray(column,['description','text'])")
 					label.text-capitalize(for='edit-{{column}}}',data-ng-bind="column")
 					textarea.form-control.form-control-sm(id="edit-{{column}}}",type='text',data-ng-model="content."+model+".edit[column]")

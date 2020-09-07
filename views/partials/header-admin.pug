@@ -26,7 +26,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light.sticky-top.py-1.px-4(data-ng-i
 							type="image/{{type}}",
 							data-ng-srcset="/thumbnail/administrator/{{navuser._id+'/'+navuser.images[0].thumbnail[type].name+'/'+navuser.images[0].thumbnail[type].name+'.'+type}}"
 						)
-						img.mr-2.img-thumbnail(style="max-width:30px",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="/images/404-min.png")
+						img.mr-2.img-thumbnail(style="max-width:30px",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="/images/404-min.png",alt="Error 404")
 					span.small.text-info(data-ng-bind="navuser.name")
 			li.nav-item.text-capitalize(data-ng-if="navuser.token")
 				a.font-weight-bold.nav-link(href="#",data-ng-click="admin.logout()") Logout

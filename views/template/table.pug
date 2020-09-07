@@ -65,7 +65,7 @@ h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
 					type="image/{{type}}",
 					data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
 				)
-				img.img-thumbnail.w-25(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}")
+				img.img-thumbnail.w-25(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}",alt="image thumbnail")
 		.col-1.small.text-center.d-none.d-lg-block
 			.row.m-0.p-0.align-items-center
 				.col-6.m-0.p-0.line-height-sm
