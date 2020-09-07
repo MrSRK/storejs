@@ -11,7 +11,9 @@ block content
 								type="image/{{type}}",
 								data-ng-srcset="/thumbnail/carousel/{{carousel._id+'/'+carousel.images[0].thumbnail[type].name+'/'+carousel.images[0].thumbnail[type].name+'.'+type}}"
 							)
-							img.d-block.w-100(data-ng-src="{{build.defimgsrc('carousel',carousel)}}" title="{{carousel.name}}" alt="{{carousel.name}}")
+							img.d-block.w-100(height="377",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="{{build.defimgsrc('carousel',carousel)}}" title="{{carousel.name}}" alt="{{carousel.name}}")
+				.carousel-item.active(data-ng-if="!content.carousel.list")
+					img.d-block.w-100(height="377",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",alt="Saloras Satellite Center")
 			a.carousel-control-prev(href='#homeCarouselControls', role='button', data-slide='prev')
 				span.carousel-control-prev-icon(aria-hidden='true')
 				span.sr-only Previous
@@ -23,25 +25,4 @@ block content
 	.mb-1(data-ng-include="'/template/article.row.html'")
 	.container-fluid.p-2.small
 		p.px-2.mt-3 Η Saloras Satellite Center (SSC) δραστηριοποιείται στο χώρο των επικοινωνιών, στην προμήθεια και εγκατάσταση τεχνολογικού εξοπλισμού και υπηρεσιών για μεγάλα ξενοδοχειακά και αστικά συγκροτήματα, οικισμούς κλπ. Σήμερα η εταιρεία SSC είναι από τους πλέον έμπειρους προμηθευτές και κατασκευαστές δικτύων οπτικών ινών, ολοκληρωμένων δορυφορικών κέντρων λήψης - διανομής και καλωδιακών δικτύων RF μεγάλης έκτασης.
-	script(type="application/ld+json").
-		{
-			"@context": "https://schema.org",
-			"@type": "LocalBusiness",
-			"currenciesAccepted": "EUR",
-			"paymentAccepted":"Cash, Credit Card",
-			"address":
-			{
-				"@type":"PostalAddress",
-				"addressCountry":"GR",
-				"addressLocality":"Ηράκλειο Κρήτης",
-				"postalCode":"71304",
-				"streetAddress":"Στρυμώνος 11"
-			},
-			"email":"info@saloras.gr",
-			"telephone":"281 037 2800",
-			"description": "Είμαστε η πρώτη εταιρία που από την ίδρυση της ασχολήθηκε με τις δορυφορικές επικοινωνίες (Πρώτη δορυφορική λήψη στην ΚΡΗΤΗ την 30-06-85) εφήρμοσε την παράλληλη διανομή τηλεοπτικών, μουσικών και πληροφοριακών (μέσω υπολογιστή)  καναλιών, με πρώτη μεγάλη εγκατάσταση το 1989 στο CRETA PALACE της GRECOTEL στο ΡΕΘΥΜΝΟ.",
-			"name": "Saloras Satellite Center",
-			"openingHours": "Mo-Sa 09:00-21:00",
-			"priceRange":"$$$",
-			"image":"https://www.saloras.gr/images/logo-banner.svg"
-		}
+	script(type="application/ld+json",data-ng-bind="::ssc")

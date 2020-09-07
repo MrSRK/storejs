@@ -14,6 +14,27 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const options={}
 	const page={}
 	let inArrayValues=[]
+	const ssc={
+		"@context": "https://schema.org",
+		"@type": "LocalBusiness",
+		"currenciesAccepted": "EUR",
+		"paymentAccepted":"Cash, Credit Card",
+		"address":
+		{
+			"@type":"PostalAddress",
+			"addressCountry":"GR",
+			"addressLocality":"Ηράκλειο Κρήτης",
+			"postalCode":"71304",
+			"streetAddress":"Στρυμώνος 11"
+		},
+		"email":"info@saloras.gr",
+		"telephone":"281 037 2800",
+		"description": "Είμαστε η πρώτη εταιρία που από την ίδρυση της ασχολήθηκε με τις δορυφορικές επικοινωνίες (Πρώτη δορυφορική λήψη στην ΚΡΗΤΗ την 30-06-85) εφήρμοσε την παράλληλη διανομή τηλεοπτικών, μουσικών και πληροφοριακών (μέσω υπολογιστή)  καναλιών, με πρώτη μεγάλη εγκατάσταση το 1989 στο CRETA PALACE της GRECOTEL στο ΡΕΘΥΜΝΟ.",
+		"name": "Saloras Satellite Center",
+		"openingHours": "Mo-Sa 09:00-21:00",
+		"priceRange":"$$$",
+		"image":"https://www.saloras.gr/images/logo-banner.svg"
+	}
 	user.translateHead=text=>
 	{
 		const translate={
@@ -618,4 +639,5 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	$scope.admin=admin
 	$scope.user=user
 	$scope.options=options
+	$scope.ssc=ssc
 }])
