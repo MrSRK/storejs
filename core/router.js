@@ -93,9 +93,9 @@ class Router
 				res.statusCode=404
 				return next()
 			})
-			router.use('/images*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:process.env.FILE_MAXAGE}))
-			router.use('/img*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:process.env.FILE_MAXAGE}))
-			router.use('/thumbnail*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:process.env.FILE_MAXAGE}))
+			router.use('/images*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:31557600}))
+			router.use('/img*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:31557600}))
+			router.use('/thumbnail*',express.static(path.join(__dirname,'../public/images/404-min.png'),{maxAge:31557600}))
 			/**
 			 * Default 404 Fall back route
 			 */
