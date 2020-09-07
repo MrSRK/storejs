@@ -164,7 +164,10 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		let l=0;
 		l=Math.ceil(len/lim)
 		for(let i=0;i<l;i++)
+		{
+			console.log("try to: "+(lim*i))
 			ret[i]=lim*i
+		}
 		return ret
 	}
 	admin.save=(model,rec,redirect=false)=>
@@ -542,6 +545,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		try
 		{
+			console.log("Try to error set")
 			console.log(data)
 		}
 		catch(error)

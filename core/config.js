@@ -56,6 +56,10 @@ class Config
 		},
 		{
 			route:'/js/lib',
+			src:'/node_modules/ng-webworker/src'
+		},
+		{
+			route:'/js/lib',
 			src:'/node_modules/popper.js/dist/umd'
 		},
 		{
