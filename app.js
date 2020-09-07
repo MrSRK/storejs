@@ -1,6 +1,6 @@
 "use strict"
 /**
- * Store.js 
+ * Store.js
  */
 const dotenv=require('dotenv')
 const express=require('express')
