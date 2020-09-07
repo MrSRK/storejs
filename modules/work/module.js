@@ -9,7 +9,7 @@ class Module
 	{
 		try
 		{
-			const name=__dirname.split("\\").reverse()[0]||__dirname.split("/").reverse()[0]
+			const name='work'
 			const options={
 				name:name,
 				thumbnail:true,

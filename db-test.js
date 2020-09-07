@@ -1,3 +1,4 @@
+const express=require('express')
 const mongoose=require('mongoose')
 try
 {
@@ -7,7 +8,27 @@ try
 		useCreateIndex:true,
 		useNewUrlParser:true
 	})
-	console.log('Connection Try')
+	const app=express()
+	// Mongo
+	const schema=new mongoose.Schema({
+		active:{type:Boolean},
+		name:{type:String}
+	},
+	{
+		timestamps:true,
+		versionKey:false
+	})
+	const model=mongoose.model('article',schema)
+	app.all('*',(req,res)=>
+	{
+		model.find({},(error,data)=>
+		{
+			if(error)
+				console.log(error)
+			res.status(200).send(data)
+		})
+	})
+	app.listen(80)
 }
 catch(error)
 {
