@@ -115,11 +115,11 @@ class Config
         {
             policy:
             [
-                "default-src 'self' www.google-analytics.com",
-                "connect-src 'self'",
+                "default-src 'self'",
+                "connect-src 'self' www.google-analytics.com",
                 "img-src 'self' data: www.google-analytics.com",
                 "script-src 'self' 'unsafe-inline' 'unsafe-eval' www.google-analytics.com",
-                "style-src 'self' 'unsafe-inline'",
+                "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
 				"font-src 'self' fonts.gstatic.com"
             ]
 
