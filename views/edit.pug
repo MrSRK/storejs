@@ -6,8 +6,8 @@ block content
 			.input-group
 				.input-group-prepend
 					label.input-group-text.input-group-text-xs Template
-				select.py-0.custom-select.custom-select-xs(data-ng-model="viewTemplate",ng-init="teplates=['/template/edit.html?model="+model+"&_id="+_id+"'];viewTemplate=teplates[0]",data-ng-options="teplate for teplate in teplates")
-	.container-fluid(data-ng-init="request.edit('"+model+"','"+_id+"')",data-ng-include="viewTemplate")
+				select.py-0.custom-select.custom-select-xs(data-ng-model="viewTemplate",data-ng-init="admin.viewTemplateLoader('edit','"+model+"','"+_id+"')",data-ng-options="teplate for teplate in teplates")
+	.container-fluid(data-ng-init="request.edit('"+model+"','"+_id+"')",data-ng-if="viewTemplate",data-ng-include="viewTemplate")
 		.text-center.mt-5(data-ng-if="!content."+model+".edit")
 			h1.text-primary
 				span Loading

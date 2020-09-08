@@ -11,12 +11,12 @@ class Model
 			let json={}
 			if(options.schema)
 				json=options.schema
-			if(!json.active)
-				json.active={type:Boolean}
-			if(!json.order)
-				json.order={type:Number}
 			if(options.parent)
-				json.parent={type:String,ref:options.name,autopopulate:true}
+				json=Object.assign({parent:{type:String,ref:options.name,autopopulate:true}},json)
+			if(!json.order)
+				json=Object.assign({order:{type:Number}},json)
+			if(!json.active)
+				json=Object.assign({active:{type:Boolean}},json)
 			if(options.url)
 				json.url={
 					template:{type:String},
@@ -61,26 +61,6 @@ class Model
 				timestamps:true,
 				versionKey:false
 			})
-			// Password hash
-			/*if(options.user)
-				schema.pre('save',function save(next)
-				{
-					const user=this
-					if(!user.isModified('password'))
-						return next()
-					return bcrypt.genSalt(10,(error,salt)=>
-					{
-						if(error)
-							return next(error)
-						return bcrypt.hash(user.password,salt,null,(error,hash)=>
-						{
-							if(error)
-								return next(error)
-							user.password=hash
-							return next()
-						})
-					})
-				})*/
 			if(!options.name)
 				return next(new Error('Model name not set'))
 			return next(null,mongoose.model(options.name,schema),schema)

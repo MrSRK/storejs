@@ -115,6 +115,25 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			href+='/'+nav.url._id
 		return href
 	}
+	admin.viewTemplateLoader=(func,model,_id)=>
+	{
+		//	/template/edit.html?model="+model+"&_id="+_id+"
+		const specific='/template/'+func+'-'+model+'.html?model='+model+'&_id='+_id
+		const global='/template/'+func+'.html?model='+model+'&_id='+_id
+		$scope.teplates=[]
+		$http
+		.get(specific)
+		.then(resp=>{
+			console.log('TRY TO SET specific')
+			$scope.teplates=[specific,global]
+			$scope.viewTemplate=$scope.teplates[0]
+		},error=>{
+			console.log('TRY TO SET global')
+			$scope.teplates=[global]
+			$scope.viewTemplate=$scope.teplates[0]
+		})
+		return true
+	}
 	admin.inArray=(value,array)=>
 	{
 		inArrayValues=inArrayValues.concat(array)
