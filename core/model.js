@@ -1,5 +1,6 @@
 "use strict"
 const mongoose=require('mongoose')
+const bcrypt=require('bcrypt')
 class Model
 {
 	instance=null
@@ -61,7 +62,7 @@ class Model
 				versionKey:false
 			})
 			// Password hash
-			if(options.user)
+			/*if(options.user)
 				schema.pre('save',function save(next)
 				{
 					const user=this
@@ -79,13 +80,14 @@ class Model
 							return next()
 						})
 					})
-				})
+				})*/
 			if(!options.name)
 				return next(new Error('Model name not set'))
 			return next(null,mongoose.model(options.name,schema),schema)
 		}
 		catch(error)
 		{
+			console.log(error)
 			return next(error)
 		}
 	}

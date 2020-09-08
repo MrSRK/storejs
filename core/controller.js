@@ -328,7 +328,6 @@ class Controller
 							req.body={}
 						if(!req.body.data)
 							req.body.data={}
-						console.log(req.body.data)
 						return functions.auth_check(req,res,auth,error=>
 						{
 							if(error)
@@ -349,6 +348,7 @@ class Controller
 					}
 					catch(error)
 					{
+						console.log(error)
 						return next(error)
 					}
 				}
