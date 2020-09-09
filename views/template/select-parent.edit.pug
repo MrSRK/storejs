@@ -1,0 +1,2 @@
+label.text-muted.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
+select.form-control.form-control-sm(id="edit-{{column}}-model",type='text',data-ng-model="content."+model+".edit[column]",data-ng-options="parent._id as parent.name for parent in  content."+model+".table")

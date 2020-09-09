@@ -99,6 +99,11 @@ class API
 	}
 	postMessage(res,error,doc,schema)
 	{
+		if(schema)
+		{
+			schema.push('createdAt')
+			schema.push('updatedAt')
+		}
 		if(error)
 			return res.status(res.code||500).json({
 				status:false,

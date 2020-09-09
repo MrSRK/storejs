@@ -1,0 +1,25 @@
+.row
+	.col-12.text-right.mb-2
+		strong.mr-5.text-capitalize(data-ng-bind="column")
+		button.btn.btn-sm.btn-success(data-ng-click="content."+model+".edit[column].push({active:true})")
+			i.fas.fa-plus
+.row.mb-2.px-3
+	.col-3.mb-3(data-ng-repeat="option in content."+model+".edit[column]")
+		.border.border-muted(data-ng-class="!option.active?'bg-danger':''")
+			.p-3(data-ng-class="option.active&&!option.displayed?'bg-warning':'bg-transparent'")
+				.form-check.mb-1
+					input.form-check-input(type='checkbox',data-ng-model="option.active")
+					label.text-capitalize.form-check-label active
+					button.float-right.btn.btn-sm.btn-light(data-ng-click="content."+model+".edit[column].splice($index,1)")
+						i.fas.fa-trash-alt.text-danger
+				.form-check.mb-1
+					input.form-check-input(type='checkbox',data-ng-model="option.displayed")
+					label.text-capitalize.form-check-label displayed
+				.input-group.input-group-sm.mb-1
+					.input-group-prepend
+						label.input-group-text.text-capitalize title
+					input.form-control(type='text',data-ng-model="option.title")
+				.input-group.input-group-sm.mb-1
+					.input-group-prepend
+						label.input-group-text.text-capitalize value
+					input.form-control(type='text',data-ng-model="option.value")

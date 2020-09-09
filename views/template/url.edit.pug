@@ -1,0 +1,23 @@
+h5.text-capitalize URL
+.form-group
+	label.text-capitalize(for='edit-{{column}}-template') Template
+	input.form-control.form-control-sm(list="edit-template-list",id="edit-{{column}}-template",type='text',data-ng-model="content."+model+".edit[column].template",placeholder="Default")
+	span(data-ng-include="'/template'")
+.form-check
+	input.form-check-input(type='checkbox',id="edit-{{column}}-_blank",data-ng-model="content."+model+".edit[column]._blank")
+	label.text-capitalize(for='edit-{{column}}-model-_blank') Blank
+.form-group
+	label.text-capitalize(for='edit-{{column}}-model') Model
+	select.form-control.form-control-sm(id="edit-{{column}}-model",type='text',data-ng-model="content."+model+".edit[column].model",data-ng-options="menu for menu in  modules.split(',')")
+.form-group
+	label.text-capitalize(for='edit-{{column}}-function') Function
+	input.form-control.form-control-sm(id="edit-{{column}}-function",type='text',data-ng-model="content."+model+".edit[column].function",placeholder="Leave empty for regular functions (list, show etc.)")
+.form-group
+	label.text-capitalize(for='edit-{{column}}-_id') _id
+	input.form-control.form-control-sm(id="edit-{{column}}-_id",type='text',data-ng-model="content."+model+".edit[column]._id",placeholder="Use only for single record ids")
+.form-group
+	label.text-capitalize(for='edit-{{column}}-query') query
+	input.form-control.form-control-sm(id="edit-{{column}}-query",type='text',data-ng-model="content."+model+".edit[column].query",placeholder="URL query row format (?this=is&other=is))")
+.form-group
+	label.text-capitalize(for='edit-{{column}}-external') External URL
+	input.form-control.form-control-sm(id="edit-{{column}}-external",type='text',data-ng-model="content."+model+".edit[column].external",placeholder="Use only for external URL http://.....")

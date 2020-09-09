@@ -1,0 +1,10 @@
+label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
+.input-group.mb-2
+	.input-group-prepend
+		.input-group-text Μειωμένο
+	input.form-control.text-right(id="edit-{{column}}",type='number',data-ng-model="content."+model+".edit[column].min")
+	.input-group-append
+		.input-group-text % Κανονικό
+	input.form-control.text-right(id="edit-{{column}}",type='number',data-ng-model="content."+model+".edit[column].max")
+	.input-group-append
+		.input-group-text %

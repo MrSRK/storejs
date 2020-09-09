@@ -50,6 +50,10 @@ class Module
 					supplier:{type:String,ref:"supplier",autopopulate:true},
 					title:{type:String},
 					description:{type:String},
+					vat:{
+						min:{type:Number},
+						max:{type:Number}
+					},
 					offers:[offer],
 					characteristics:[option],
 					color:[option]

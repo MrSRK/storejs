@@ -1,171 +1,20 @@
 form.container(data-ng-if="content."+model+".edit")
 	fieldset(data-ng-disabled="content."+model+".edit.tmp.disabled")
 		h1.h3.text-capitalize.mb-5="(C) Επεξεργασία "+model
-		.text-right.my-4(data-ng-include="'template/button-group.edit.html'")
+		.text-right.my-4(data-ng-include="'/template/button-group.edit.html?model="+model+"&_id="+_id+"'")
 		.row(data-ng-repeat="column in content."+model+".schema")
 			.col-12
 				span(data-ng-if="admin.inArray(column,['_id'])")
-				span(data-ng-if="admin.inArray(column,['password'])")
-				.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open','sticky'])")
-					input.form-check-input(type='checkbox',id="edit-{{column}}",data-ng-model="content."+model+".edit[column]")
-					label.text-capitalize.form-check-label(for='edit-{{column}}',data-ng-bind="column")
-				.form-group(data-ng-if="admin.inArray(column,['email','co-email'])")
-					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					input.form-control(id="edit-{{column}}",type='email',placeholder='name@example.com',data-ng-model="content."+model+".edit[column]")
-				.form-group(data-ng-if="admin.inArray(column,['mpn','code'])")
-					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					input.form-control.w-25(id="edit-{{column}}",type='text',placeholder='abc123',data-ng-model="content."+model+".edit[column]")
-				.form-group(data-ng-if="admin.inArray(column,['sku'])")
-					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					.input-group.mb-2.w-50
-						input.form-control.text-right(id="edit-{{column}}",type='text',placeholder='adc',data-ng-model="content."+model+".edit[column]")
-						.input-group-append
-							.input-group-text(data-ng-bind="' / '+content."+model+".edit['mpn']")
-				.form-group(data-ng-if="admin.inArray(column,['email'])")
-					label.text-capitalize(for='edit-password') New password
-					input.form-control.w-75(id="edit-password",type='password',data-ng-model="content."+model+".edit['password']")
-
-				//	OFFER
-				.form-group(data-ng-if="admin.inArray(column,['offers'])")
-					.row
-						.col-12.text-right.mb-2
-							strong.mr-5 Offers
-							button.btn.btn-sm.btn-success(data-ng-click="content."+model+".edit[column].push({})")
-								i.fas.fa-plus
-					.row.mb-2.px-3(data-ng-repeat="offer in content."+model+".edit[column]")
-						.col-12(data-ng-class="offer.active?'bg-success':'bg-danger'")
-							.row
-								.col-4.py-2
-									.form-check.mb-1
-										input.form-check-input(type='checkbox',data-ng-model="offer.active")
-										label.text-capitalize.form-check-label active
-									.form-check.mb-1
-										input.form-check-input(type='checkbox',data-ng-model="offer.displayed")
-										label.text-capitalize.form-check-label displayed
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text sku
-										.input-group-prepend
-											label.input-group-text(data-ng-bind="content."+model+".edit['sku']+'/'")
-										.input-group-prepend
-											label.input-group-text(data-ng-bind="content."+model+".edit['mpn']+'-'")
-										input.form-control(type='text',data-ng-model="offer.sku")
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text.text-capitalize description
-										input.form-control(type='text',data-ng-model="offer.description")
-								.col-4.py-2
-									strong.text-capitalize quantity
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text.text-capitalize min
-										input.form-control(type='text',data-ng-model="offer.quantity.min")
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text.text-capitalize max
-										input.form-control(type='text',data-ng-model="offer.quantity.max")
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text.text-capitalize def
-										input.form-control(type='text',data-ng-model="offer.quantity.default")
-										.input-group-append
-											label.input-group-text.text-capitalize step
-										input.form-control(type='text',data-ng-model="offer.quantity.step")
-								.col-4.py-2
-									strong.text-capitalize price
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text.text-capitalize original
-										input.form-control(type='number',step="0.01",data-ng-model="offer.price.original")
-										.input-group-append
-											label.input-group-text.text-capitalize &euro;
-									.input-group.input-group-sm.mb-1
-										.input-group-prepend
-											label.input-group-text.text-capitalize displayed
-										input.form-control(type='number',step="0.01",data-ng-model="offer.price.displayed")
-										.input-group-append
-											label.input-group-text.text-capitalize &euro;
-									.text-right
-										button.btn.btn-sm.btn-light(data-ng-click="content."+model+".edit[column].splice($index,1)")
-											i.fas.fa-trash-alt.text-danger
-				.form-group(data-ng-if="admin.inArray(column,['order','count',quantity])")
-					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					input.form-control.w-25(data-ng-init="content."+model+".edit[column]=content."+model+".edit[column]?content."+model+".edit[column]:0",id="edit-{{column}}",type='number',data-ng-model="content."+model+".edit[column]",step="1")
-				.form-group(data-ng-if="admin.inArray(column,['createdAt','updatedAt'])")
-					label.text-muted.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					label.text-muted.form-control.w-25(id="edit-{{column}}",type='text',data-ng-bind="content."+model+".edit[column]")
-				//Parent
-				.form-group(data-ng-if="admin.inArray(column,['parent'])",data-ng-init="request.table('"+model+"')")
-					label.text-muted.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					select.form-control.form-control-sm(id="edit-{{column}}-model",type='text',data-ng-model="content."+model+".edit[column]",data-ng-options="parent._id as parent.name for parent in  content."+model+".table")
-				//URL
-				.form-group.p-3.border.border-muted(data-ng-if="admin.inArray(column,['url','uri','link'])")
-					h5.text-capitalize
-					.form-group
-						label.text-capitalize(for='edit-{{column}}-template') Template
-						input.form-control.form-control-sm(list="edit-template-list",id="edit-{{column}}-template",type='text',data-ng-model="content."+model+".edit[column].template",placeholder="Default")
-						span(data-ng-include="'/template'")
-					.form-check
-						input.form-check-input(type='checkbox',id="edit-{{column}}-_blank",data-ng-model="content."+model+".edit[column]._blank")
-						label.text-capitalize(for='edit-{{column}}-model-_blank') Blank
-					.form-group
-						label.text-capitalize(for='edit-{{column}}-model') Model
-						select.form-control.form-control-sm(id="edit-{{column}}-model",type='text',data-ng-model="content."+model+".edit[column].model",data-ng-options="menu for menu in  modules.split(',')")
-					.form-group
-						label.text-capitalize(for='edit-{{column}}-function') Function
-						input.form-control.form-control-sm(id="edit-{{column}}-function",type='text',data-ng-model="content."+model+".edit[column].function",placeholder="Leave empty for regular functions (list, show etc.)")
-					.form-group
-						label.text-capitalize(for='edit-{{column}}-_id') _id
-						input.form-control.form-control-sm(id="edit-{{column}}-_id",type='text',data-ng-model="content."+model+".edit[column]._id",placeholder="Use only for single record ids")
-					.form-group
-						label.text-capitalize(for='edit-{{column}}-query') query
-						input.form-control.form-control-sm(id="edit-{{column}}-query",type='text',data-ng-model="content."+model+".edit[column].query",placeholder="URL query row format (?this=is&other=is))")
-					.form-group
-						label.text-capitalize(for='edit-{{column}}-external') External URL
-						input.form-control.form-control-sm(id="edit-{{column}}-external",type='text',data-ng-model="content."+model+".edit[column].external",placeholder="Use only for external URL http://.....")
-				// IMAGE
-				.form-group(data-ng-if="admin.inArray(column,['images','thumbnails','pictures'])")
-					.row.row-eq-height
-						.col-12
-							label.text-muted.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					.row.row-eq-height.p-3.border.border-muted
-						.col-1
-							button.card.p-3.border-muted(onclick="document.getElementById('imageAdd').click()")
-								.card-title
-									h1.text-center.text-primary.font-weight-bold +
-							input.d-none#imageAdd(type="file",onchange="angular.element(this).scope().admin.addImage('"+model+"','"+_id+"','#imageAdd')",accept=".png,.jpg,.webp")
-						.col-2.mb-4(data-ng-repeat="image in content."+model+".edit[column]")
-							.card.p-0.border-muted.h-100.disabled
-								.card-footer.text-right.p-0
-									a.btn.btn-link.px-1.pb-0(data-ng-href="{{build.defimgsrc('"+model+"',content."+model+".edit)}}",download="{{image.originalname}}")
-										i.fas.fa-download.text-primary
-									button.btn.btn-link.px-1.pb-0(data-ng-click="admin.deleteImage('"+model+"',content."+model+".edit,image)")
-										i.fas.fa-trash-alt.text-danger
-									.ml-1.text-left.text-truncate.small
-										small.text-muted(data-ng-bind="image.originalname")
-								picture
-									source(
-										data-ng-repeat="type in ['webp','png','jpg']",
-										data-ng-if="image.thumbnail[type]",
-										type="image/{{type}}",
-										data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".edit._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
-										)
-									img.card-img-top(data-ng-src="/img/"+model+"/{{content."+model+".edit._id+'/'+image.filename}}",alt="image")
-				.form-group(data-ng-if="admin.inArray(column,['description','text'])")
-					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					textarea.form-control.form-control-sm(id="edit-{{column}}",type='text',data-ng-model="content."+model+".edit[column]")
-				.form-group(data-ng-if="admin.notInAllArray(column)")
-					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column")
-					input.form-control(id="edit-{{column}}",type='text',data-ng-model="content."+model+".edit[column]")
-		.text-right.mb-5(data-ng-include="'template/button-group.edit.html'")
-	script(type="text/ng-template",id="template/button-group.edit.html")
-		.btn-group
-			button.btn.btn-lg.btn-primary(data-ng-click="admin.updateByid('"+model+"',content."+model+".edit,true)")
-				i.fas.fa-save.mr-2
-				span Save
-			a.btn.btn-lg.btn-secondary(data-ng-href="/administrator/"+model)
-				i.fas.fa-undo.mr-2
-				span Cancel
-			button.btn.btn-lg.btn-danger
-				i.fas.fa-trash-alt.mr-2
-				span Delete
+				.form-check.mb-3(data-ng-if="admin.inArray(column,['active','subscribe','open','sticky'])",data-ng-include="'/template/checkbox.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['mpn','code'])",data-ng-include="'/template/code.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['sku'])",data-ng-include="'/template/sku.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['order','count',quantity])",data-ng-include="'/template/quantity.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['createdAt','updatedAt'])",data-ng-include="'/template/static-date.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['category','brand','supplier'])",data-ng-init="request.table(column)",data-ng-include="'/template/select-parent.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['images','thumbnails','pictures'])",data-ng-include="'/template/thumbnails.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['description','text'])",data-ng-include="'/template/textarea.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['vat'])",data-ng-include="'/template/vat.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['offers'])",data-ng-include="'/template/offer.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.inArray(column,['characteristics','color'])",data-ng-include="'/template/option.edit.html?model="+model+"&_id="+_id+"'")
+				.form-group(data-ng-if="admin.notInAllArray(column)",data-ng-include="'/template/textfield.edit.html?model="+model+"&_id="+_id+"'")
+		.text-right.mb-5(data-ng-include="'/template/button-group.edit.html?model="+model+"&_id="+_id+"'")
