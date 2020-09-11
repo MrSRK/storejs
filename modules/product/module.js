@@ -30,6 +30,7 @@ class Module
 			})
 			const option=mongoose.Schema({
 				active:{type:Boolean},
+				displayed:{type:Boolean},
 				title:{type:String},
 				value:{type:String}
 			})
@@ -50,13 +51,14 @@ class Module
 					supplier:{type:String,ref:"supplier",autopopulate:true},
 					title:{type:String},
 					description:{type:String},
+					text:{type:String},
 					vat:{
 						min:{type:Number},
 						max:{type:Number}
 					},
 					offers:[offer],
 					characteristics:[option],
-					color:[option]
+					color:[option],
 				}
 			}
 			const permitions={

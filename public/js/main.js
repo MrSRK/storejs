@@ -1,7 +1,19 @@
 "use strict"
 const app=angular.module("app",[])
+//	Filter
 app.controller("page-handler",['$scope','$http',($scope,$http)=>
 {
+	$scope.cart={}
+	$scope.productListFilter=(items,v1,v2)=>
+	{
+		console.log('RUNNING FRO M SCOPE')
+		console.log(items)
+		console.log(v1)
+		console.log(v2)
+		console.log('--------------------------------------------------------------')
+
+		return null
+	}
 	// Request Functions
 	const request={}
 	// Data handle functions
@@ -14,7 +26,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	const options={}
 	const page={}
 	let inArrayValues=[]
-	const ssc={
+	const author={
 		"@context": "https://schema.org",
 		"@type": "LocalBusiness",
 		"currenciesAccepted": "EUR",
@@ -35,17 +47,132 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		"priceRange":"$$$",
 		"image":"https://www.saloras.gr/images/logo-banner.svg"
 	}
+	user.addCart=_=>
+	{
+		if(!$scope.cart)
+			return false
+		let cart=sessionStorage.getItem('cart')
+		if(!cart)
+			cart='[]'
+		cart=JSON.parse(cart)
+		cart.push($scope.cart)
+		sessionStorage.setItem('cart',JSON.stringify(cart))
+		$('#cartInform').modal('toggle')
+	}
+	user.cartOffer=offers=>
+	{
+		let newOffer=$scope.cart.offer
+		if($scope.cart.quantity<$scope.cart.offer.quantity.min)
+		{
+			let newMin=0
+			newOffer=$scope.cart.offer
+			offers.forEach(e=>
+			{
+				e.quantity.min=parseInt(e.quantity.min)
+				if(e.quantity.min>=0)
+				{}
+				else
+					e.quantity.min=0
+				if(e.quantity.min<=$scope.cart.quantity&&e.quantity.min<$scope.cart.offer.quantity.min&&e.quantity.min>=newMin)
+				{
+					newMin=e.quantity.min
+					newOffer=e
+				}
+			})
+			$scope.cart.offer=newOffer
+		}
+		if($scope.cart.quantity>$scope.cart.offer.quantity.max)
+		{
+			let newMax=Infinity
+			newOffer=$scope.cart.offer
+			offers.forEach(e=>
+			{
+				e.quantity.max=parseInt(e.quantity.max)
+				if(e.quantity.max>=0)
+				{}
+				else
+					e.quantity.max=Infinity
+				if(e.quantity.max>=$scope.cart.quantity&&e.quantity.max>$scope.cart.offer.quantity.max&&e.quantity.max<=newMax)
+				{
+					newMax=e.quantity.max
+					newOffer=e
+				}
+			})
+			$scope.cart.offer=newOffer
+		}
+	}
+	user.cartSetMax=offers=>
+	{
+		let max=0
+		offers.forEach(e=>
+		{
+			if(e.quantity.max>max)
+				max=e.quantity.max
+			if(!e.quantity.max)
+				max=Infinity
+		})
+		return max
+	}
+	user.cartSetMin=offers=>
+	{
+		let min=Infinity
+		offers.forEach(e=>
+		{
+			if(e.active&&e.displayed)
+			{
+				if(e.quantity.min<min)
+					min=e.quantity.min
+				if(!e.quantity.min)
+					min=0
+			}
+		})
+		return min
+	}
+	user.setCartQuantity=quantity=>
+	{
+		$scope.cart.quantity=quantity
+	}
+	user.minOffer=offer=>
+	{
+		let ret=Infinity;
+		offer.forEach(e=>
+		{
+			if(e.price.displayed&&e.price.displayed<ret)
+				ret=e.price.displayed
+		})
+		if(ret==Infinity)
+			ret='-'
+		return ret
+	}
+	user.minOfferOriginal=offer=>
+	{
+		let ret=null;
+		let displayed=Infinity
+		offer.forEach(e=>
+		{
+			if(e.price.displayed&&e.price.displayed<displayed)
+			{
+				displayed=e.price.displayed
+				ret=e.price.original
+			}
+		})
+		return ret
+	}
 	user.translateHead=text=>
 	{
 		const translate={
 			articles:"σχετικά άρθρα",
-			works:"δουλειές μας"
+			works:"δουλειές μας",
+			products:"Προϊόντα"
 		}
 		return translate[text]||text
 	}
 	user.nl2br=(text)=>
 	{
-		return text.split('\n')
+		console.log(text)
+		const t= text.split('\n')
+		console.log(t)
+		return t
 	}
 	user.schemaListBuilder=(model,data)=>
 	{
@@ -115,6 +242,15 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			href+='/'+nav.url._id
 		return href
 	}
+	admin.editAddSubItem=(model,col,item)=>
+	{
+		if(!content[model].edit[col])
+			content[model].edit[col]=[]
+
+		item=JSON.parse(item)
+		content[model].edit[col].push({_id:item._id,images:item.images,title:item.title})
+		return null
+	}
 	admin.viewTemplateLoader=(func,model,_id)=>
 	{
 		//	/template/edit.html?model="+model+"&_id="+_id+"
@@ -124,11 +260,9 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		$http
 		.get(specific)
 		.then(resp=>{
-			console.log('TRY TO SET specific')
 			$scope.teplates=[specific,global]
 			$scope.viewTemplate=$scope.teplates[0]
 		},error=>{
-			console.log('TRY TO SET global')
 			$scope.teplates=[global]
 			$scope.viewTemplate=$scope.teplates[0]
 		})
@@ -204,10 +338,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		let l=0;
 		l=Math.ceil(len/lim)
 		for(let i=0;i<l;i++)
-		{
-			console.log("try to: "+(lim*i))
 			ret[i]=lim*i
-		}
 		return ret
 	}
 	admin.save=(model,rec,redirect=false)=>
@@ -426,7 +557,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			console.log(error)
 		}
 	}
-	request.list=(model,sticky=false)=>
+	request.list=(model,sticky=false,filters=[])=>
 	{
 		try
 		{
@@ -439,7 +570,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				if(error)
 					return handle.error(model,'list',resp)
 				if(resp.data)
-					return handle.list(model,resp.data)
+					return handle.list(model,resp.data,filters)
 			})
 		}
 		catch(error)
@@ -504,7 +635,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		}
 	}
 	//####################################
-	handle.list=(model,data)=>
+	handle.list=(model,data,filters)=>
 	{
 		try
 		{
@@ -512,10 +643,24 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 				return handle.error(model,'list',data)
 			if(!data.doc)
 				return handle.error(model,'list',data)
-			if(!content[model])
-				content[model]={}
-			content[model].list=data.doc
-			return true
+			if(!$scope.content[model])
+				$scope.content[model]={}
+			if(filters&&filters.length>0)
+			{
+				const flr={}
+				filters.forEach(filter=>
+				{
+					data.doc.forEach(e=>
+					{
+						if(!flr[filter])
+							flr[filter]={}
+						if(e[filter])
+							flr[filter][e[filter]._id]=e[filter]
+					})
+				})
+				$scope.content[model].filter=flr
+			}
+			$scope.content[model].list=data.doc
 		}
 		catch(error)
 		{
@@ -649,8 +794,6 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		.delete(url+'?token='+token)
 		.then(resp=>{return next(null,resp)},error=>{return next(error)})
 	}
-
-
 	$scope.request=request
 	$scope.handle=handle
 	$scope.content=content
@@ -658,5 +801,5 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	$scope.admin=admin
 	$scope.user=user
 	$scope.options=options
-	$scope.ssc=ssc
+	$scope.author=author
 }])

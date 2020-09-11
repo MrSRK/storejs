@@ -1,30 +1,3 @@
 extends partials/layout
 block content
-	.container-fluid
-		.row(data-ng-init="request.show('"+model+"','"+_id+"')")
-			.col-4.p-5
-				#shoCarouselControls.carousel.slide(data-ride='carousel',data-ng-init="request.list('carousel')")
-					.carousel-inner
-						.carousel-item(data-ng-repeat="image in content."+model+".show.images",data-ng-class="$index==0?'active':''")
-							picture(data-ng-if="image")
-									source(
-										data-ng-repeat="type in ['webp','png','jpg']",
-										data-ng-if="image.thumbnail[type]",
-										type="image/{{type}}",
-										data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
-									)
-									img.d-block.w-100(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
-					a.carousel-control-prev(href='#shoCarouselControls', role='button', data-slide='prev')
-						span.carousel-control-prev-icon(aria-hidden='true')
-						span.sr-only Previous
-					a.carousel-control-next(href='#shoCarouselControls', role='button', data-slide='next')
-						span.carousel-control-next-icon(aria-hidden='true')
-						span.sr-only Next
-			.col-8.p-5
-				h1.h2.pb-0.mb-0(data-ng-bind="content."+model+".show.title||content."+model+".show.name")
-				h2.h5.pb-0.mb-0(data-ng-if="content."+model+".show.subtitle",data-ng-bind="content."+model+".show.subtitle")
-				p.ml-2.my-3.lead(data-ng-if="content."+model+".show.description",data-ng-bind="content."+model+".show.description")
-				div(data-ng-if="content."+model+".show.text",data-ng-init="tt=user.nl2br(content."+model+".show.text)")
-					p.ml-2.my-2(data-ng-repeat="t in tt",data-ng-bind="t")
-		script(type='application/ld+json',data-ng-if="content."+model+".show",data-ng-init="user.schemaBuilder('"+model+"',content."+model+".show,true)",data-ng-bind="user.schema")
-		.mb-1(data-ng-include="'/template/article.row.html'")
+	.container-fluid.mt-5(data-ng-init="admin.viewTemplateLoader('show','"+model+"','"+_id+"')",data-ng-include="viewTemplate")

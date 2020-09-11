@@ -1,0 +1,40 @@
+h1.h3.text-capitalize(data-ng-if="content."+model+".list",data-ng-bind="user.translateHead('"+model+"s')")
+.row.mt-4(data-ng-init="request.list('"+model+"',false,['category','brand'])")
+	.col-2
+		.mb-2(data-ng-if="content."+model+".filter",data-ng-repeat="(name,filter) in content."+model+".filter")
+			h6.p-1.border.border-muted.text-muted(data-ng-bind="name")
+			.ml-4.mb-1.small(data-ng-repeat="rec in filter")
+				input(type="checkbox",data-ng-model="rec.active")
+				span.ml-1.text-muted(data-ng-bind="rec.name")
+	.col-10
+		.row
+			.col-6.col-md-4.col-lg-3.col-xl-2.mb-4(data-ng-repeat="rec in content."+model+".list")
+				.card
+					a(data-ng-href="/"+model+"/{{rec._id}}")
+						picture(data-ng-if="rec.images&&rec.images.length>0")
+							source(
+								data-ng-repeat="type in ['webp','png','jpg']",
+								data-ng-if="rec.images[0].thumbnail[type]",
+								type="image/{{type}}",
+								data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
+							)
+							img.card-img-top.p-3(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
+					.card-body
+						h5.card-title.text-truncate.mb-0
+								a.text-dark(data-ng-href="/"+model+"/{{rec._id}}",data-ng-bind="rec.name")
+						p.pt-0.card-text.small.text-truncate.text-muted(data-ng-bind="rec.description")
+						.text-right
+							p.lead
+								span.diag.mr-1(data-ng-if="user.minOfferOriginal(rec.offers)")
+									span.font-weight-bold(data-ng-bind="user.minOfferOriginal(rec.offers)")
+									snall &euro;
+								small
+									small.mr-1.text-muted Από
+								span.font-weight-bold(data-ng-bind="user.minOffer(rec.offers)")
+								span &euro;
+								small
+									small.text-muted /τεμ.
+							p
+								a.btn.btn-sm.btn-outline-primary.text-primary(data-ng-href="/"+model+'/{{rec._id}}')
+									span Προσθήκη στο καλάθι
+script(type='application/ld+json',data-ng-if="content."+model+".list",data-ng-init="user.schemaListBuilder('"+model+"',content."+model+".list)",data-ng-bind="user.schema")

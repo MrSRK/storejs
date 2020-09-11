@@ -254,7 +254,7 @@ class Controller
 						{
 							if(error)
 								return next(error)
-							const select=req.body.select?req.body.select+' -password':'-password'
+							const select=req.body.select?req.body.select+' -password -images.path -images.thumbnail.path -images.thumbnail.jpg.path -images.thumbnail.png.path -images.thumbnail.webp.path':'-password -images.path -images.thumbnail.path -images.thumbnail.jpg.path -images.thumbnail.png.path -images.thumbnail.webp.path'
 							const where=req.body.where||{}
 							const limit=req.body.limit||null
 							const sort=req.body.sort||{order:1}
