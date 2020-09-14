@@ -17,4 +17,40 @@ form.container(data-ng-if="content."+model+".edit")
 				.form-group(data-ng-if="admin.inArray(column,['vat'])",data-ng-include="'/template/vat.edit-product.html?model="+model+"&_id="+_id+"'")
 				.form-group(data-ng-if="admin.inArray(column,['offers'])",data-ng-include="'/template/offer.edit-product.html?model="+model+"&_id="+_id+"'")
 				.form-group(data-ng-if="admin.inArray(column,['characteristics','color'])",data-ng-include="'/template/option.edit-product.html?model="+model+"&_id="+_id+"'")
+
+
+
+
+				.form-group(data-ng-if="admin.inArray(column,['similar','relative'])",data-ng-init="request.list('"+model+"')")
+					label.text-capitalize(for='edit-{{column}}',data-ng-bind="column+' Products'")
+					.row(data-ng-if="content."+model+".list")
+						.col-12
+							.input-group
+								.input-group-prepend
+									.input-group-text Add Product
+								input.form-control(type="text",list="{{column}}-options",data-ng-model="optionSelect[column]",data-ng-change="optionSelect[column]=admin.editAddSubItem('"+model+"',column,optionSelect[column])")
+							datalist(id="{{column}}-options")
+								option(data-ng-repeat="option in content."+model+".list",data-ng-bind="option.mpn+' '+option.name",data-ng-value="$index")
+					.row.mt-2(data-ng-if="content."+model+".edit[column]")
+						.col-2(data-ng-repeat="rec in content."+model+".edit[column] track by $index")
+							.card
+								.card-header.text-right
+									button.btn.btn-sm.btn-outline-danger(data-ng-click="content."+model+".edit[column].splice($index,1)")
+										i.fas.fa-trash-alt.text-danger
+								a(data-ng-href="/"+model+"/{{rec._id}}")
+									picture(data-ng-if="rec.images&&rec.images.length>0")
+										source(
+											data-ng-repeat="type in ['webp','png','jpg']",
+											data-ng-if="rec.images[0].thumbnail[type]",
+											type="image/{{type}}",
+											data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
+										)
+										img.card-img-top.p-3(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}" title="{{rec.title}}" alt="{{rec.title}}")
+								.card-body
+									small.card-title.text-truncate.mb-0
+										a.text-dark(data-ng-href="/"+model+"/{{rec._id}}",data-ng-bind="rec.name")
+
+
+
+
 		.text-right.mb-5(data-ng-include="'/template/button-group.edit.html?model="+model+"&_id="+_id+"'")

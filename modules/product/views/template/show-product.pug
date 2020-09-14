@@ -103,24 +103,56 @@
 							span.mr-1 =
 							strong(data-ng-bind="(cart.quantity||1)*(cart.offer.price.displayed||0)+cart.item.vat.max*(cart.quantity||1)*(cart.offer.price.displayed||0)/100|currency:'':2")
 							span &euro;
-			.col-12
+			.col-12.mt-4(data-ng-if="content."+model+".show.relative&&content."+model+".show.relative.length>0")
 				h6.small Δείτε Ακόμα
 				.row
-					.col-2(data-ng-repeat="image in content."+model+".show.images")
+					.col-2(data-ng-repeat="subitem in content."+model+".show.relative")
 						.card
 							.card
-								picture(data-ng-if="image")
+								picture(data-ng-init="image=subitem.images[0]")
 									source(
 										data-ng-repeat="type in ['webp','png','jpg']",
 										data-ng-if="image.thumbnail[type]",
 										type="image/{{type}}",
-										data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+										data-ng-srcset="/thumbnail/"+model+"/{{subitem._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
 									)
-									img.card-img-top.px-3(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
+									img.card-img-top.px-3(data-ng-src="{{build.defimgsrc(subitem)}}" title="{{subitem.name}}" alt="{{subitem.name}}")
 								.card-body.px-2.pt-2.pb-3
 									.card-title.py-2.my-0.text-truncate.small.text-muted(data-ng-bind="content."+model+".show.title")
-									.card-text.text-right
-										a.py-0.btn.btn-sm.btn-outline-secondary.text-secondary(data-ng-href="#") Αγορά
+									.card-text.text-center
+										small.mr-2
+											span.diag.mr-1(data-ng-if="user.minOfferOriginal(subitem.offers)")
+												span(data-ng-bind="user.minOfferOriginal(subitem.offers)")
+												snall &euro;
+											small
+												small.mr-1.text-muted Από
+											span.font-weight-bold(data-ng-bind="user.minOffer(subitem.offers)|currency:'':2")
+											span  &euro;
+			.col-12.mt-4(data-ng-if="content."+model+".show.similar&&content."+model+".show.similar.length>0")
+				h6.small Παρόμοια Προϊόντα
+				.row
+					.col-2(data-ng-repeat="subitem in content."+model+".show.similar")
+						.card
+							.card
+								picture(data-ng-init="image=subitem.images[0]")
+									source(
+										data-ng-repeat="type in ['webp','png','jpg']",
+										data-ng-if="image.thumbnail[type]",
+										type="image/{{type}}",
+										data-ng-srcset="/thumbnail/"+model+"/{{subitem._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+									)
+									img.card-img-top.px-3(data-ng-src="{{build.defimgsrc(subitem)}}" title="{{subitem.name}}" alt="{{subitem.name}}")
+								.card-body.px-2.pt-2.pb-3
+									.card-title.py-2.my-0.text-truncate.small.text-muted(data-ng-bind="content."+model+".show.title")
+									.card-text.text-center
+										small.mr-2
+											span.diag.mr-1(data-ng-if="user.minOfferOriginal(subitem.offers)")
+												span(data-ng-bind="user.minOfferOriginal(subitem.offers)")
+												snall &euro;
+											small
+												small.mr-1.text-muted Από
+											span.font-weight-bold(data-ng-bind="user.minOffer(subitem.offers)|currency:'':2")
+											span  &euro;
 	.col-12.px-5.my-5
 		h6.strong Περιγρφαφή Προϊόντος
 		.mt-2(data-ng-if="content."+model+".show.text",data-ng-init="tt=user.nl2br(content."+model+".show.text)")

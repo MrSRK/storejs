@@ -61,7 +61,7 @@ class Model
 				timestamps:true,
 				versionKey:false
 			})
-			schema.plugin(require('mongoose-autopopulate'));
+			schema.plugin(require('mongoose-autopopulate'))
 			if(!options.name)
 				return next(new Error('Model name not set'))
 			return next(null,mongoose.model(options.name,schema),schema)

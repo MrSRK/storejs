@@ -1,5 +1,4 @@
 "use strict"
-const mongoose=require('mongoose')
 const Model=require('../../core/model')
 const Controller=require('../../core/controller')
 class Module
@@ -10,58 +9,16 @@ class Module
 	{
 		try
 		{
-			const name='product'
-			//offer schema
-			const offer=mongoose.Schema({
-				active:{type:Boolean},
-				displayed:{type:Boolean},
-				sku:{type:String},
-				quantity:{
-					min:{type:Number},
-					max:{type:Number},
-					default:{type:Number},
-					step:{type:Number}
-				},
-				price:{
-					original:{type:Number},
-					displayed:{type:Number}
-				},
-				description:{type:String}
-			})
-			const option=mongoose.Schema({
-				active:{type:Boolean},
-				displayed:{type:Boolean},
-				title:{type:String},
-				value:{type:String}
-			})
-			//DEF
+			const name='orders'
 			const options={
 				name:name,
 				thumbnail:true,
 				user:false,
-				parent:false,
-				url:false,
+				parent:true,
+				url:true,
 				schema:
 				{
-					mpn:{type:String},
-					sku:{type:String},
-					name:{type:String},
-					category:{type:String,ref:"category",autopopulate:true},
-					brand:{type:String,ref:"brand",autopopulate:true},
-					supplier:{type:String,ref:"supplier",autopopulate:true},
-					title:{type:String},
-					description:{type:String},
-					text:{type:String},
-					vat:{
-						min:{type:Number},
-						max:{type:Number}
-					},
-					offers:[offer],
-					characteristics:[option],
-					color:[option],
-
-					similar:[{type:String,ref:"product",autopopulate:false}],
-					relative:[{type:String,ref:"product",autopopulate:false}]
+					name:{type:String}
 				}
 			}
 			const permitions={

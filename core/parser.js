@@ -7,7 +7,7 @@ class Parser
 	{
 		try
 		{
-			next(true,null,bodyParser.json())
+			next(true,null,bodyParser.json({limit: '50mb', extended: true}))
 			next(true,null,bodyParser.urlencoded({extended:true}))
 			return true
 		}

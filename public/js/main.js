@@ -246,9 +246,10 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	{
 		if(!content[model].edit[col])
 			content[model].edit[col]=[]
-
-		item=JSON.parse(item)
-		content[model].edit[col].push({_id:item._id,images:item.images,title:item.title})
+		const toAdd=content[model].list[item]
+		delete toAdd[col]
+		content[model].edit[col].push(toAdd)
+		item=null
 		return null
 	}
 	admin.viewTemplateLoader=(func,model,_id)=>

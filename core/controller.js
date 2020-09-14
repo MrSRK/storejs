@@ -254,13 +254,14 @@ class Controller
 						{
 							if(error)
 								return next(error)
-							const select=req.body.select?req.body.select+' -password -images.path -images.thumbnail.path -images.thumbnail.jpg.path -images.thumbnail.png.path -images.thumbnail.webp.path':'-password -images.path -images.thumbnail.path -images.thumbnail.jpg.path -images.thumbnail.png.path -images.thumbnail.webp.path'
+							const select=req.body.select?req.body.select+' -password':' -password'
 							const where=req.body.where||{}
 							const limit=req.body.limit||null
 							const sort=req.body.sort||{order:1}
 							return model
 							.find(where)
-							.populate('parent')
+							.populate('similar')
+							.populate('relative')
 							.limit(limit)
 							.sort(sort)
 							.select(select)
@@ -301,6 +302,8 @@ class Controller
 							const sort=req.body.sort||null
 							return model
 							.findById(_id)
+							.populate('similar')
+							.populate('relative')
 							.limit(limit)
 							.sort(sort)
 							.select(select)
@@ -486,7 +489,7 @@ class Controller
 												}
 											}
 											return model
-											.findByIdAndUpdate(req.params._id,doc,{new:true,select:'-password'})
+											.findByIdAndUpdate(req.params._id,doc,{new:true,select:'-password '})
 											.exec((error,doc)=>
 											{
 												if(error)
