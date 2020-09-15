@@ -1,0 +1,40 @@
+form(autocomplete="on",data-ng-submit="user.setCartPage(3)")
+	.row(data-ng-if="cart")
+		.col-12.col-lg-4
+		.col-12.col-lg-4(data-ng-init="cart.payment=!cart.payment?{}:cart.payment")
+			h4.h1.mb-5.text-center
+				i.far.fa-money-bill-alt.mr-5.text-muted
+				small.text-muted Πληρωμή και Τιμολόγηση
+				i.far.fa-money-bill-alt.ml-5.text-muted
+			.form-group(data-ng-init="request.list('payment')")
+				label(for='cart-payment-method') Τρόπος Πληρωμής
+				select#cart-payment-method.form-control(required="required",name="method",aria-describedby="cart-payment-method-help",data-ng-if="content.payment.list",data-ng-init="cart.payment.method=!cart.payment.method?content.payment.list[0]:cart.payment.method",data-ng-model="cart.payment.method",data-ng-options="option._id as option.name+' (+'+(option.cost|currency:'':2)+'€)' for option in content.payment.list")
+				small#cart-payment-method-help.form-text.text-muted Επιλογή υποστηριζόμενου τρόπου πληρωμής.
+			.form-check(data-ng-init="cart.invoice=!cart.invoice?false:true")
+				input#invoice-false.form-check-input(type='radio',name='invoice',data-ng-model="cart.invoice",data-ng-value="false")
+				label.form-check-label(for='invoice-false')  Απόδειξη Λιανικής
+			.form-check
+				input#invoice-true.form-check-input(type='radio',name='invoice',data-ng-model="cart.invoice",data-ng-value="true")
+				label.form-check-label(for='invoice-true')  Τιμολόγιο
+			.mt-5(data-ng-if="cart.invoice")
+				.form-group
+					label(for='cart-invoice-name') Επωνυμία
+					input#cart-invoice-name.form-control(name="name",data-ng-model="cart.invoice_data.name",type='text')
+				.form-group
+					label(for='cart-invoice-taxid') Α.Φ.Μ.
+					input#cart-invoice-taxid.form-control(name="taxid",data-ng-model="cart.invoice_data.taxid",type='text')
+				.form-group
+					label(for='cart-invoice-doy') Δ.Ο.Υ.
+					input#cart-invoice-doy.form-control(name="doy",data-ng-model="cart.invoice_data.doy",type='text')
+				.form-group
+					label(for='cart-invoice-address') Διεύθυνση (Έδρα)
+					input#cart-invoice-address.form-control(name="address",data-ng-model="cart.invoice_data.address",type='text')
+				.form-group
+					label(for='cart-invoice-phone') Τηλέφωνο
+					input#cart-invoice-phone.form-control(name="phone",data-ng-model="cart.invoice_data.phone",type='text')
+		.col-12.col-lg-4
+	.row(data-ng-if="cart")
+		.col-11.text-right.my-5
+			.btn-group
+				button.btn.btn-lg.btn-secondary.py-1(type="button",data-ng-click="user.setCartPage(1)") Προηγούμενο
+				button.btn.btn-lg.btn-primary.py-1(type="submit") Επόμενο

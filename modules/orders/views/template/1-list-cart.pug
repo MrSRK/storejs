@@ -1,0 +1,66 @@
+form(autocomplete="on",data-ng-submit="user.setCartPage(2)")
+	.row(data-ng-if="cart")
+		.col-12.col-lg-4
+		.col-12.col-lg-4(data-ng-init="cart.shipping=!cart.shipping?{}:cart.shipping")
+			h4.h1.mb-5.text-center
+				i.fas.fa-truck-moving.mr-5.text-muted
+				small.text-muted Στοιχεία Αποστολής
+				i.fas.fa-truck-moving.ml-5.text-muted
+			.form-group(data-ng-init="request.list('courier')")
+				label(for='cart-shipping-method') Τρόπος Αποστολής
+				select#cart-shipping-method.form-control(required="required",name="method",aria-describedby="cart-shipping-method-help",data-ng-if="content.courier.list",data-ng-init="cart.shipping.method=!cart.shipping.method?content.courier.list[0]:cart.shipping.method",data-ng-model="cart.shipping.method",data-ng-options="option._id as option.name+' (Ελλάδα +'+(option.cost_gr|currency:'':2)+'€ / Κύπρος +'+(option.cost_cy|currency:'':2)+'€)' for option in content.courier.list")
+				small#cart-shipping-method-help.form-text.text-muted Επιλογή υποστηριζόμενου τρόπου αποστολής .
+			.form-group
+				label(for='cart-shipping-email') Email Address
+				input#cart-shipping-email.form-control(required="required",name="email",data-ng-model="cart.shipping.email",type='email',aria-describedby="cart-shipping-email-help",placeholder='name@example.com')
+				small#cart-shipping-email-help.form-text.text-muted Για την αποστολή στοιχείων για την παρακολούθηση αποστολής της παραγγελία σας.
+			.form-group
+				label(for='cart-shipping-surname') Επώνυμο
+				input#cart-shipping-surname.form-control(required="required",name="surname",data-ng-model="cart.shipping.surname",type='text',aria-describedby="cart-shipping-surname-help")
+				small#cart-shipping-surname-help.form-text.text-muted Επώνυμο Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-shipping-name') Όνομα
+				input#cart-shipping-name.form-control(required="required",name="name",data-ng-model="cart.shipping.name",type='text',aria-describedby="cart-shipping-name-help")
+				small#cart-shipping-name-help.form-text.text-muted Όνομα Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-shipping-phone')
+					span.mr-1 Τηλέφωνο
+					small.text-muted (Προαιρετικό)
+				input#cart-shipping-phone.form-control(name="phone",data-ng-model="cart.shipping.phone",type='text',aria-describedby="cart-shipping-phone-help")
+				small#cart-shipping-phone-help.form-text.text-muted Τηλέφωνο Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-shipping-mobile') Κινητό (Τηλέφωνο)
+				input#cart-shipping-mobile.form-control(required="required",name="mobile",data-ng-model="cart.shipping.mobile",type='text',aria-describedby="cart-shipping-mobile-help")
+				small#cart-shipping-mobile-help.form-text.text-muted Κινητό Τηλέφωνο Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-shipping-organization')
+					span.mr-1 Κατάστημα
+					small.text-muted (Προαιρετικό)
+				input#cart-shipping-organization.form-control(name="organization",data-ng-model="cart.shipping.organization",type='text',aria-describedby="cart-shipping-organization-help")
+			.my-4.font-weight-bold Διεύθυνση Αποστολής
+			.form-group
+				label(for='cart-shipping-address-streat') Οδός &amp; Αριθμός
+				input#cart-shipping-address-streat.form-control(required="required",name="street-address",data-ng-model="cart.shipping.address.streat",type='text')
+			.form-group
+				label(for='cart-shipping-address-zip') ΤΚ
+				input#cart-shipping-address-zip.form-control(required="required",name="postal-code",data-ng-model="cart.shipping.address.zip",type='text')
+			.form-group
+				label(for='cart-shipping-address-city')
+					span.mr-1 Πόλη
+					small.text-muted (Προαιρετικό)
+				input#cart-shipping-address-city.form-control(name="city",data-ng-model="cart.shipping.address.city",type='text')
+			.form-group
+				label(for='cart-shipping-address-region') Περιοχή
+				input#cart-shipping-address-region.form-control(required="required",name="region",data-ng-model="cart.shipping.address.region",type='text')
+			.form-group
+				label(for='cart-shipping-address-country') Χώρα
+				select#cart-shipping-address-country.form-control(required="required",name="country",data-ng-init="cart.shipping.address.country=!cart.shipping.address.country?'GR':cart.shipping.address.country",data-ng-model="cart.shipping.address.country")
+					option(data-ng-value="'GR'") Ελλάδα
+					option(data-ng-value="'CY'") Κύπρος
+		.col-12.col-lg-4
+
+	.row(data-ng-if="cart")
+		.col-11.text-right.my-5
+			.btn-group
+				button.btn.btn-lg.btn-secondary.py-1(type="button",data-ng-click="user.setCartPage(0)") Προηγούμενο
+				button.btn.btn-lg.btn-primary.py-1(type="submit") Επόμενο

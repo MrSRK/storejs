@@ -1,0 +1,61 @@
+form(autocomplete="on")
+	.row(data-ng-if="cart")
+		.col-12.col-lg-4
+		.col-12.col-lg-4(data-ng-init="cart.customer=!cart.customer?{}:cart.customer")
+			h4.h1.mb-5.text-center
+				i.fas.fa-user-check.mr-5.text-muted
+				small.text-muted Στοιχεία Πέλάτη
+				i.fas.fa-user-check.ml-5.text-muted
+			.form-group
+				label(for='cart-customer-email') Email Address
+				input#cart-customer-email.form-control(required="required",name="email",data-ng-model="cart.customer.email",type='email',aria-describedby="cart-customer-email-help",placeholder='name@example.com')
+				small#cart-customer-email-help.form-text.text-muted Για την αποστολή στοιχείων για την παρακολούθηση αποστολής της παραγγελία σας.
+			.form-group
+				label(for='cart-customer-surname') Επώνυμο
+				input#cart-customer-surname.form-control(required="required",name="surname",data-ng-model="cart.customer.surname",type='text',aria-describedby="cart-customer-surname-help")
+				small#cart-customer-surname-help.form-text.text-muted Επώνυμο Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-customer-name') Όνομα
+				input#cart-customer-name.form-control(required="required",name="name",data-ng-model="cart.customer.name",type='text',aria-describedby="cart-customer-name-help")
+				small#cart-customer-name-help.form-text.text-muted Όνομα Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-customer-phone')
+					span.mr-1 Τηλέφωνο
+					small.text-muted (Προαιρετικό)
+				input#cart-customer-phone.form-control(name="phone",data-ng-model="cart.customer.phone",type='text',aria-describedby="cart-customer-phone-help")
+				small#cart-customer-phone-help.form-text.text-muted Τηλέφωνο Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-customer-mobile') Κινητό (Τηλέφωνο)
+				input#cart-customer-mobile.form-control(required="required",name="mobile",data-ng-model="cart.customer.mobile",type='text',aria-describedby="cart-customer-mobile-help")
+				small#cart-customer-mobile-help.form-text.text-muted Κινητό Τηλέφωνο Αποδέκτη αποστολής.
+			.form-group
+				label(for='cart-customer-organization')
+					span.mr-1 Κατάστημα
+					small.text-muted (Προαιρετικό)
+				input#cart-customer-organization.form-control(name="organization",data-ng-model="cart.customer.organization",type='text',aria-describedby="cart-customer-organization-help")
+			.my-4.font-weight-bold Διεύθυνση Αποστολής
+			.form-group
+				label(for='cart-customer-address-streat') Οδός &amp; Αριθμός
+				input#cart-customer-address-streat.form-control(required="required",name="street-address",data-ng-model="cart.customer.address.streat",type='text')
+			.form-group
+				label(for='cart-customer-address-zip') ΤΚ
+				input#cart-customer-address-zip.form-control(required="required",name="postal-code",data-ng-model="cart.customer.address.zip",type='text')
+			.form-group
+				label(for='cart-customer-address-city')
+					span.mr-1 Πόλη
+					small.text-muted (Προαιρετικό)
+				input#cart-customer-address-city.form-control(name="city",data-ng-model="cart.customer.address.city",type='text')
+			.form-group
+				label(for='cart-customer-address-region') Περιοχή
+				input#cart-customer-address-region.form-control(required="required",name="region",data-ng-model="cart.customer.address.region",type='text')
+			.form-group
+				label(for='cart-customer-address-country') Χώρα
+				select#cart-customer-address-country.form-control(required="required",name="country",data-ng-init="cart.customer.address.country=!cart.customer.address.country?'GR':cart.customer.address.country",data-ng-model="cart.customer.address.country")
+					option(data-ng-value="'GR'") Ελλάδα
+					option(data-ng-value="'CY'") Κύπρος
+		.col-12.col-lg-4
+
+	.row(data-ng-if="cart")
+		.col-11.text-right.my-5
+			.btn-group
+				button.btn.btn-lg.btn-secondary.py-1(type="button",data-ng-click="user.setCartPage(2)") Προηγούμενο

@@ -47,17 +47,54 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		"priceRange":"$$$",
 		"image":"https://www.saloras.gr/images/logo-banner.svg"
 	}
+	user.setCartPage=page=>
+	{
+		$scope.cart.page=page
+		sessionStorage.setItem('cart',JSON.stringify($scope.cart))
+		$scope.$apply()
+	}
+	user.cartSum=_=>
+	{
+		let sum=0
+		$scope.cart.items.forEach(item=>
+		{
+			sum+=item.quantity*item.offer.price.displayed+item.quantity*(item.offer.price.displayed*item.item.vat[($scope.cart.vat||max)]/100)
+		})
+		return sum
+	}
+	user.cartRem=index=>
+	{
+		$scope.cart.items.splice(index,1)
+		sessionStorage.setItem('cart',JSON.stringify($scope.cart))
+	}
+	user.cartChangeVat=_=>
+	{
+		$scope.cart.vat=$scope.cart.vat||'max'
+		sessionStorage.setItem('cart',JSON.stringify($scope.cart))
+	}
+	user.getCart=_=>
+	{
+		$scope.cart=JSON.parse(sessionStorage.getItem('cart')||'{}')
+		console.log($scope.cart)
+	}
 	user.addCart=_=>
 	{
 		if(!$scope.cart)
 			return false
 		let cart=sessionStorage.getItem('cart')
 		if(!cart)
-			cart='[]'
+			cart='{}'
 		cart=JSON.parse(cart)
-		cart.push($scope.cart)
-		sessionStorage.setItem('cart',JSON.stringify(cart))
-		$('#cartInform').modal('toggle')
+		if(!cart.items)
+			cart.items=[]
+		if(parseInt($scope.cart.quantity)>0)
+		{
+			cart.items.push($scope.cart)
+			sessionStorage.setItem('cart',JSON.stringify(cart))
+			$('#cartInform').modal('toggle')
+		}
+		else
+			alert("Αυτή η ποσότητα δεν υποστηρίζεται")
 	}
 	user.cartOffer=offers=>
 	{
@@ -169,9 +206,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	}
 	user.nl2br=(text)=>
 	{
-		console.log(text)
 		const t= text.split('\n')
-		console.log(t)
 		return t
 	}
 	user.schemaListBuilder=(model,data)=>
@@ -179,10 +214,11 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		try
 		{
 			let ret=[]
-			data.forEach((e,i)=>
-			{
-				ret.push(user.schemaBuilder(model,e,false))
-			})
+			if(data)
+				data.forEach((e,i)=>
+				{
+					ret.push(user.schemaBuilder(model,e,false))
+				})
 			user.schema=ret
 			return true
 		}
@@ -742,7 +778,8 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	//#####################################
 	build.defimgsrc=(model,rec)=>
 	{
-		return  '/img/'+model+"/"+rec._id+"/"+rec.images[0].filename
+		if(rec)
+			return  '/img/'+model+"/"+rec._id+"/"+rec.images[0].filename
 	}
 
 	//Wrappers

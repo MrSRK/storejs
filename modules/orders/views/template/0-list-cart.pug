@@ -1,0 +1,55 @@
+.row.mb-3(data-ng-if="cart")
+	.col-12
+		.row.small
+			.col-2.d-none.d-lg-block
+			.col-5.col-lg-4 Προϊόν
+			.col-2.col-lg-1.text-center Ποσότητα
+			.col-1.d-none.d-lg-block.text-center Τιμή
+			.col-1.d-none.d-lg-block.text-center Μερικό Συνολο
+			.col-1.d-none.d-lg-block.text-center(data-ng-init="cart.vat=!cart.vat?'max':cart.vat")
+				span ΦΠΑ
+				select(data-ng-model="cart.vat",data-ng-change="user.cartChangeVat()")
+					option(data-ng-value="'max'") Κανονικό
+					option(data-ng-value="'min'") Μειωμένο
+			.col-3.col-lg-1.text-center Σύνολο
+.row(data-ng-if="cart.items",data-ng-repeat="item in cart.items track by $index")
+	.col-12.border.border-muted.p-3.mb-3
+		.row
+			.col-2.d-none.d-lg-block.small.text-center
+				a.text-muted(data-ng-bind="item.item._id",data-ng-href="/product/{{item.item._id}}")
+			.col-5.col-lg-4
+				a.text-primary(data-ng-bind="item.item.name",data-ng-href="/product/{{item.item._id}}")
+
+			.col-2.col-lg-1.text-right
+				sapn(data-ng-bind="item.quantity")
+				span.d-none.d-lg-inline-block.ml-1 τεμ.
+
+			.col-1.d-none.d-lg-block.text-right
+				span(data-ng-bind="item.offer.price.displayed|currency:'':2")
+				span &euro;
+
+			.col-1.d-none.d-lg-block.text-right
+				span(data-ng-bind="item.quantity*item.offer.price.displayed|currency:'':2")
+				span &euro;
+
+			.col-1.d-none.d-lg-block.text-right
+				span(data-ng-bind="item.quantity*(item.offer.price.displayed*item.item.vat[(cart.vat||max)]/100)|currency:'':2")
+				span &euro;
+				span(data-ng-bind="' ('+item.item.vat[(cart.vat||max)]+'%)'")
+
+			.col-3.col-lg-1.text-right.font-weight-bold
+				span(data-ng-bind="item.quantity*item.offer.price.displayed+item.quantity*(item.offer.price.displayed*item.item.vat[(cart.vat||max)]/100)|currency:'':2")
+				span &euro;
+
+			.col-2.col-lg-1.font-weight-bold
+				button.btn.btn-sm.btn-link.text-danger(data-ng-click="user.cartRem($index)")
+					i.fas.fa-trash-alt
+.row(data-ng-if="cart")
+	.col-6.col-lg-10.text-right.font-weight-bold Σύνολο:
+	.col-5.col-lg-1.text-right.font-weight-bold.text-primary
+		span(data-ng-bind="user.cartSum()|currency:'':2")
+		span &euro;
+	.col-1
+.row(data-ng-if="cart")
+	.col-11.text-right.my-5
+		button.btn.btn-lg.btn-primary.py-1(type="button",data-ng-click="user.setCartPage(1)") Δημιουργία Παραγγελία

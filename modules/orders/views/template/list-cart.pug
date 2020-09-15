@@ -1,1 +1,3 @@
-h1 !!!!!!!!!!sadasd
+.container-fluid.p-3
+	h1.h5.mb-5 Καλάθι Αγορών
+	div(data-ng-init="user.getCart()",data-ng-include="'/template/'+(cart.page||0)+'-list-cart.html'")

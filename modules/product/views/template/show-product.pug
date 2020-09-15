@@ -47,21 +47,22 @@
 							.card-body.py-1.px-2.text-muted.small(data-ng-bind="characteristic.value")
 			.col-12.col-lg-7
 				.border.border-muted.p-2.mr-5.ml-2(data-ng-if="content."+model+".show",data-ng-init="cart.item=content."+model+".show")
-					fieldset.row(data-ng-repeat="offer in content."+model+".show.offers",data-ng-if="offer.displayed",data-ng-disabled="!offer.active")
-						.col-1.text-right(data-ng-init="offer.active&&!cart.offer?cart.offer=offer:''")
-							input(type="radio",data-ng-model="cart.offer",data-ng-value="offer")
-						.col-6(data-ng-init="user.setCartQuantity(cart.offer.quantity.default)")
-							a.small.text-dark(data-ng-href="#",data-ng-click="offer.active?cart.offer=offer:''",data-ng-bind="offer.description")
-						.col-5.text-right.pr-5
-							span(data-ng-if="offer.price.original&&offer.price.original>0")
-								small.text-muted.mr-1 Web Offer
-								span.diag
-									span(data-ng-bind="offer.price.original|currency:'':2")
-									span.mr-1 &euro;
-								small.text-muted.mr-1 τώρα
-							span.p-1(data-ng-class="cart.offer==offer?'border border-muted bg-success text-white':''")
-								span(data-ng-bind="offer.price.displayed|currency:'':2")
-								span &euro;
+					fieldset
+						.row(data-ng-repeat="offer in content."+model+".show.offers",data-ng-if="offer.displayed",data-ng-disabled="!offer.active")
+							.col-1.col-lg-1.text-right.data-ng-inline-b(data-ng-init="offer.active&&!cart.offer?cart.offer=offer:''")
+								input(type="radio",data-ng-model="cart.offer",data-ng-value="offer")
+							.col-6.col-lg-6(data-ng-init="user.setCartQuantity(cart.offer.quantity.default)")
+								a.small.text-dark(data-ng-href="#",data-ng-click="offer.active?cart.offer=offer:''",data-ng-bind="offer.description")
+							.col-5.col-lg-5.text-right.pr-5
+								span(data-ng-if="offer.price.original&&offer.price.original>0")
+									small.text-muted.mr-1 Web Offer
+									span.diag
+										span(data-ng-bind="offer.price.original|currency:'':2")
+										span.mr-1 &euro;
+									small.text-muted.mr-1 τώρα
+								span.p-1(data-ng-class="cart.offer==offer?'border border-muted bg-success text-white':''")
+									span(data-ng-bind="offer.price.displayed|currency:'':2")
+									span &euro;
 					.row.mt-3
 						.col-12
 							p.small.text-right.text-muted Στις τιμές δεν συμπεριλαμβάνετε ο ΦΠΑ
