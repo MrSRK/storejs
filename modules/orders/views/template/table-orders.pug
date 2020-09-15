@@ -1,0 +1,87 @@
+h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
+	a.btn.btn-primary.btn-lg.float-right.mt-3.text-white(data-ng-href="/administrator/"+model+"/new")
+		i.fas.fa-plus.mr-2
+		span INSERT NEW
+.mt-5(data-ng-if="content."+model+".table")
+	.row.bg-info.text-light.rounded
+		.col-1.text-left.d-none.d-lg-block
+			input(type="checkbox",data-ng-model="options.tableMassCheck",data-ng-click="admin.tableMassCheck('"+model+"')")
+			span.sr-only select all
+		.col-1.text-right.d-none.d-lg-block
+			i.fas.mr-2.text-light.fa-key
+			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('_id')")
+				i.fas.fa-sort(data-ng-class="options.sort.name=='_id'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
+			span.sr-only _id
+		.col-1.text-center
+			i.fas.mr-2.text-light.fa-check-circle
+			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('active')")
+				i.fas.fa-sort(data-ng-class="options.sort.name=='active'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
+			span.sr-only Active
+		.col-1.text-center.d-none.d-lg-block
+			i.fas.mr-2.text-light.fa-sort-amount-down-alt
+			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('order')")
+				i.fas.fa-sort(data-ng-class="options.sort.name=='order'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
+			span.sr-only Order
+		.col-9.col-lg-4
+			i.fas.mr-2.text-light.fa-users
+			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('name')")
+				i.fas.fa-sort(data-ng-class="options.sort.name=='name'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
+			span.sr-only Name / Title
+		.col-1.text-right.d-none.d-lg-block
+			i.fas.mr-2.text-light.fa-plus
+			i.fas.mr-2.text-light.fa-calendar-alt
+			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('createdAt')")
+				i.fas.fa-sort(data-ng-class="options.sort.name=='createdAt'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
+			span.sr-only Date Add
+		.col-1.text-right.d-none.d-lg-block
+			i.fas.mr-2.text-light.fa-pen-alt
+			i.fas.mr-2.text-light.fa-calendar-alt
+			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('updatedAt')")
+				i.fas.fa-sort(data-ng-class="options.sort.name=='updatedAt'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
+			span.sr-only Date Modified
+		.col-2.col-lg-2
+			i.fas.mr-2.text-light.fa-cogs
+			span.sr-only Controls
+	.row.mt-4(data-ng-include="'/template/pagination.table.html?model="+model+"'")
+	//	### Repeat ###
+	fieldset.row.align-items-center(data-ng-clock,data-ng-if="content."+model+".table.length>0",data-ng-repeat="rec in content."+model+".table | orderBy:options.sort.name:options.sort.reverse | limitTo:options.limit.limit:options.limit.begin",data-ng-disabled="rec.tmp.disabled?true:false")
+		.col-1.small.text-muted.text-left.d-none.d-lg-block
+			input(type="checkbox",data-ng-model="rec.tmp.checked")
+		.col-1.small.text-muted.text-right.d-none.d-lg-block
+			a(href='/'+model+"/{{rec._id}}",target="_blank")
+				small(data-ng-bind="rec._id")
+		.col-1.text-center
+			button.btn.btn-link(data-ng-click="admin.active('"+model+"',rec)")
+				span.sr-only Active
+				i.fas(data-ng-class="rec.active?'fa-check-circle text-success':'fa-times-circle text-danger'")
+	
+	
+		.col-1.small.text-right.d-none.d-lg-block
+			span(data-ng-bind="rec.createdAt | date:'dd-MM-yy'")
+			small.ml-1.text-muted(data-ng-bind="rec.createdAt | date:'hh:mm:ss'")
+		.col-1.small.text-right.d-none.d-lg-block
+			span(data-ng-bind="rec.updatedAt | date:'dd-MM-yy'")
+			small.ml-1.text-muted(data-ng-bind="rec.updatedAt | date:'hh:mm:ss'")
+		.col-2.col-lg-2
+			a.btn.btn-link.d-none.d-lg-inline-block(href=model+"/{{rec._id}}")
+				i.fas.fa-edit
+			a.btn.btn-link.d-none.d-lg-inline-block(href='/'+model+"/{{rec._id}}",target="_blank")
+				i.fas.fa-eye.text-info(target="_blank")
+			button.btn.btn-link(data-ng-click="admin.deleteByid('"+model+"',rec)")
+				i.fas.fa-trash-alt.text-danger
+	.row.mt-4(data-ng-include="'/template/pagination.table.html?model="+model+"'")
+	.row.mt-4
+		.col-12
+			strong.text-muted ↳
+			small.text-muted.ml-2
+				small select all
+			input.ml-2(type="checkbox",data-ng-model="options.tableMassCheck",data-ng-click="admin.tableMassCheck('"+model+"')")
+			small.text-muted.ml-2
+				small Massive Actions
+			button.btn.btn-link(data-ng-click="admin.tableMassActive('"+model+"',true)")
+				i.fas.fa-check-circle.text-success
+			button.btn.btn-link(data-ng-click="admin.tableMassActive('"+model+"',false)")
+				i.fas.fa-times-circle.text-danger
+			button.btn.btn-link(data-ng-click="admin.tableMassDelete('"+model+"')")
+				i.fas.fa-trash-alt.text-danger
+p.text-muted.font-italic(data-ng-clock,data-ng-if="content."+model+".table.length==0") Δεν υπάρχουν καταχωρημένες ενεργές εγγραφές

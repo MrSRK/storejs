@@ -1,163 +1,164 @@
-.row(data-ng-init="request.show('"+model+"','"+_id+"')")
-	.col-12.col-lg-4.px-5
-		#shoCarouselControls.carousel.slide.mx-5(data-ride='carousel')
-			.carousel-inner
-				.carousel-item(data-ng-repeat="image in content."+model+".show.images",data-ng-class="$index==0?'active':''")
-					picture(data-ng-if="image")
+form(data-ng-submit="user.addCart()")
+	.row(data-ng-init="request.show('"+model+"','"+_id+"')")
+		.col-12.col-lg-4.px-5
+			#shoCarouselControls.carousel.slide.mx-5(data-ride='carousel')
+				.carousel-inner
+					.carousel-item(data-ng-repeat="image in content."+model+".show.images",data-ng-class="$index==0?'active':''")
+						picture(data-ng-if="image")
+								source(
+									data-ng-repeat="type in ['webp','png','jpg']",
+									data-ng-if="image.thumbnail[type]",
+									type="image/{{type}}",
+									data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+								)
+								img.w-100(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
+				a.carousel-control-prev(href='#shoCarouselControls', role='button', data-slide='prev')
+					span.carousel-control-prev-icon(aria-hidden='true')
+					span.sr-only Previous
+				a.carousel-control-next(href='#shoCarouselControls', role='button', data-slide='next')
+					span.carousel-control-next-icon(aria-hidden='true')
+					span.sr-only Next
+			.row.ml-5
+				.col-2(data-ng-repeat="image in content."+model+".show.images")
+					a(href="#",data-target="#shoCarouselControls" data-slide-to="{{$index}}")
+						picture(data-ng-if="image")
 							source(
 								data-ng-repeat="type in ['webp','png','jpg']",
 								data-ng-if="image.thumbnail[type]",
 								type="image/{{type}}",
 								data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
 							)
-							img.w-100(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
-			a.carousel-control-prev(href='#shoCarouselControls', role='button', data-slide='prev')
-				span.carousel-control-prev-icon(aria-hidden='true')
-				span.sr-only Previous
-			a.carousel-control-next(href='#shoCarouselControls', role='button', data-slide='next')
-				span.carousel-control-next-icon(aria-hidden='true')
-				span.sr-only Next
-		.row.ml-5
-			.col-2(data-ng-repeat="image in content."+model+".show.images")
-				a(href="#",data-target="#shoCarouselControls" data-slide-to="{{$index}}")
-					picture(data-ng-if="image")
-						source(
-							data-ng-repeat="type in ['webp','png','jpg']",
-							data-ng-if="image.thumbnail[type]",
-							type="image/{{type}}",
-							data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
-						)
-						img.img-fluid(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
-	.col-12.col-lg-8.px-5
-		.row
-			.col-12.col-lg-5
-				h1.h4.pb-0.mb-0(data-ng-bind="content."+model+".show.title||content."+model+".show.name")
-				h2.h5.pb-0.mb-0(data-ng-if="content."+model+".show.subtitle",data-ng-bind="content."+model+".show.subtitle")
-				p.ml-2.my-3.lead(data-ng-if="content."+model+".show.description",data-ng-bind="content."+model+".show.description")
-				.row.ml-1.mb-3(data-ng-if="content."+model+".show.color")
-					.col-12.pl-3.pb-2.small Διαθέσιμα Χρώματα:
-					.col-1(data-ng-repeat="color in content."+model+".show.color",data-ng-if="color.displayed")
-						span.border.border-muted.rounded-circle(style="background-color:{{color.value}}")
-							span(data-ng-class="!color.active?'diag':''") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				.row.ml-1.mb-3(data-ng-if="content."+model+".show.characteristics")
-					.col-12.pl-3.pb-2.small Χαρακτηριστικά:
-					.col-6.col-lg-4(data-ng-repeat="characteristic in content."+model+".show.characteristics")
-						.card
-							.card-header.py-1.px-2.text-muted.small(data-ng-bind="characteristic.title")
-							.card-body.py-1.px-2.text-muted.small(data-ng-bind="characteristic.value")
-			.col-12.col-lg-7
-				.border.border-muted.p-2.mr-5.ml-2(data-ng-if="content."+model+".show",data-ng-init="cart.item=content."+model+".show")
-					fieldset
-						.row(data-ng-repeat="offer in content."+model+".show.offers",data-ng-if="offer.displayed",data-ng-disabled="!offer.active")
-							.col-1.col-lg-1.text-right.data-ng-inline-b(data-ng-init="offer.active&&!cart.offer?cart.offer=offer:''")
-								input(type="radio",data-ng-model="cart.offer",data-ng-value="offer")
-							.col-6.col-lg-6(data-ng-init="user.setCartQuantity(cart.offer.quantity.default)")
-								a.small.text-dark(data-ng-href="#",data-ng-click="offer.active?cart.offer=offer:''",data-ng-bind="offer.description")
-							.col-5.col-lg-5.text-right.pr-5
-								span(data-ng-if="offer.price.original&&offer.price.original>0")
-									small.text-muted.mr-1 Web Offer
-									span.diag
-										span(data-ng-bind="offer.price.original|currency:'':2")
-										span.mr-1 &euro;
-									small.text-muted.mr-1 τώρα
-								span.p-1(data-ng-class="cart.offer==offer?'border border-muted bg-success text-white':''")
-									span(data-ng-bind="offer.price.displayed|currency:'':2")
+							img.img-fluid(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
+		.col-12.col-lg-8.px-5
+			.row
+				.col-12.col-lg-5
+					h1.h4.pb-0.mb-0(data-ng-bind="content."+model+".show.title||content."+model+".show.name")
+					h2.h5.pb-0.mb-0(data-ng-if="content."+model+".show.subtitle",data-ng-bind="content."+model+".show.subtitle")
+					p.ml-2.my-3.lead(data-ng-if="content."+model+".show.description",data-ng-bind="content."+model+".show.description")
+					.row.ml-1.mb-3(data-ng-if="content."+model+".show.color")
+						.col-12.pl-3.pb-2.small Διαθέσιμα Χρώματα:
+						.col-1(data-ng-repeat="color in content."+model+".show.color",data-ng-if="color.displayed")
+							span.border.border-muted.rounded-circle(style="background-color:{{color.value}}")
+								span(data-ng-class="!color.active?'diag':''") &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					.row.ml-1.mb-3(data-ng-if="content."+model+".show.characteristics")
+						.col-12.pl-3.pb-2.small Χαρακτηριστικά:
+						.col-6.col-lg-4(data-ng-repeat="characteristic in content."+model+".show.characteristics")
+							.card
+								.card-header.py-1.px-2.text-muted.small(data-ng-bind="characteristic.title")
+								.card-body.py-1.px-2.text-muted.small(data-ng-bind="characteristic.value")
+				.col-12.col-lg-7
+					.border.border-muted.p-2.mr-5.ml-2(data-ng-if="content."+model+".show",data-ng-init="cart.item=content."+model+".show")
+						fieldset
+							.row(data-ng-repeat="offer in content."+model+".show.offers",data-ng-if="offer.displayed",data-ng-disabled="!offer.active")
+								.col-1.col-lg-1.text-right.data-ng-inline-b(data-ng-init="offer.active&&!cart.offer?cart.offer=offer:''")
+									input(type="radio",data-ng-model="cart.offer",data-ng-value="offer")
+								.col-6.col-lg-6(data-ng-init="user.setCartQuantity(cart.offer.quantity.default)")
+									a.small.text-dark(data-ng-href="#",data-ng-click="offer.active?cart.offer=offer:''",data-ng-bind="offer.description")
+								.col-5.col-lg-5.text-right.pr-5
+									span(data-ng-if="offer.price.original&&offer.price.original>0")
+										small.text-muted.mr-1 Web Offer
+										span.diag
+											span(data-ng-bind="offer.price.original|currency:'':2")
+											span.mr-1 &euro;
+										small.text-muted.mr-1 τώρα
+									span.p-1(data-ng-class="cart.offer==offer?'border border-muted bg-success text-white':''")
+										span(data-ng-bind="offer.price.displayed|currency:'':2")
+										span &euro;
+						.row.mt-3
+							.col-12
+								p.small.text-right.text-muted Στις τιμές δεν συμπεριλαμβάνετε ο ΦΠΑ
+						.row
+							.col-6
+								.input-group.input-group-sm
+									.input-group-prepend
+										.input-group-text Διαθέσιμα χρώματα
+									select.form-control.custom-select(data-ng-model="cart.color")
+										option(data-ng-repeat="color in content."+model+".show.color",data-ng-value="color",data-ng-bind="color.title+(color.active?'':' (Εξαντλήθηκε)')",data-ng-if="color.displayed;cart.color=color",data-ng-disabled="!color.active")
+						hr
+						.row.mt-3
+							.col-6
+								.input-group.input-group-lg
+									.input-group-prepend
+										.input-group-text Ποσότητα
+									input.form-control(type="number",data-ng-model="cart.quantity",min="{{user.cartSetMin(content."+model+".show.offers)}}",max="{{user.cartSetMax(content."+model+".show.offers)}}",step="{{cart.offer.quantity.step}}",data-ng-change="user.cartOffer(content."+model+".show.offers)",)
+							.col-6.text-center
+								button.btn.btn-lg.btn-primary(type="submit")
+									i.fas.fa-cart-plus.mr-2
+									span Προσθήκη στο Καλάθι
+						hr
+						.row.mt-3
+							.col-12.small.lead
+								span.mr-1(data-ng-bind="cart.quantity||1")
+								span.mr-1 x
+								span(data-ng-bind="cart.offer.price.displayed||0|currency:'':2")
+								span.mr-1 &euro;
+								span.mr-1 =
+								strong(data-ng-bind="(cart.quantity||1)*(cart.offer.price.displayed||0)|currency:'':2")
+								span.mr-1 &euro;
+								span
+									span (
+									span.mr-1(data-ng-bind="'+'+cart.item.vat.max+'% ΦΠΑ,'")
+									span +
+									span(data-ng-bind="cart.item.vat.max*(cart.quantity||1)*(cart.offer.price.displayed||0)/100|currency:'':2")
 									span &euro;
-					.row.mt-3
-						.col-12
-							p.small.text-right.text-muted Στις τιμές δεν συμπεριλαμβάνετε ο ΦΠΑ
-					.row
-						.col-6
-							.input-group.input-group-sm
-								.input-group-prepend
-									.input-group-text Διαθέσιμα χρώματα
-								select.form-control.custom-select(data-ng-model="cart.color")
-									option(data-ng-repeat="color in content."+model+".show.color",data-ng-value="color",data-ng-bind="color.title+(color.active?'':' (Εξαντλήθηκε)')",data-ng-if="color.displayed;cart.color=color",data-ng-disabled="!color.active")
-					hr
-					.row.mt-3
-						.col-6
-							.input-group.input-group-lg
-								.input-group-prepend
-									.input-group-text Ποσότητα
-								input.form-control(type="number",data-ng-model="cart.quantity",min="{{user.cartSetMin(content."+model+".show.offers)}}",max="{{user.cartSetMax(content."+model+".show.offers)}}",step="{{cart.offer.quantity.step}}",data-ng-change="user.cartOffer(content."+model+".show.offers)",)
-						.col-6.text-center
-							button.btn.btn-lg.btn-primary(data-ng-click="user.addCart()")
-								i.fas.fa-cart-plus.mr-2
-								span Προσθήκη στο Καλάθι
-					hr
-					.row.mt-3
-						.col-12.small.lead
-							span.mr-1(data-ng-bind="cart.quantity||1")
-							span.mr-1 x
-							span(data-ng-bind="cart.offer.price.displayed||0|currency:'':2")
-							span.mr-1 &euro;
-							span.mr-1 =
-							strong(data-ng-bind="(cart.quantity||1)*(cart.offer.price.displayed||0)|currency:'':2")
-							span.mr-1 &euro;
-							span
-								span (
-								span.mr-1(data-ng-bind="'+'+cart.item.vat.max+'% ΦΠΑ,'")
-								span +
-								span(data-ng-bind="cart.item.vat.max*(cart.quantity||1)*(cart.offer.price.displayed||0)/100|currency:'':2")
+									span )
+								span.mr-1 =
+								strong(data-ng-bind="(cart.quantity||1)*(cart.offer.price.displayed||0)+cart.item.vat.max*(cart.quantity||1)*(cart.offer.price.displayed||0)/100|currency:'':2")
 								span &euro;
-								span )
-							span.mr-1 =
-							strong(data-ng-bind="(cart.quantity||1)*(cart.offer.price.displayed||0)+cart.item.vat.max*(cart.quantity||1)*(cart.offer.price.displayed||0)/100|currency:'':2")
-							span &euro;
-			.col-12.mt-4(data-ng-if="content."+model+".show.relative&&content."+model+".show.relative.length>0")
-				h6.small Δείτε Ακόμα
-				.row
-					.col-2(data-ng-repeat="subitem in content."+model+".show.relative")
-						.card
+				.col-12.mt-4(data-ng-if="content."+model+".show.relative&&content."+model+".show.relative.length>0")
+					h6.small Δείτε Ακόμα
+					.row
+						.col-2(data-ng-repeat="subitem in content."+model+".show.relative")
 							.card
-								picture(data-ng-init="image=subitem.images[0]")
-									source(
-										data-ng-repeat="type in ['webp','png','jpg']",
-										data-ng-if="image.thumbnail[type]",
-										type="image/{{type}}",
-										data-ng-srcset="/thumbnail/"+model+"/{{subitem._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
-									)
-									img.card-img-top.px-3(data-ng-src="{{build.defimgsrc(subitem)}}" title="{{subitem.name}}" alt="{{subitem.name}}")
-								.card-body.px-2.pt-2.pb-3
-									.card-title.py-2.my-0.text-truncate.small.text-muted(data-ng-bind="content."+model+".show.title")
-									.card-text.text-center
-										small.mr-2
-											span.diag.mr-1(data-ng-if="user.minOfferOriginal(subitem.offers)")
-												span(data-ng-bind="user.minOfferOriginal(subitem.offers)")
-												snall &euro;
-											small
-												small.mr-1.text-muted Από
-											span.font-weight-bold(data-ng-bind="user.minOffer(subitem.offers)|currency:'':2")
-											span  &euro;
-			.col-12.mt-4(data-ng-if="content."+model+".show.similar&&content."+model+".show.similar.length>0")
-				h6.small Παρόμοια Προϊόντα
-				.row
-					.col-2(data-ng-repeat="subitem in content."+model+".show.similar")
-						.card
+								.card
+									picture(data-ng-init="image=subitem.images[0]")
+										source(
+											data-ng-repeat="type in ['webp','png','jpg']",
+											data-ng-if="image.thumbnail[type]",
+											type="image/{{type}}",
+											data-ng-srcset="/thumbnail/"+model+"/{{subitem._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+										)
+										img.card-img-top.px-3(data-ng-src="{{build.defimgsrc(subitem)}}" title="{{subitem.name}}" alt="{{subitem.name}}")
+									.card-body.px-2.pt-2.pb-3
+										.card-title.py-2.my-0.text-truncate.small.text-muted(data-ng-bind="content."+model+".show.title")
+										.card-text.text-center
+											small.mr-2
+												span.diag.mr-1(data-ng-if="user.minOfferOriginal(subitem.offers)")
+													span(data-ng-bind="user.minOfferOriginal(subitem.offers)")
+													snall &euro;
+												small
+													small.mr-1.text-muted Από
+												span.font-weight-bold(data-ng-bind="user.minOffer(subitem.offers)|currency:'':2")
+												span  &euro;
+				.col-12.mt-4(data-ng-if="content."+model+".show.similar&&content."+model+".show.similar.length>0")
+					h6.small Παρόμοια Προϊόντα
+					.row
+						.col-2(data-ng-repeat="subitem in content."+model+".show.similar")
 							.card
-								picture(data-ng-init="image=subitem.images[0]")
-									source(
-										data-ng-repeat="type in ['webp','png','jpg']",
-										data-ng-if="image.thumbnail[type]",
-										type="image/{{type}}",
-										data-ng-srcset="/thumbnail/"+model+"/{{subitem._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
-									)
-									img.card-img-top.px-3(data-ng-src="{{build.defimgsrc(subitem)}}" title="{{subitem.name}}" alt="{{subitem.name}}")
-								.card-body.px-2.pt-2.pb-3
-									.card-title.py-2.my-0.text-truncate.small.text-muted(data-ng-bind="content."+model+".show.title")
-									.card-text.text-center
-										small.mr-2
-											span.diag.mr-1(data-ng-if="user.minOfferOriginal(subitem.offers)")
-												span(data-ng-bind="user.minOfferOriginal(subitem.offers)")
-												snall &euro;
-											small
-												small.mr-1.text-muted Από
-											span.font-weight-bold(data-ng-bind="user.minOffer(subitem.offers)|currency:'':2")
-											span  &euro;
-	.col-12.px-5.my-5
-		h6.strong Περιγρφαφή Προϊόντος
-		.mt-2(data-ng-if="content."+model+".show.text",data-ng-init="tt=user.nl2br(content."+model+".show.text)")
-			p.small.my-2(data-ng-repeat="t in tt track by $index",data-ng-bind="t")
+								.card
+									picture(data-ng-init="image=subitem.images[0]")
+										source(
+											data-ng-repeat="type in ['webp','png','jpg']",
+											data-ng-if="image.thumbnail[type]",
+											type="image/{{type}}",
+											data-ng-srcset="/thumbnail/"+model+"/{{subitem._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+										)
+										img.card-img-top.px-3(data-ng-src="{{build.defimgsrc(subitem)}}" title="{{subitem.name}}" alt="{{subitem.name}}")
+									.card-body.px-2.pt-2.pb-3
+										.card-title.py-2.my-0.text-truncate.small.text-muted(data-ng-bind="content."+model+".show.title")
+										.card-text.text-center
+											small.mr-2
+												span.diag.mr-1(data-ng-if="user.minOfferOriginal(subitem.offers)")
+													span(data-ng-bind="user.minOfferOriginal(subitem.offers)")
+													snall &euro;
+												small
+													small.mr-1.text-muted Από
+												span.font-weight-bold(data-ng-bind="user.minOffer(subitem.offers)|currency:'':2")
+												span  &euro;
+		.col-12.px-5.my-5
+			h6.strong Περιγρφαφή Προϊόντος
+			.mt-2(data-ng-if="content."+model+".show.text",data-ng-init="tt=user.nl2br(content."+model+".show.text)")
+				p.small.my-2(data-ng-repeat="t in tt track by $index",data-ng-bind="t")
 	// Modal
 	#cartInform.modal.fade(tabindex='-1', aria-labelledby='cartInformLabel', aria-hidden='true')
 		.modal-dialog.modal-lg

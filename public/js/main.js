@@ -47,11 +47,39 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		"priceRange":"$$$",
 		"image":"https://www.saloras.gr/images/logo-banner.svg"
 	}
+	user.saveCart=_=>
+	{
+		$scope.cart.active=true
+		return $ahttp.put('/api/orders',{data:$scope.cart},(error,data)=>
+		{
+			if(error)
+				console.log(error)
+			console.log(data)
+		})
+	}
+	user.copyShipment2Customer=_=>
+	{
+		if($scope.cart.customer)
+			return true
+		$scope.cart.customer={
+			surname:$scope.cart.shipping.surname,
+			name:$scope.cart.shipping.name,
+			email:$scope.cart.shipping.email,
+			phone:$scope.cart.shipping.phone,
+			mobile:$scope.cart.shipping.mobile,
+			address:{
+				streat:$scope.cart.shipping.address.streat,
+				zip:$scope.cart.shipping.address.zip,
+				city:$scope.cart.shipping.address.city,
+				region:$scope.cart.shipping.address.region,
+				country:$scope.cart.shipping.address.country
+			}
+		}
+	}
 	user.setCartPage=page=>
 	{
 		$scope.cart.page=page
 		sessionStorage.setItem('cart',JSON.stringify($scope.cart))
-		$scope.$apply()
 	}
 	user.cartSum=_=>
 	{

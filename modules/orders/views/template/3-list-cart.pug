@@ -1,7 +1,7 @@
-form(autocomplete="on")
+form(autocomplete="on",data-ng-submit="user.saveCart()")
 	.row(data-ng-if="cart")
 		.col-12.col-lg-4
-		.col-12.col-lg-4(data-ng-init="cart.customer=!cart.customer?{}:cart.customer")
+		.col-12.col-lg-4(data-ng-init="user.copyShipment2Customer()")
 			h4.h1.mb-5.text-center
 				i.fas.fa-user-check.mr-5.text-muted
 				small.text-muted Στοιχεία Πέλάτη
@@ -33,7 +33,6 @@ form(autocomplete="on")
 					span.mr-1 Κατάστημα
 					small.text-muted (Προαιρετικό)
 				input#cart-customer-organization.form-control(name="organization",data-ng-model="cart.customer.organization",type='text',aria-describedby="cart-customer-organization-help")
-			.my-4.font-weight-bold Διεύθυνση Αποστολής
 			.form-group
 				label(for='cart-customer-address-streat') Οδός &amp; Αριθμός
 				input#cart-customer-address-streat.form-control(required="required",name="street-address",data-ng-model="cart.customer.address.streat",type='text')
@@ -59,3 +58,4 @@ form(autocomplete="on")
 		.col-11.text-right.my-5
 			.btn-group
 				button.btn.btn-lg.btn-secondary.py-1(type="button",data-ng-click="user.setCartPage(2)") Προηγούμενο
+				button.btn.btn-lg.btn-primary.py-1(type="submit") Αποστολή Παραγγελίας

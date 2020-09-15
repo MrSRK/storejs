@@ -18,7 +18,41 @@ class Module
 				url:true,
 				schema:
 				{
-					name:{type:String}
+					customer:
+					{
+						name:{type:String},
+						surname:{type:String},
+						email:{type:String},
+						phone:{type:String},
+						mobile:{type:String},
+						address:
+						{
+							streat:{type:String},
+							zip:{type:String},
+							city:{type:String},
+							region:{type:String},
+							country:{type:String}
+						}
+					},
+					invoice:{type:Boolean},
+					invoice_data:
+					{
+						name:{type:String},
+						taxid:{type:String},
+						doy:{type:String},
+						phone:{type:String},
+						address:{type:String}
+					},
+					items:[
+						{
+							color:{
+								title:{type:String},
+								value:{type:String}
+							},
+							item:{},
+							offer:{}
+						}
+					]
 				}
 			}
 			const permitions={
