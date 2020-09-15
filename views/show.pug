@@ -25,6 +25,6 @@ block content
 				h2.h5.pb-0.mb-0(data-ng-if="content."+model+".show.subtitle",data-ng-bind="content."+model+".show.subtitle")
 				p.ml-2.my-3.lead(data-ng-if="content."+model+".show.description",data-ng-bind="content."+model+".show.description")
 				div(data-ng-if="content."+model+".show.text",data-ng-init="tt=user.nl2br(content."+model+".show.text)")
-					p.ml-2.my-2(data-ng-repeat="t in tt",data-ng-bind="t")
+					p.ml-2.my-2(data-ng-repeat="t in tt track by $index",data-ng-bind="t")
 		script(type='application/ld+json',data-ng-if="content."+model+".show",data-ng-init="user.schemaBuilder('"+model+"',content."+model+".show,true)",data-ng-bind="user.schema")
 		.mb-1(data-ng-include="'/template/article.row.html'")
