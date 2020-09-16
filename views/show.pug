@@ -20,6 +20,17 @@ block content
 					a.carousel-control-next(href='#shoCarouselControls', role='button', data-slide='next')
 						span.carousel-control-next-icon(aria-hidden='true')
 						span.sr-only Next
+				.row
+					.col-2(data-ng-repeat="image in content."+model+".show.images",data-ng-class="$index==0?'active':''")
+						a(data-ng-href="#",data-target="#shoCarouselControls",data-slide-to="{{$index}}")
+							picture(data-ng-if="image")
+								source(
+									data-ng-repeat="type in ['webp','png','jpg']",
+									data-ng-if="image.thumbnail[type]",
+									type="image/{{type}}",
+									data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
+								)
+								img.d-block.w-100(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
 			.col-8.p-5
 				h1.h2.pb-0.mb-0(data-ng-bind="content."+model+".show.title||content."+model+".show.name")
 				h2.h5.pb-0.mb-0(data-ng-if="content."+model+".show.subtitle",data-ng-bind="content."+model+".show.subtitle")
