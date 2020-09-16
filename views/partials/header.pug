@@ -1,4 +1,4 @@
-nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light.py-1.px-4
+nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light.py-3.px-4
 	a.navbar-brand.text-muted.mr-5(href='/')
 		picture
 			source(type="image/svg+xml",srcset="/images/logo-small.svg")
@@ -14,7 +14,7 @@ nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light.py-1.px-4
 				a.nav-link(href="#") Saloras Satellite Center
 		ul.navbar-nav.mr-auto(data-ng-init="request.navigation()")
 			li.nav-item.text-capitalize.mr-3(data-ng-if="content.navigation.length>0",data-ng-repeat="nav in content.navigation",data-ng-class="nav.child?'dropdown':''")
-				a.nav-link(data-ng-if="!nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="::nav.name",title="{{nav.title||nav.name}}")
-				a.nav-link(data-ng-if="nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="::nav.name",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false",title="{{nav.title||nav.name}}")
+				a.navfont.nav-link.text-dark(data-ng-if="!nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="::nav.name",title="{{nav.title||nav.name}}")
+				a.navfont.nav-link.text-dark(data-ng-if="nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="::nav.name",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false",title="{{nav.title||nav.name}}")
 				.dropdown-menu(aria-labelledby="navbarDropdownMenuLink",data-ng-if="nav.child")
-					a.nav-link(data-ng-if="nav.child",data-ng-repeat="c in nav.child",data-ng-href="{{user.buildNavigationLink(c)}}",data-ng-bind="::c.name",title="{{c.title||c.name}}")
+					a.navfont.nav-link.text-dark(data-ng-if="nav.child",data-ng-repeat="c in nav.child",data-ng-href="{{user.buildNavigationLink(c)}}",data-ng-bind="::c.name",title="{{c.title||c.name}}")
