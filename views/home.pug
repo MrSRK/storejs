@@ -11,7 +11,7 @@ block content
 								type="image/{{type}}",
 								data-ng-srcset="/thumbnail/carousel/{{carousel._id+'/'+carousel.images[0].thumbnail[type].name+'/'+carousel.images[0].thumbnail[type].name+'.'+type}}"
 							)
-							img.d-block.w-100(height="377",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="{{build.defimgsrc('carousel',carousel)}}" title="{{carousel.name}}" alt="{{carousel.name}}")
+							img.d-block.w-100(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="{{build.defimgsrc('carousel',carousel)}}" title="{{carousel.name}}" alt="{{carousel.name}}")
 				.carousel-item.active(data-ng-if="!content.carousel.list")
 					img.d-block.w-100(height="377",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",alt="Saloras Satellite Center")
 			a.carousel-control-prev(href='#homeCarouselControls', role='button', data-slide='prev')
