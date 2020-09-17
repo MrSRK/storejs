@@ -15,6 +15,6 @@
 				.card-body
 					h5.card-title
 						a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
-					p.card-text.small.d-none.d-lg-block.text-truncate(data-ng-bind="article.description")
+					p.card-text.small.d-none.d-lg-block.text-truncate(data-ng-bind-html="user.sanitize(article.description)")
 					.text-right
 						a.btn.btn-sm.btn-outline-secondary.text-secondary(data-ng-href="/article/{{article._id}}") Περισσότερα
