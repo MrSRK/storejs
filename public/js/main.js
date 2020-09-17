@@ -1,6 +1,6 @@
 "use strict"
 const app=angular.module("app",[])
-app.controller("page-handler",['$scope','$http',($scope,$http)=>
+app.controller("page-handler",['$scope','$http','$sce',($scope,$http,$sce)=>
 {
 	// Request Functions
 	const request={}
@@ -34,6 +34,10 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 		"openingHours": "Mo-Sa 09:00-21:00",
 		"priceRange":"$$$",
 		"image":"https://www.saloras.gr/images/logo-banner.svg"
+	}
+	user.sanitize=(text)=>
+	{
+		return $sce.trustAsHtml(text)
 	}
 	user.translateHead=text=>
 	{
