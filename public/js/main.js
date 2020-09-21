@@ -1,5 +1,5 @@
 "use strict"
-const app=angular.module("app",[])
+const app=angular.module("app",['colorpicker.module', 'wysiwyg.module'])
 app.controller("page-handler",['$scope','$http','$sce',($scope,$http,$sce)=>
 {
 	// Request Functions
