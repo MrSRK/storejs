@@ -4,97 +4,98 @@ h1.h3.text-capitalize(data-ng-if="content."+model+".table")=model+'s'
 		span INSERT NEW
 .mt-5(data-ng-if="content."+model+".table")
 	.row.bg-info.text-light.rounded
-		.col.col-1.text-left.d-none.d-lg-block
+		.col-1.text-left.d-none.d-lg-block
 			input(type="checkbox",data-ng-model="options.tableMassCheck",data-ng-click="admin.tableMassCheck('"+model+"')")
 			span.sr-only select all
-		.col.col-1.text-right.d-none.d-lg-block
+		.col-1.text-right.d-none.d-lg-block
 			i.fas.mr-2.text-light.fa-key
 			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('_id')")
 				i.fas.fa-sort(data-ng-class="options.sort.name=='_id'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
 			span.sr-only _id
-		.col.col-1.text-center
+		.col-1.text-center
 			i.fas.mr-2.text-light.fa-check-circle
 			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('active')")
 				i.fas.fa-sort(data-ng-class="options.sort.name=='active'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
 			span.sr-only Active
-		.col.col-1.text-center.d-none.d-lg-block
+		.col-1.text-center.d-none.d-lg-block
 			i.fas.mr-2.text-light.fa-image
 			span.sr-only Image
-		.col.col-1.text-center.d-none.d-lg-block
+		.col-1.text-center.d-none.d-lg-block
 			i.fas.mr-2.text-light.fa-sort-amount-down-alt
 			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('order')")
 				i.fas.fa-sort(data-ng-class="options.sort.name=='order'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
 			span.sr-only Order
-		.col.col-9.col.col-lg-3
+		.col-9.col-lg-3
 			i.fas.mr-2.text-light.fa-users
 			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('name')")
 				i.fas.fa-sort(data-ng-class="options.sort.name=='name'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
 			span.sr-only Name / Title
-		.col.col-1.text-right.d-none.d-lg-block
+		.col-1.text-right.d-none.d-lg-block
 			i.fas.mr-2.text-light.fa-plus
 			i.fas.mr-2.text-light.fa-calendar-alt
 			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('createdAt')")
 				i.fas.fa-sort(data-ng-class="options.sort.name=='createdAt'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
 			span.sr-only Date Add
-		.col.col-1.text-right.d-none.d-lg-block
+		.col-1.text-right.d-none.d-lg-block
 			i.fas.mr-2.text-light.fa-pen-alt
 			i.fas.mr-2.text-light.fa-calendar-alt
 			button.btn.btn-sm.btn-link(data-ng-click="admin.setSort('updatedAt')")
 				i.fas.fa-sort(data-ng-class="options.sort.name=='updatedAt'?options.sort.reverse?'text-danger':'text-warning':'text-white'")
 			span.sr-only Date Modified
-		.col.col-2.col.col-lg-2
+		.col-2.col-lg-2
 			i.fas.mr-2.text-light.fa-cogs
 			span.sr-only Controls
 	.row.mt-4(data-ng-include="'/template/pagination.table.html?model="+model+"'")
 	//	### Repeat ###
-	fieldset.row.align-items-center(data-ng-clock,data-ng-if="content."+model+".table.length>0",data-ng-repeat="rec in content."+model+".table | orderBy:options.sort.name:options.sort.reverse | limitTo:options.limit.limit:options.limit.begin",data-ng-disabled="rec.tmp.disabled?true:false")
-		.col.col-1.small.text-muted.text-left.d-none.d-lg-block
-			input(type="checkbox",data-ng-model="rec.tmp.checked")
-		.col.col-1.small.text-muted.text-right.d-none.d-lg-block
-			a(href='/'+model+"/{{rec._id}}",target="_blank")
-				small(data-ng-bind="rec._id")
-		.col.col-1.text-center
-			button.btn.btn-link(data-ng-click="admin.active('"+model+"',rec)")
-				span.sr-only Active
-				i.fas(data-ng-class="rec.active?'fa-check-circle text-success':'fa-times-circle text-danger'")
-		.col.col-1.text-center.d-none.d-lg-block
-			picture(data-ng-if="rec.images&&rec.images.length>0")
-				source(
-					data-ng-repeat="type in ['webp','png','jpg']",
-					data-ng-if="rec.images[0].thumbnail[type]",
-					type="image/{{type}}",
-					data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
-				)
-				img.img-thumbnail.w-25(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}",alt="image thumbnail")
-		.col.col-1.small.text-center.d-none.d-lg-block
-			.row.m-0.p-0.align-items-center
-				.col.col-6.m-0.p-0.line-height-sm
-					.col.col-12.m-0.p-0.line-height-sm.text-right
-						button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-click="admin.addOrder('"+model+"',rec,1)")
-							small.fas.fa-sort-up.line-height-sm
-					.col.col-12.m-0.p-0.line-height-sm.text-right
-						button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-click="admin.addOrder('"+model+"',rec,-1)")
-							small.fas.fa-sort-down.line-height-sm
-				.col.col-6.m-0.p-0.line-height-sm.text-left
-					small.ml-2(data-ng-bind="rec.order||0")
-		.col.col-9.col.col-lg-3
-			a.text-dark(data-ng-bind="rec.title?rec.title:rec.name",href=model+"/{{rec._id}}")
-		.col.col-1.small.text-right.d-none.d-lg-block
-			span(data-ng-bind="rec.createdAt | date:'dd-MM-yy'")
-			small.ml-1.text-muted(data-ng-bind="rec.createdAt | date:'hh:mm:ss'")
-		.col.col-1.small.text-right.d-none.d-lg-block
-			span(data-ng-bind="rec.updatedAt | date:'dd-MM-yy'")
-			small.ml-1.text-muted(data-ng-bind="rec.updatedAt | date:'hh:mm:ss'")
-		.col.col-2.col.col-lg-2
-			a.btn.btn-link.d-none.d-lg-inline-block(href=model+"/{{rec._id}}")
-				i.fas.fa-edit
-			a.btn.btn-link.d-none.d-lg-inline-block(href='/'+model+"/{{rec._id}}",target="_blank")
-				i.fas.fa-eye.text-info(target="_blank")
-			button.btn.btn-link(data-ng-click="admin.deleteByid('"+model+"',rec)")
-				i.fas.fa-trash-alt.text-danger
+	fieldset(data-ng-clock,data-ng-if="content."+model+".table.length>0",data-ng-repeat="rec in content."+model+".table | orderBy:options.sort.name:options.sort.reverse | limitTo:options.limit.limit:options.limit.begin",data-ng-disabled="rec.tmp.disabled?true:false")
+		.row.align-items-center
+			.col-1.small.text-muted.text-left.d-none.d-lg-block
+				input(type="checkbox",data-ng-model="rec.tmp.checked")
+			.col-1.small.text-muted.text-right.d-none.d-lg-block
+				a(href='/'+model+"/{{rec._id}}",target="_blank")
+					small(data-ng-bind="rec._id")
+			.col-1.text-center
+				button.btn.btn-link(data-ng-click="admin.active('"+model+"',rec)")
+					span.sr-only Active
+					i.fas(data-ng-class="rec.active?'fa-check-circle text-success':'fa-times-circle text-danger'")
+			.col-1.text-center.d-none.d-lg-block
+				picture(data-ng-if="rec.images&&rec.images.length>0")
+					source(
+						data-ng-repeat="type in ['webp','png','jpg']",
+						data-ng-if="rec.images[0].thumbnail[type]",
+						type="image/{{type}}",
+						data-ng-srcset="/thumbnail/"+model+"/{{rec._id+'/'+rec.images[0].thumbnail[type].name+'/'+rec.images[0].thumbnail[type].name+'.'+type}}"
+					)
+					img.img-thumbnail.w-25(data-ng-src="{{build.defimgsrc('"+model+"',rec)}}",alt="image thumbnail")
+			.col-1.small.text-center.d-none.d-lg-block
+				.row.m-0.p-0.align-items-center
+					.col-6.m-0.p-0.line-height-sm
+						.col-12.m-0.p-0.line-height-sm.text-right
+							button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-click="admin.addOrder('"+model+"',rec,1)")
+								small.fas.fa-sort-up.line-height-sm
+						.col-12.m-0.p-0.line-height-sm.text-right
+							button.btn.btn-sm.btn-link.m-0.p-0.line-height-sm(data-ng-click="admin.addOrder('"+model+"',rec,-1)")
+								small.fas.fa-sort-down.line-height-sm
+					.col-6.m-0.p-0.line-height-sm.text-left
+						small.ml-2(data-ng-bind="rec.order||0")
+			.col-9.col-lg-3
+				a.text-dark(data-ng-bind="rec.title?rec.title:rec.name",href=model+"/{{rec._id}}")
+			.col-1.small.text-right.d-none.d-lg-block
+				span(data-ng-bind="rec.createdAt | date:'dd-MM-yy'")
+				small.ml-1.text-muted(data-ng-bind="rec.createdAt | date:'hh:mm:ss'")
+			.col-1.small.text-right.d-none.d-lg-block
+				span(data-ng-bind="rec.updatedAt | date:'dd-MM-yy'")
+				small.ml-1.text-muted(data-ng-bind="rec.updatedAt | date:'hh:mm:ss'")
+			.col-2.col-lg-2
+				a.btn.btn-link.d-none.d-lg-inline-block(href=model+"/{{rec._id}}")
+					i.fas.fa-edit
+				a.btn.btn-link.d-none.d-lg-inline-block(href='/'+model+"/{{rec._id}}",target="_blank")
+					i.fas.fa-eye.text-info(target="_blank")
+				button.btn.btn-link(data-ng-click="admin.deleteByid('"+model+"',rec)")
+					i.fas.fa-trash-alt.text-danger
 	.row.mt-4(data-ng-include="'/template/pagination.table.html?model="+model+"'")
 	.row.mt-4
-		.col.col-12
+		.col-12
 			strong.text-muted ↳
 			small.text-muted.ml-2
 				small select all
