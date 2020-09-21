@@ -18,3 +18,5 @@ nav.navbar.sticky-top.navbar-expand-lg.navbar-light.bg-light.py-3.px-4
 				a.navfont.nav-link.text-dark(data-ng-if="nav.child",data-ng-href="{{user.buildNavigationLink(nav)}}",data-ng-bind="::nav.name",role="button",data-toggle="dropdown",aria-haspopup="true",aria-expanded="false",title="{{nav.title||nav.name}}")
 				.dropdown-menu(aria-labelledby="navbarDropdownMenuLink",data-ng-if="nav.child")
 					a.navfont.nav-link.text-dark(data-ng-if="nav.child",data-ng-repeat="c in nav.child",data-ng-href="{{user.buildNavigationLink(c)}}",data-ng-bind="::c.name",title="{{c.title||c.name}}")
+		span.w-25.float-right
+				img.float-right.img-fluid.w-50(src="/images/animation.svg")

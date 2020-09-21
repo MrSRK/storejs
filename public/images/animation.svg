@@ -6,7 +6,7 @@
    <![CDATA[
     .fil1 {fill:#0C306C;fill-rule:nonzero}
     .fil0 {fill:#17A2B8;fill-rule:nonzero}
-	.md
+	/*.md
 	{
 		animation: mdk 5s linear infinite;
 	}
@@ -29,7 +29,7 @@
 		30% {transform: translateY(0)}
 		90% {transform: translateY(0)}
 		100%{transform: translateY(-100%)}
-	}
+	}*/
 
    ]]>
   </style>
