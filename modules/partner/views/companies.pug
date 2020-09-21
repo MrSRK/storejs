@@ -1,7 +1,7 @@
 extends ../../../views/partials/layout
 block content
 	.container-fluid.px-5(data-ng-init="request.list('"+model+"')")
-		h1.h4.my-5.text-capitalize(data-ng-if="content."+model+".list") Σηνεργάτες μας
+		//h1.h4.my-5.text-capitalize(data-ng-if="content."+model+".list") Σηνεργάτες μας
 		.mt-5.min-vh-100(data-ng-if="content."+model+".list")
 			.row(data-ng-clock,data-ng-if="content."+model+".list.length>0")
 				.col-6.col-md-4.col-lg-3.col-xl-2.mb-4(data-ng-repeat="rec in content."+model+".list",data-ng-include="'/template/card.companies.html?model="+model+"'")
