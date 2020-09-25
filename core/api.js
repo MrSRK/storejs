@@ -6,6 +6,11 @@ class API
     {
         try
         {
+			//Exception set order
+			app.put('/api/:model/putOrder',(req,res)=>
+			{
+				return next(null,'putOrder',req,res)
+			})
 			//Image Upload
 			app.post('/api/:model/:_id/image',(req,res)=>
 			{

@@ -71,7 +71,8 @@ class Module
 				auth_findByIdAndUpdate:true,
 
 				auth_imageUpload:true,
-				auth_imageDelete:true
+				auth_imageDelete:true,
+				putOrder:true
 			}
 			new Model(options,(error,model,schema)=>
 			{
@@ -81,6 +82,16 @@ class Module
 				{
 					if(error)
 						return next(error)
+					// Exception set order function save withoute auth
+					controller.putOrder=(req,res,n)=>
+					{
+						console.log('asdas')
+						return controller['auth_save'](req,res,(error,data)=>
+						{
+							return n(error,data)
+						},false)
+					}
+					console.log(controller)
 					this.controller=controller
 					return next(null)
 				})

@@ -37,20 +37,20 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 			"addressCountry":"GR",
 			"addressLocality":"Ηράκλειο Κρήτης",
 			"postalCode":"71304",
-			"streetAddress":"Στρυμώνος 11"
+			"streetAddress":"Θερίσου 143"
 		},
-		"email":"info@saloras.gr",
-		"telephone":"281 037 2800",
-		"description": "Είμαστε η πρώτη εταιρία που από την ίδρυση της ασχολήθηκε με τις δορυφορικές επικοινωνίες (Πρώτη δορυφορική λήψη στην ΚΡΗΤΗ την 30-06-85) εφήρμοσε την παράλληλη διανομή τηλεοπτικών, μουσικών και πληροφοριακών (μέσω υπολογιστή)  καναλιών, με πρώτη μεγάλη εγκατάσταση το 1989 στο CRETA PALACE της GRECOTEL στο ΡΕΘΥΜΝΟ.",
-		"name": "Saloras Satellite Center",
-		"openingHours": "Mo-Sa 09:00-21:00",
-		"priceRange":"$$$",
-		"image":"https://www.saloras.gr/images/logo-banner.svg"
+		"email":"info@visionadv.gr",
+		"telephone":"+30 2810 314919",
+		"description": "",
+		"name": "Vision Group",
+		"openingHours": "Mo-Sa 09:00-17:00",
+		"priceRange":"$$",
+		//"image":"https://www.saloras.gr/images/logo-banner.svg"
 	}
 	user.saveCart=_=>
 	{
 		$scope.cart.active=true
-		return $ahttp.put('/api/orders',{data:$scope.cart},(error,data)=>
+		return $ahttp.put('/api/orders/putOrder',{data:$scope.cart},(error,data)=>
 		{
 			if(error)
 				console.log(error)
@@ -103,7 +103,7 @@ app.controller("page-handler",['$scope','$http',($scope,$http)=>
 	user.getCart=_=>
 	{
 		$scope.cart=JSON.parse(sessionStorage.getItem('cart')||'{}')
-		console.log($scope.cart)
+		//console.log($scope.cart)
 	}
 	user.addCart=_=>
 	{
