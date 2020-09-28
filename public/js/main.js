@@ -41,12 +41,12 @@ app.controller("page-handler",['$scope','$http','$sce',($scope,$http,$sce)=>
 		{
 			if(error)
 			{
+				$scope.contact={info:{t:'alert-danger',m:'ΠΡΟΣΟΧΗ! Αδυναμία αποστολής μηνύματος'}}
 				console.log(error)
-				$scope.contact={info:{t:'alert-success',m:'Το μήνυμα σας αποστάλθηκε με επιτυχία'}}
 			}
 			else
 			{
-				$scope.contact={info:{t:'alert-danger',m:'ΠΡΟΣΟΧΗ! Αδυναμία αποστολής μηνύματος'}}
+				$scope.contact={info:{t:'alert-success',m:'Το μήνυμα σας αποστάλθηκε με επιτυχία'}}
 			}
 		})
 	}
