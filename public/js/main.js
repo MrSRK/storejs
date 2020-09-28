@@ -40,8 +40,14 @@ app.controller("page-handler",['$scope','$http','$sce',($scope,$http,$sce)=>
 		$ahttp.post('/',{contact:$scope.contact},(error,data)=>
 		{
 			if(error)
+			{
 				console.log(error)
-			console.log(data)
+				$scope.contact={info:{t:'success',m:'Το μήνυμα σας αποστάλθηκε με επιτυχία'}}
+			}
+			else
+			{
+				$scope.contact={info:{t:'danger',m:'ΠΡΟΣΟΧΗ! Αδυναμία αποστολής μηνύματος'}}
+			}
 		})
 	}
 	user.sanitize=(text)=>
