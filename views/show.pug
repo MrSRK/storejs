@@ -16,7 +16,7 @@ block content
 													type="image/{{type}}",
 													data-ng-srcset="/thumbnail/"+model+"/{{content."+model+".show._id+'/'+image.thumbnail[type].name+'/'+image.thumbnail[type].name+'.'+type}}"
 												)
-												img.d-block.w-100(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
+												img.card-img-top(data-ng-src="{{build.defimgsrc('"+model+"',content."+model+".show)}}" title="{{content."+model+".show.name}}" alt="{{content."+model+".show.name}}")
 								a.carousel-control-prev(href='#shoCarouselControls', role='button', data-slide='prev')
 									span.carousel-control-prev-icon(aria-hidden='true')
 									span.sr-only Previous
