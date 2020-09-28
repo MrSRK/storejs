@@ -14,6 +14,9 @@ $font-family-sans-serif:
 @import "node_modules/@fortawesome/fontawesome-free/scss/brands";
 @import "node_modules/@fortawesome/fontawesome-free/scss/regular";
 @import "node_modules/@fortawesome/fontawesome-free/scss/solid";
+
+$card-height: 100%;
+
 body
 {
     overflow-y: scroll;
@@ -59,5 +62,5 @@ body
 }
 .navfont
 {
-	font-size: 1.4rem !important;
+	font-size: 1.2rem !important;
 }

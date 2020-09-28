@@ -1,7 +1,7 @@
 .container-fluid(data-ng-init="request.list('article',true)")
 	.row
 		.col-12.col-sm-6.col-md-4.col-lg-2.p-3(data-ng-repeat="article in content.article.list")
-			.card
+			.card.h-100
 				a.text-dark(data-ng-href="/article/{{article._id}}")
 					picture(data-ng-if="article.images&&article.images.length>0")
 						source(
@@ -16,5 +16,6 @@
 					h5.card-title
 						a.text-dark(data-ng-href="/article/{{article._id}}",data-ng-bind="article.name")
 					p.card-text.small.d-none.d-lg-block.text-truncate(data-ng-bind-html="user.sanitize(article.description)")
+				.card-footer
 					.text-right
 						a.btn.btn-sm.btn-outline-secondary.text-secondary(data-ng-href="/article/{{article._id}}") Περισσότερα
