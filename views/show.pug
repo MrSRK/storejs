@@ -6,7 +6,7 @@ block content
 				.row
 					.col-12
 						.card.h-100.border-0
-							#shoCarouselControls.carousel.slide.h-100(data-ride='carousel',data-ng-init="request.list('carousel')")
+							#shoCarouselControls.carousel.h-100(data-ride='carousel',data-ng-init="request.list('carousel')")
 								.carousel-inner
 									.carousel-item(data-ng-repeat="image in content."+model+".show.images",data-ng-class="$index==0?'active':''")
 										picture(data-ng-if="image")
