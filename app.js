@@ -104,7 +104,7 @@ try
 			if(!req.body.contact)
 				return next()
 			const transporter=nodemailer.createTransport({
-				service:'mail.saloras.gr',
+				host:'mail.saloras.gr',
 				auth:{
 					user: 'info@saloras.gr',
 					pass: 'glyZ60$1'
