@@ -101,64 +101,55 @@ try
 			app.use(module)
 		return app.post('*',(req,res,next)=>
 		{
-			try
+			if(!req.body.contact)
+				return next()
+			const transporter=nodemailer.createTransport({
+				sendmail: true,
+				//newline: 'unix',
+				//path: '/usr/sbin/sendmail',
+				host: 'mail.saloras.gr',
+				//port: 465,
+				//port: 587,
+				secure: true,
+				auth: {
+					user: 'info@saloras.gr',
+					pass: 'glyZ60$1'
+				},
+				tls:{
+					rejectUnauthorized:false  // if on local
+				}
+				})
+
+			const mailOptions={
+				from:'info@saloras.gr',
+				to:'info@saloras.gr',
+				subject:'SSC Contact Form',
+				html:`
+					<div>
+						<h1>Message From: ${req.body.contact.from}</h1>
+						<p>Email: <a href="mailto:${req.body.contact.email}">${req.body.contact.email}</a></P>
+						<p>Message</p>
+						<p>${req.body.contact.message}</p>
+					</div>
+				`,
+				text:`
+					Message From: ${req.body.contact.from}
+					Email: ${req.body.contact.email}
+
+					Message
+
+					${req.body.contact.message}
+			`
+			}
+			return transporter.sendMail(mailOptions,(error,info)=>
 			{
-				if(!req.body.contact)
-					return next()
-				/*const transporter=nodemailer.createTransport({
-					host:'mail.saloras.gr',
-					secure: false,
-					auth:{
-						user: 'info@saloras.gr',
-						pass: 'glyZ60$1'
-					}
-				})*/
-
-				let transporter = nodemailer.createTransport({
-					sendmail: true,
-					newline: 'unix',
-					path: '/usr/sbin/sendmail',
-					host: 'mail.saloras.gr',
-					//port: 465,
-					port: 587,
-					secure: true,
-					auth: {
-						user: 'info@saloras.gr',
-						pass: 'glyZ60$1'
-					},
-					tls:{
-					  rejectUnauthorized:false  // if on local
-					}
-				  });
-
-				const mailOptions={
-					from:'info@saloras.gr',
-					to:'info@saloras.gr',
-					subject:'SSC Contact Form',
-					html:`
-						<div>
-							<h1>Message From: ${req.body.contact.from}</h1>
-							<p>Email</P>
-							<p>${req.body.contact.email}</p>
-							<p>Message</p>
-							<p>${req.body.contact.message}</p>
-						</div>
-					`
-					}
-					return transporter.sendMail(mailOptions,(error,info)=>
-					{
-						console.log(error)
-						if(error)
-							res.status(500).json(error)
-						else
-							res.status(200).json(info)
-
-					})
-				}
-				catch(error)
-				{
+				console.log(error)
+				if(error)
 					res.status(500).json(error)
-				}
+				else
+					res.status(200).json(info)
+
+			})
 		})
 	})
 	/**
