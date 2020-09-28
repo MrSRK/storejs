@@ -8,7 +8,7 @@ class Config
 			view:'home'
 		},
 		{
-			route:"/contact",
+			route:"/contact-us",
 			view:'contact'
 		}
 		,

@@ -20,6 +20,7 @@ const Router=require('./core/router')
 const Websocket=require('./core/websocket')
 const API=require('./core/api')
 const Loader=require('./core/loader')
+const nodemailer=require('nodemailer')
 try
 {
 	dotenv.config()
@@ -98,6 +99,43 @@ try
 			console.log(error)
 		if(status)
 			app.use(module)
+
+		return app.post('*',(req,res,next)=>
+		{
+			console.log('TRY TO SEND MAIL')
+			if(req.body.contact)
+			{
+				console.log('TRY TO SEND MAIL')
+				const transporter=nodemailer.createTransport({
+					service:'mail.saloras.gr',
+					auth:{
+						user: 'info@saloras.gr',
+						pass: 'glyZ60$1'
+					}
+				})
+				const mailOptions={
+					from: 'info@saloras.gr',
+					to: 'info@saloras.gr',
+					subject: 'SSC Contact Form',
+					html: `
+						<div>
+							<h1>Message From: ${req.body.contact.from}</h1>
+							<p>Email</P>
+							<p>${req.body.contact.email}</p>
+							<p>Message</p>
+							<p>${req.body.contact.message}</p>
+						<div>
+					`
+				  }
+				  return transporter.sendMail(mailOptions,(error,info)=>
+				  {
+					if(error)
+					  console.log(error)
+					else
+						console.log('Email sent: ' + info.response)
+				  })
+			}
+		})
 	})
 	/**
 	 * CSS SASS Handler

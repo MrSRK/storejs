@@ -35,6 +35,15 @@ app.controller("page-handler",['$scope','$http','$sce',($scope,$http,$sce)=>
 		"priceRange":"$$$",
 		"image":"https://www.saloras.gr/images/logo-banner.svg"
 	}
+	user.contact=_=>
+	{
+		$ahttp.post('/',{contact:$scope.contact},(error,data)=>
+		{
+			if(error)
+				console.log(error)
+			console.log(data)
+		})
+	}
 	user.sanitize=(text)=>
 	{
 		return $sce.trustAsHtml(text)
