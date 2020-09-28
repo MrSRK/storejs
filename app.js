@@ -118,7 +118,7 @@ try
 					sendmail: true,
 					newline: 'unix',
 					path: '/usr/sbin/sendmail',
-					host: mail.saloras.gr,
+					host: 'mail.saloras.gr',
 					//port: 465,
 					port: 587,
 					secure: true,
