@@ -3,7 +3,7 @@ block content
 	.container-fluid
 		.row(data-ng-init="request.show('"+model+"','"+_id+"')")
 			.col-4.p-5
-				#shoCarouselControls.carousel.slide(data-ride='carousel',data-ng-init="request.list('carousel')",style="min-height:50vh")
+				#shoCarouselControls.carousel.slide(data-ride='carousel',data-ng-init="request.list('carousel')",style="min-height:75vh")
 					.carousel-inner
 						.carousel-item(data-ng-repeat="image in content."+model+".show.images",data-ng-class="$index==0?'active':''")
 							picture(data-ng-if="image")
