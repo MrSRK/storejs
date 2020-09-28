@@ -105,6 +105,7 @@ try
 				return next()
 			const transporter=nodemailer.createTransport({
 				host:'mail.saloras.gr',
+				secure: false,
 				auth:{
 					user: 'info@saloras.gr',
 					pass: 'glyZ60$1'
@@ -126,6 +127,7 @@ try
 				}
 				return transporter.sendMail(mailOptions,(error,info)=>
 				{
+					console.log(error)
 				if(error)
 					res.status(500).json(error)
 				else
