@@ -105,14 +105,32 @@ try
 			{
 				if(!req.body.contact)
 					return next()
-				const transporter=nodemailer.createTransport({
+				/*const transporter=nodemailer.createTransport({
 					host:'mail.saloras.gr',
 					secure: false,
 					auth:{
 						user: 'info@saloras.gr',
 						pass: 'glyZ60$1'
 					}
-				})
+				})*/
+
+				let transporter = nodemailer.createTransport({
+					sendmail: true,
+					newline: 'unix',
+					path: '/usr/sbin/sendmail',
+					host: mail.saloras.gr,
+					//port: 465,
+					port: 587,
+					secure: true,
+					auth: {
+						user: 'info@saloras.gr',
+						pass: 'glyZ60$1'
+					},
+					tls:{
+					  rejectUnauthorized:false  // if on local
+					}
+				  });
+
 				const mailOptions={
 					from: 'info@saloras.gr',
 					to: 'info@saloras.gr',
@@ -130,10 +148,10 @@ try
 					return transporter.sendMail(mailOptions,(error,info)=>
 					{
 						console.log(error)
-					if(error)
-						res.status(500).json(error)
-					else
-						res.status(500).json(info)
+						if(error)
+							res.status(500).json(error)
+						else
+							res.status(500).json(info)
 
 					})
 				}
