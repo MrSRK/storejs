@@ -126,9 +126,9 @@ try
 				subject:'SSC Contact Form',
 				html:`
 					<div>
-						<h1>Message From: ${req.body.contact.from}</h1>
-						<p>Email: <a href="mailto:${req.body.contact.email}">${req.body.contact.email}</a></P>
-						<p>Message</p>
+						<p><strong>Message From:</strong> ${req.body.contact.from}</p>
+						<p><strong>Email:</strong> <a href="mailto:${req.body.contact.email}">${req.body.contact.email}</a></p>
+						<p><strong>Message</strong></p>
 						<p>${req.body.contact.message}</p>
 					</div>
 				`,
