@@ -136,7 +136,7 @@ try
 					Message From: ${req.body.contact.from}
 					Email: ${req.body.contact.email}
 
-					Message
+					Message:
 
 					${req.body.contact.message}
 			`
