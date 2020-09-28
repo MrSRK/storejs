@@ -101,39 +101,46 @@ try
 			app.use(module)
 		return app.post('*',(req,res,next)=>
 		{
-			if(!req.body.contact)
-				return next()
-			const transporter=nodemailer.createTransport({
-				host:'mail.saloras.gr',
-				secure: false,
-				auth:{
-					user: 'info@saloras.gr',
-					pass: 'glyZ60$1'
-				}
-			})
-			const mailOptions={
-				from: 'info@saloras.gr',
-				to: 'info@saloras.gr',
-				subject: 'SSC Contact Form',
-				html: `
-					<div>
-						<h1>Message From: ${req.body.contact.from}</h1>
-						<p>Email</P>
-						<p>${req.body.contact.email}</p>
-						<p>Message</p>
-						<p>${req.body.contact.message}</p>
-					</div>
-				`
-				}
-				return transporter.sendMail(mailOptions,(error,info)=>
-				{
-					console.log(error)
-				if(error)
-					res.status(500).json(error)
-				else
-					res.status(500).json(info)
-					
+			try
+			{
+				if(!req.body.contact)
+					return next()
+				const transporter=nodemailer.createTransport({
+					host:'mail.saloras.gr',
+					secure: false,
+					auth:{
+						user: 'info@saloras.gr',
+						pass: 'glyZ60$1'
+					}
 				})
+				const mailOptions={
+					from: 'info@saloras.gr',
+					to: 'info@saloras.gr',
+					subject: 'SSC Contact Form',
+					html: `
+						<div>
+							<h1>Message From: ${req.body.contact.from}</h1>
+							<p>Email</P>
+							<p>${req.body.contact.email}</p>
+							<p>Message</p>
+							<p>${req.body.contact.message}</p>
+						</div>
+					`
+					}
+					return transporter.sendMail(mailOptions,(error,info)=>
+					{
+						console.log(error)
+					if(error)
+						res.status(500).json(error)
+					else
+						res.status(500).json(info)
+
+					})
+				}
+				catch(error)
+				{
+					res.status(500).json(error)
+				}
 		})
 	})
 	/**
