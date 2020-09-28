@@ -132,10 +132,10 @@ try
 				  });
 
 				const mailOptions={
-					from: 'info@saloras.gr',
-					to: 'info@saloras.gr',
-					subject: 'SSC Contact Form',
-					html: `
+					from:'info@saloras.gr',
+					to:'info@saloras.gr',
+					subject:'SSC Contact Form',
+					html:`
 						<div>
 							<h1>Message From: ${req.body.contact.from}</h1>
 							<p>Email</P>
@@ -151,7 +151,7 @@ try
 						if(error)
 							res.status(500).json(error)
 						else
-							res.status(500).json(info)
+							res.status(200).json(info)
 
 					})
 				}
