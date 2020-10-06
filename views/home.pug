@@ -3,17 +3,11 @@ block content
 	.container-fluid.m-0.p-0
 		#homeCarouselControls.carousel.slide(data-ride='carousel',data-ng-init="request.list('carousel')")
 			.carousel-inner
-				.carousel-item(data-ng-repeat="carousel in content.carousel.list",data-ng-class="$index==0?'active':''")
-					picture(data-ng-if="carousel.images&&carousel.images.length>0")
-							source(
-								data-ng-repeat="type in ['webp','png','jpg']",
-								data-ng-if="carousel.images[0].thumbnail[type]",
-								type="image/{{type}}",
-								data-ng-srcset="/thumbnail/carousel/{{carousel._id+'/'+carousel.images[0].thumbnail[type].name+'/'+carousel.images[0].thumbnail[type].name+'.'+type}}"
-							)
-							img.d-block.w-100(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="{{build.defimgsrc('carousel',carousel)}}" title="{{carousel.name}}" alt="{{carousel.name}}")
-				.carousel-item.active(data-ng-if="!content.carousel.list")
-					img.d-block.w-100(height="377",src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",alt="Saloras Satellite Center")
+				.carousel-item(data-ng-repeat="carousel in [1,2,3,4]",data-ng-class="$index==0?'active':''")
+					img.w-100.d-sm-block.d-md-none(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="/images/banner/{{carousel}}-sm.png" title="Saloras Satellite Center" alt="Saloras Satellite Center {{carousel}}")
+					img.w-100.d-none.d-md-block.d-lg-none(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="/images/banner/{{carousel}}-md.png" title="Saloras Satellite Center" alt="Saloras Satellite Center {{carousel}}")
+					img.w-100.d-none.d-lg-block.d-xl-none(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="/images/banner/{{carousel}}-lg.png" title="Saloras Satellite Center" alt="Saloras Satellite Center {{carousel}}")
+					img.w-100.d-none.d-xl-block(src="data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",data-ng-src="/images/banner/{{carousel}}-xl.png" title="Saloras Satellite Center" alt="Saloras Satellite Center {{carousel}}")
 			a.carousel-control-prev(href='#homeCarouselControls', role='button', data-slide='prev')
 				span.carousel-control-prev-icon(aria-hidden='true')
 				span.sr-only Previous
