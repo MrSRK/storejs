@@ -11,7 +11,7 @@
 	.card-body
 		h5.card-title.text-truncate
 				a.text-dark(data-ng-href="/"+model+"/{{rec._id}}",data-ng-bind="rec.name")
-		p.card-text.text-truncate(data-ng-bind="user.sanitize(rec.description)")
+		p.card-text.text-truncate(data-ng-bind-html="user.sanitize(rec.description)")
 		.text-right
 			a.btn.btn-sm.btn-outline-secondary(data-ng-href="/"+model+"/{{rec._id}}") Περισσότερα
 			small.d-block
